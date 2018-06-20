@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) IBOutlet UIView *defaultView;
 @property (nonatomic, weak) IBOutlet UIButton *btnShowList;
 @property (nonatomic) NSInteger indexPath;
+@property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
 
 @property (nonatomic, weak) id<ViewerPageViewControllerDelegate> delegate;
 

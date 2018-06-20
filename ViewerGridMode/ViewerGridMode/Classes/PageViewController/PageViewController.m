@@ -15,6 +15,7 @@
 
 @property (nonatomic) NSInteger index;
 @property (nonatomic) NSInteger totalImage;
+@property (nonatomic) ViewerPageViewController *currentVC;
 
 @end
 
@@ -48,11 +49,11 @@
     
     _totalImage = 20;
     
-    ViewerPageViewController *initialViewController = [self viewControllerAtIndex:0];
+    _currentVC = [self viewControllerAtIndex:0];
     
-    [self setViewControllers:@[initialViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
-    [self addChildViewController:initialViewController];
+    [self addChildViewController:_currentVC];
 }
 
 - (ViewerPageViewController *)viewControllerAtIndex:(NSInteger)index {
@@ -76,7 +77,7 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
     NSInteger index = [(ViewerPageViewController *)viewController indexPath];
-    
+    _currentVC.interactiveTransitionPresent.enableGesture = NO;
     if (index > 0) {
         return [self viewControllerAtIndex:index - 1];
     }
@@ -87,7 +88,7 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
     NSInteger index = [(ViewerPageViewController *)viewController indexPath];
-    
+    _currentVC.interactiveTransitionPresent.enableGesture = NO;
     if (index < _totalImage -1) {
         return [self viewControllerAtIndex:index+1];
     }
@@ -121,7 +122,14 @@
 
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
-    
+    _currentVC = (ViewerPageViewController *) pendingViewControllers.firstObject;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
+    if (!completed) {
+        _currentVC = (ViewerPageViewController *) previousViewControllers.firstObject;
+    }
+    _currentVC.interactiveTransitionPresent.enableGesture = YES;
 }
 
 

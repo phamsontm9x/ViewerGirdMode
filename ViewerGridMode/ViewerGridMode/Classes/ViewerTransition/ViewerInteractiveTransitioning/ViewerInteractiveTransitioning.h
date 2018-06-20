@@ -13,6 +13,7 @@
 
 @property (nonatomic) BOOL interactionInProgress;
 @property (nonatomic) BOOL isPresent;
+@property (nonatomic) BOOL enableGesture;
 
 - (void)attachToViewController:(UIViewController *)viewController withView:(UIView *)view presentViewController:(UICollectionViewController *)presentViewController;
 

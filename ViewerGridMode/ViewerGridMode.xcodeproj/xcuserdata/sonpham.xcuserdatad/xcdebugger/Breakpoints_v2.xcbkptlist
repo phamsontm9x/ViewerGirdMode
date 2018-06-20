@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
-            timestampString = "551182774.7395101"
+            timestampString = "551186118.278476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146">
+            startingLineNumber = "144"
+            endingLineNumber = "144">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,44 +40,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551182774.739673"
+            timestampString = "551186118.278579"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "-pageViewController:willTransitionToViewControllers:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551182774.740016"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-pageViewController:viewControllerAfterViewController:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551182774.740267"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "-pageViewController:viewControllerBeforeViewController:"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-pageViewController:didFinishAnimating:previousViewControllers:transitionCompleted:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -78,6 +78,12 @@ const CGFloat kMinScale = 0.3;
     _interactionInProgress = interactionInProgress;
 }
 
+- (void)setEnableGesture:(BOOL)enableGesture {
+    [self.pinchGesture setEnabled:enableGesture];
+    [self.panGesture setEnabled:enableGesture];
+    [self.roationGesture setEnabled:enableGesture];
+}
+
 - (CGFloat)completionSpeed {
     return 1 - self.percentComplete;
 }

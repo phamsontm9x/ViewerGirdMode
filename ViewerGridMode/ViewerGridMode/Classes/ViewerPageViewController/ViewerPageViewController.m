@@ -16,8 +16,6 @@
 // Transition
 @property (nonatomic, strong) ViewerCollectionView *vc;
 @property (nonatomic, strong) ViewerTransition *transition;
-@property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransition;
-@property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
 
 @property (nonatomic) CGPoint center;
 
