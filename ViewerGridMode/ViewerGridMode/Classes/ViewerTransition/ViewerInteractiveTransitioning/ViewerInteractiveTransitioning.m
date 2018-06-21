@@ -16,9 +16,6 @@
 @property (nonatomic, assign) CGFloat startScale;
 @property (nonatomic) ViewerPageViewController *viewController;
 @property (nonatomic) ViewerCollectionView<ViewerTransitionProtocol> *presentViewController;
-@property (nonatomic) UIPanGestureRecognizer *panGesture;
-@property (nonatomic) UIPinchGestureRecognizer *pinchGesture;
-@property (nonatomic) UIRotationGestureRecognizer *roationGesture;
 
 @end
 
@@ -39,7 +36,7 @@
 }
 
 const CGFloat kMaxScale = 3.0;
-const CGFloat kMinScale = 0.3;
+const CGFloat kMinScale = 0.4;
 
 - (void)attachToViewController:(ViewerPageViewController *)viewController withView:(UIView *)view presentViewController:(ViewerCollectionView<ViewerTransitionProtocol> *)presentViewController {
     
@@ -96,7 +93,7 @@ const CGFloat kMinScale = 0.3;
             if (gestureRecognizer.scale > 1.0) {
                 [self.roationGesture setEnabled:NO];
             } else {
-                if (!_interactionInProgress) {
+                if (!_interactionInProgress) {                    
                     self.presentViewController.isProcessingTransition = YES;
                     [self.viewController presentViewController:self.presentViewController animated:YES completion:nil];
                     _interactionInProgress = YES;
@@ -106,22 +103,24 @@ const CGFloat kMinScale = 0.3;
             break;
             
         case UIGestureRecognizerStateChanged: {
-            
-            UIView *currentView = self.panGesture.view;
-            //NSLog(@"%f--- %f",currentView.frame.size.width, currentView.frame.size.height);
-            NSLog(@"%f",gestureRecognizer.scale);
-            transformDefault = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
-            [gestureRecognizer view].transform = transformDefault;
-            
-            if (_interactionInProgress == YES) {
-                if (_interactionInProgress && gestureRecognizer.scale < 1) {
-                    CGFloat fraction = fabs((1 - gestureRecognizer.scale) / 0.7);
-                    fraction = fminf(fmaxf(fraction, 0.0), 1.0);
-                    _shouldCompleteTransition = (fraction > 0.5);
-                    if (fraction >= 1.0)
-                        fraction = 0.99;
-                    
-                    [self updateInteractiveTransition:fraction];
+            if (gestureRecognizer.scale < kMaxScale && gestureRecognizer.scale > kMinScale) {
+                transformDefault = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
+                [gestureRecognizer view].transform = transformDefault;
+                
+                if (_interactionInProgress == YES) {
+                    if (_interactionInProgress && gestureRecognizer.scale < 1) {
+                        CGFloat fraction = fabs((1 - gestureRecognizer.scale) / 0.4);
+                        fraction = fminf(fmaxf(fraction, 0.0), 0.7);
+                        _shouldCompleteTransition = (fraction > 0.4);
+                        if (fraction >= 1.0)
+                            fraction = 0.99;
+                        
+                        [self updateInteractiveTransition:fraction];
+                    }
+                }
+            } else {
+                if (gestureRecognizer.scale <= kMinScale) {
+                    [self setEnableGesture:NO];
                 }
             }
         }
@@ -130,7 +129,7 @@ const CGFloat kMinScale = 0.3;
         case UIGestureRecognizerStateFailed:
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateEnded: {
-            
+            NSLog(@"______");
             currentScale = [gestureRecognizer scale];
             [self animationEndGesture];
             
@@ -147,7 +146,7 @@ const CGFloat kMinScale = 0.3;
     CGPoint pointGesture = [gestureRecognizer translationInView: gestureRecognizer.view];
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            
+            _interactionInProgress = YES;
         }
             break;
             
@@ -171,7 +170,7 @@ const CGFloat kMinScale = 0.3;
     
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            
+            _interactionInProgress = YES;
         }
             break;
             
@@ -194,17 +193,24 @@ const CGFloat kMinScale = 0.3;
 }
 
 - (void)animationEndGesture {
-    
+    if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
+        [_delegateGesture endGesture];
+    }
     if (_shouldCompleteTransition) {
         _shouldCompleteTransition = NO;
         
         UIImageView *endView = [self.presentViewController getImageViewPresent];
+        CGRect frame = endView.frame;
+        frame.origin.y -= 20;
+        [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
         
         [UIView animateWithDuration:0.2 animations:^{
+            [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
             currentView.frame = endView.frame;
         } completion:^(BOOL finished) {
+            [self setEnableGesture:YES];
             self.presentViewController.isProcessingTransition = NO;
             [self finishInteractiveTransition];
         }];
@@ -213,16 +219,15 @@ const CGFloat kMinScale = 0.3;
         UIView *currentView = self.pinchGesture.view;
         
         [UIView animateWithDuration:0.2 animations:^{
+            [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
+            [self setEnableGesture:YES];
             [self cancelInteractiveTransition];
         }];
     }
 
 }
-
-
-
 
 #pragma mark - TransitionControllerGestureTarget
 

@@ -134,7 +134,6 @@ static NSString * const reuseIdentifier = @"Cell";
         return [[UIImageView alloc] initWithFrame:frameCell];
     }
     
-//    CGRect frame2 = [self getFrameCellWithIndexPath:_currentIndexPath];
     CGRect frame = [cell convertRect:cell.imv.frame toView: [self.collectionView superview]];
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:frame];

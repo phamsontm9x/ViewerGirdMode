@@ -13,12 +13,42 @@
         <!--Page View Controller-->
         <scene sceneID="dEU-It-He8">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="scroll" navigationOrientation="vertical" spineLocation="none" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="4Yj-OR-XZZ"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2BA-8G-hSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1616.8" y="425.93703148425789"/>
+            <point key="canvasLocation" x="2297" y="450"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="1eB-nv-x85">
+            <objects>
+                <viewController id="WP9-v7-PA8" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I4d-Rr-7v4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kda-Mr-5cP">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <connections>
+                                    <segue destination="PfA-Fs-XfX" kind="embed" id="aGt-Lk-X1B"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="bottom" secondItem="kda-Mr-5cP" secondAttribute="bottom" id="6kQ-zq-WgQ"/>
+                            <constraint firstItem="kda-Mr-5cP" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="Dj8-eh-LRo"/>
+                            <constraint firstItem="kda-Mr-5cP" firstAttribute="top" secondItem="vVa-Lc-Naw" secondAttribute="top" id="YiO-5K-ndT"/>
+                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="kda-Mr-5cP" secondAttribute="trailing" id="rHY-zv-hCv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="vVa-Lc-Naw"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ngz-c5-uiY"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bvR-by-tJU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1633" y="442"/>
         </scene>
         <!--Viewer Page View Controller-->
         <scene sceneID="FNN-4l-AK9">
@@ -118,7 +148,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="PfA-Fs-XfX" kind="relationship" relationship="rootViewController" id="fYB-4M-xR4"/>
+                        <segue destination="WP9-v7-PA8" kind="relationship" relationship="rootViewController" id="g0k-5H-hb7"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BHc-W2-3Zu" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1322C1E820DA5D430032E4D8 /* NavigationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1322C1E720DA5D430032E4D8 /* NavigationVC.m */; };
+		138AC89920DB531500AA4537 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138AC89820DB531500AA4537 /* MessageUI.framework */; };
+		138AC89C20DB533100AA4537 /* ViewControllerDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 138AC89B20DB533100AA4537 /* ViewControllerDemo.m */; };
 		CA89923020D80FAC00F396FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA89922E20D80FAC00F396FB /* LaunchScreen.storyboard */; };
 		CA89923320D80FAC00F396FB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA89923220D80FAC00F396FB /* main.m */; };
 		CA89923D20D80FAC00F396FB /* ViewerGridModeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA89923C20D80FAC00F396FB /* ViewerGridModeTests.m */; };
@@ -55,6 +57,9 @@
 /* Begin PBXFileReference section */
 		1322C1E620DA5D430032E4D8 /* NavigationVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationVC.h; sourceTree = "<group>"; };
 		1322C1E720DA5D430032E4D8 /* NavigationVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationVC.m; sourceTree = "<group>"; };
+		138AC89820DB531500AA4537 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		138AC89A20DB533100AA4537 /* ViewControllerDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerDemo.h; sourceTree = "<group>"; };
+		138AC89B20DB533100AA4537 /* ViewControllerDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerDemo.m; sourceTree = "<group>"; };
 		CA89922020D80FAC00F396FB /* ViewerGridMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewerGridMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA89922F20D80FAC00F396FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA89923120D80FAC00F396FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				138AC89920DB531500AA4537 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +136,14 @@
 			path = NavigationVC;
 			sourceTree = "<group>";
 		};
+		138AC89720DB531400AA4537 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				138AC89820DB531500AA4537 /* MessageUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CA89921720D80FAC00F396FB = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +151,7 @@
 				CA89923B20D80FAC00F396FB /* ViewerGridModeTests */,
 				CA89924620D80FAC00F396FB /* ViewerGridModeUITests */,
 				CA89922120D80FAC00F396FB /* Products */,
+				138AC89720DB531400AA4537 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +206,8 @@
 				CA89926520D80FE800F396FB /* ViewerCollectionViewLayout */,
 				CA89926820D80FE800F396FB /* ViewerPageViewController */,
 				CA89926B20D80FE800F396FB /* ViewerTransition */,
+				138AC89A20DB533100AA4537 /* ViewControllerDemo.h */,
+				138AC89B20DB533100AA4537 /* ViewControllerDemo.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -432,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				138AC89C20DB533100AA4537 /* ViewControllerDemo.m in Sources */,
 				CA89927820D80FE800F396FB /* ViewerInteractiveTransitioning.m in Sources */,
 				CA89927120D80FE800F396FB /* AppDelegate.m in Sources */,
 				CA89923320D80FAC00F396FB /* main.m in Sources */,

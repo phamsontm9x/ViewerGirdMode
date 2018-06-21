@@ -75,6 +75,7 @@
         } else {
             
             viewBegin = [self snapshotImageViewFromView:_snapShot];
+            _frameSnapShot.origin.y = 20;
             [viewBegin setFrame:_frameSnapShot];
             
             // get frame and image view begin
@@ -84,7 +85,6 @@
                 viewEnd.frame = toView.frame;
             }
 
-            [viewBegin setFrame:toView.frame];
             viewBegin.alpha = 1.0;
             fromView.alpha = 0.0;
             toView.alpha = 1.0;
@@ -106,6 +106,7 @@
         [containerView addSubview:toView];
         [containerView addSubview:fromView];
         [containerView addSubview:viewBegin];
+        _toViewDefault.origin.y = 20;
         viewEnd.frame = _toViewDefault;
         fromView.alpha = 1.0;
         toView.alpha = 0;
