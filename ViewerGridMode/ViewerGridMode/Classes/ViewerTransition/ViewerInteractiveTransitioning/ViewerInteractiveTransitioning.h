@@ -16,6 +16,7 @@
 @protocol ViewerInteractiveTransitioningDelegate <NSObject>
 
 - (void)endGesture;
+- (void)beginGesture;
 
 @end
 

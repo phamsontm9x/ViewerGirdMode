@@ -55,9 +55,9 @@
 }
 
 - (void)initTapGesture {
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlerTapGesture:)];
-    tapGesture.delegate = self;
-    [self.view addGestureRecognizer:tapGesture];
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlerTapGesture:)];
+//    tapGesture.delegate = self;
+//    [self.view addGestureRecognizer:tapGesture];
 }
 
 - (void)handlerTapGesture:(UITapGestureRecognizer *)gesture {

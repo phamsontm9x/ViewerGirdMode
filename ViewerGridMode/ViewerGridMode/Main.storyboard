@@ -13,17 +13,17 @@
         <!--Page View Controller-->
         <scene sceneID="dEU-It-He8">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="scroll" navigationOrientation="vertical" spineLocation="none" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="scroll" pageSpacing="16" navigationOrientation="vertical" spineLocation="none" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="4Yj-OR-XZZ"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2BA-8G-hSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2297" y="450"/>
+            <point key="canvasLocation" x="2428" y="441"/>
         </scene>
-        <!--View Controller-->
+        <!--Viewer Controller-->
         <scene sceneID="1eB-nv-x85">
             <objects>
-                <viewController id="WP9-v7-PA8" sceneMemberID="viewController">
+                <viewController id="WP9-v7-PA8" customClass="ViewerController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I4d-Rr-7v4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,20 +31,72 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kda-Mr-5cP">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <connections>
-                                    <segue destination="PfA-Fs-XfX" kind="embed" id="aGt-Lk-X1B"/>
+                                    <segue destination="PfA-Fs-XfX" kind="embed" identifier="pageViewController" id="aGt-Lk-X1B"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFr-gJ-8Z7">
+                                <rect key="frame" x="0.0" y="20" width="375" height="40"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qU3-bM-qGx">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsH-7B-vC3">
+                                                <rect key="frame" x="0.0" y="0.0" width="125" height="40"/>
+                                                <state key="normal" title="Horizontol"/>
+                                                <connections>
+                                                    <action selector="selectedHorizontol:" destination="WP9-v7-PA8" eventType="touchUpInside" id="K7v-gl-9MI"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6x-33-Y8P">
+                                                <rect key="frame" x="125" y="0.0" width="125" height="40"/>
+                                                <state key="normal" title="Vertical"/>
+                                                <connections>
+                                                    <action selector="selectedVertical:" destination="WP9-v7-PA8" eventType="touchUpInside" id="yZk-sD-sdY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4E6-W1-zew">
+                                                <rect key="frame" x="250" y="0.0" width="125" height="40"/>
+                                                <state key="normal" title="Page Curl"/>
+                                                <connections>
+                                                    <action selector="selectedPageCurl:" destination="WP9-v7-PA8" eventType="touchUpInside" id="EB4-ON-je4"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="4E6-W1-zew" firstAttribute="width" secondItem="xsH-7B-vC3" secondAttribute="width" id="7ZL-qZ-VWk"/>
+                                            <constraint firstItem="xsH-7B-vC3" firstAttribute="width" secondItem="d6x-33-Y8P" secondAttribute="width" id="ixu-WT-DCl"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="qU3-bM-qGx" secondAttribute="trailing" id="Hxs-AD-ZMY"/>
+                                    <constraint firstAttribute="bottom" secondItem="qU3-bM-qGx" secondAttribute="bottom" id="VPe-7i-fdu"/>
+                                    <constraint firstAttribute="height" constant="40" id="iRh-S9-a4x"/>
+                                    <constraint firstItem="qU3-bM-qGx" firstAttribute="top" secondItem="wFr-gJ-8Z7" secondAttribute="top" id="jYg-fK-4EG"/>
+                                    <constraint firstItem="qU3-bM-qGx" firstAttribute="leading" secondItem="wFr-gJ-8Z7" secondAttribute="leading" id="qBu-YR-5bR"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vVa-Lc-Naw" firstAttribute="bottom" secondItem="kda-Mr-5cP" secondAttribute="bottom" id="6kQ-zq-WgQ"/>
                             <constraint firstItem="kda-Mr-5cP" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="Dj8-eh-LRo"/>
+                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="wFr-gJ-8Z7" secondAttribute="trailing" id="Ttw-Ds-58k"/>
+                            <constraint firstItem="wFr-gJ-8Z7" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="Vfy-ic-o1i"/>
                             <constraint firstItem="kda-Mr-5cP" firstAttribute="top" secondItem="vVa-Lc-Naw" secondAttribute="top" id="YiO-5K-ndT"/>
+                            <constraint firstItem="wFr-gJ-8Z7" firstAttribute="top" secondItem="vVa-Lc-Naw" secondAttribute="top" id="jPS-H1-AlY"/>
                             <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="kda-Mr-5cP" secondAttribute="trailing" id="rHY-zv-hCv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vVa-Lc-Naw"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ngz-c5-uiY"/>
+                    <connections>
+                        <outlet property="btnHorizontol" destination="xsH-7B-vC3" id="Ejf-UB-cJD"/>
+                        <outlet property="btnVertical" destination="d6x-33-Y8P" id="hfs-e9-r36"/>
+                        <outlet property="btnpageCurl" destination="4E6-W1-zew" id="sDb-DB-C1A"/>
+                        <outlet property="topView" destination="wFr-gJ-8Z7" id="mAN-Xe-63l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvR-by-tJU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

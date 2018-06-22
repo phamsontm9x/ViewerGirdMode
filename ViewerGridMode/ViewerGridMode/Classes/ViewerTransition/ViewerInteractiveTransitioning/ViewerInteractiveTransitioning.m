@@ -90,22 +90,22 @@ const CGFloat kMinScale = 0.4;
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
             
-            if (gestureRecognizer.scale > 1.0) {
-                [self.roationGesture setEnabled:NO];
-            } else {
-                if (!_interactionInProgress) {                    
-                    self.presentViewController.isProcessingTransition = YES;
-                    [self.viewController presentViewController:self.presentViewController animated:YES completion:nil];
-                    _interactionInProgress = YES;
+            if (!_interactionInProgress) {
+                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
+                    [_delegateGesture beginGesture];
                 }
+                self.presentViewController.isProcessingTransition = YES;
+                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
+                    
+                }];
+                _interactionInProgress = YES;
             }
         }
             break;
             
         case UIGestureRecognizerStateChanged: {
             if (gestureRecognizer.scale < kMaxScale && gestureRecognizer.scale > kMinScale) {
-                transformDefault = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
-                [gestureRecognizer view].transform = transformDefault;
+                [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);;
                 
                 if (_interactionInProgress == YES) {
                     if (_interactionInProgress && gestureRecognizer.scale < 1) {
@@ -146,7 +146,16 @@ const CGFloat kMinScale = 0.4;
     CGPoint pointGesture = [gestureRecognizer translationInView: gestureRecognizer.view];
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            _interactionInProgress = YES;
+            if (!_interactionInProgress) {
+                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
+                    [_delegateGesture beginGesture];
+                }
+                self.presentViewController.isProcessingTransition = YES;
+                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
+                    
+                }];
+                _interactionInProgress = YES;
+            }
         }
             break;
             
@@ -170,7 +179,16 @@ const CGFloat kMinScale = 0.4;
     
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            _interactionInProgress = YES;
+            if (!_interactionInProgress) {
+                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
+                    [_delegateGesture beginGesture];
+                }
+                self.presentViewController.isProcessingTransition = YES;
+                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
+                    
+                }];
+                _interactionInProgress = YES;
+            }
         }
             break;
             
@@ -193,9 +211,7 @@ const CGFloat kMinScale = 0.4;
 }
 
 - (void)animationEndGesture {
-    if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
-        [_delegateGesture endGesture];
-    }
+
     if (_shouldCompleteTransition) {
         _shouldCompleteTransition = NO;
         
@@ -204,26 +220,32 @@ const CGFloat kMinScale = 0.4;
         frame.origin.y -= 20;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
-        
-        [UIView animateWithDuration:0.2 animations:^{
+        [self finishInteractiveTransition];
+        [UIView animateWithDuration:0.3 animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
             currentView.frame = endView.frame;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
             self.presentViewController.isProcessingTransition = NO;
-            [self finishInteractiveTransition];
+            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
+                [_delegateGesture endGesture];
+            }
         }];
     } else {
-        _interactionInProgress = NO;
         UIView *currentView = self.pinchGesture.view;
+        _interactionInProgress = NO;
         
-        [UIView animateWithDuration:0.2 animations:^{
+        [self cancelInteractiveTransition];
+        
+        [UIView animateWithDuration:0.3 animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
-            [self cancelInteractiveTransition];
+            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
+                [_delegateGesture endGesture];
+            }
         }];
     }
 
@@ -232,7 +254,36 @@ const CGFloat kMinScale = 0.4;
 #pragma mark - TransitionControllerGestureTarget
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([otherGestureRecognizer isKindOfClass:[UIRotationGestureRecognizer class]]) {
+        return YES;
+    }
     
+    if ([otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer.view isKindOfClass:[UIImageView class]]){
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer != self.panGesture && gestureRecognizer != self.pinchGesture && gestureRecognizer != self.roationGesture) {
+        NSLog(@"%@",gestureRecognizer.description);
+    }
+    
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        
+    }
+    
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if (gestureRecognizer != self.panGesture && gestureRecognizer != self.pinchGesture && gestureRecognizer != self.roationGesture) {
+        NSLog(@"%@",gestureRecognizer.description);
+    }
+
     return YES;
 }
 

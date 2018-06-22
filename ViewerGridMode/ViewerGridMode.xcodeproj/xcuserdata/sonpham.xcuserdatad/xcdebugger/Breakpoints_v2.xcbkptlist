@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
-            timestampString = "551272309.642229"
+            timestampString = "551356989.991339"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "144"
@@ -39,46 +39,62 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551272309.64297"
+            filePath = "ViewerGridMode/Classes/ViewerController/ViewerController.m"
+            timestampString = "551356989.991441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "-endGesture"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "-selectedVertical:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[PageViewController endGesture]"
-                  moduleName = "ViewerGridMode"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sonpham/Desktop/Document/Transition/ViewerGirdMode/ViewerGridMode/ViewerGridMode/Classes/PageViewController/PageViewController.m"
-                  timestampString = "551272276.37125"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "72">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[PageViewController endGesture]"
-                  moduleName = "ViewerGridMode"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sonpham/Desktop/Document/Transition/ViewerGirdMode/ViewerGridMode/ViewerGridMode/Classes/PageViewController/PageViewController.m"
-                  timestampString = "551272276.376232"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "92">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/ViewerController/ViewerController.m"
+            timestampString = "551356989.991513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "-selectedPageCurl:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/ViewerController/ViewerController.m"
+            timestampString = "551356989.991582"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "-selectedHorizontol:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerTransition.m"
+            timestampString = "551356989.991641"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "-animateTransition:fromVC:toVC:fromView:toView:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -88,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerInteractiveTransitioning/ViewerInteractiveTransitioning.m"
-            timestampString = "551272309.643193"
+            timestampString = "551356989.991698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "-animationEndGesture"
             landmarkType = "7">
          </BreakpointContent>
@@ -103,13 +119,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551272309.643424"
+            filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerInteractiveTransitioning/ViewerInteractiveTransitioning.m"
+            timestampString = "551356989.9917541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "-pageViewController:viewControllerBeforeViewController:"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "-handlePinch:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -119,45 +135,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551272309.643483"
+            filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
+            timestampString = "551356989.991809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-pageViewController:viewControllerAfterViewController:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551272309.64355"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "-pageViewController:willTransitionToViewControllers:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551272309.6436059"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "-viewerPageViewController:clv:jumpToViewControllerAtIndex:"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "-initInteractiveTransition"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -10,4 +10,6 @@
 
 @interface PageViewController : UIPageViewController
 
+- (void)initData;
+
 @end

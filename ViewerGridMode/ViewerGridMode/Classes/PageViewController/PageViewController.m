@@ -35,11 +35,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
@@ -49,14 +44,17 @@
     self.dataSource = self;
     self.delegate = self;
     
-    _totalImage = 20;
+    _totalImage = 1;
     _enableGesture = YES;
     _currentVC = [self viewControllerAtIndex:0];
+//    _currentVC.interactiveTransitionPresent.enableGesture = NO;
+    
+
     
     [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     [self addChildViewController:_currentVC];
-//    self.view.userInteractionEnabled = NO;
+    
 }
 
 - (ViewerPageViewController *)viewControllerAtIndex:(NSInteger)index {
@@ -101,13 +99,8 @@
 - (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
     ViewerPageViewController *currentPage = [self viewControllerAtIndex:index];
     currentPage.interactiveTransitionPresent.delegateGesture = self;
-    for (UIScrollView *view in self.view.subviews) {
-        
-        if ([view isKindOfClass:[UIScrollView class]]) {
-            
-            view.scrollEnabled = YES;
-        }
-    }
+    [self endGesture];
+    
     [self setViewControllers:@[currentPage] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
         if (finished) {
             [clv dismissViewControllerAnimated:YES completion:nil];
@@ -119,23 +112,23 @@
 
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
-    
-    if (_currentVC.interactiveTransitionPresent.interactionInProgress) {
-        for (UIScrollView *view in self.view.subviews) {
-
-            if ([view isKindOfClass:[UIScrollView class]]) {
-
-                view.scrollEnabled = NO;
-            }
-        }
-    }
+    _currentVC.interactiveTransitionPresent.enableGesture = NO;
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
-//    if (!completed) {
-//        _currentVC = (ViewerPageViewController *) previousViewControllers.firstObject;
-//    }
-//    _currentVC.interactiveTransitionPresent.enableGesture = YES;
+    if (finished) {
+         _currentVC.interactiveTransitionPresent.enableGesture = YES;
+    }
+}
+
+- (void)beginGesture {
+    for (UIScrollView *view in self.view.subviews) {
+        
+        if ([view isKindOfClass:[UIScrollView class]]) {
+            
+            view.scrollEnabled = NO;
+        }
+    }
 }
 
 - (void)endGesture {

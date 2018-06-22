@@ -134,17 +134,16 @@
                          
                      } completion:^(BOOL finished) {
                          _enabledInteractive = YES;
-                         if ([transitionContext transitionWasCancelled]) {
-                             fromView.alpha = 1;
-                             [toView removeFromSuperview];
-                             [viewBegin removeFromSuperview];
-//                             //[_snapShot removeFromSuperview];
-                         } else {
+                         if (![transitionContext transitionWasCancelled]) {
                              toView.alpha = 1.0;
                              [fromView removeFromSuperview];
                              [viewBegin removeFromSuperview];
                              [_snapShot removeFromSuperview];
-                    
+                         } else {
+                             fromView.alpha = 1;
+                             [toView removeFromSuperview];
+                             [viewBegin removeFromSuperview];
+                             //                             //[_snapShot removeFromSuperview];
                          }
                          [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                      }];
