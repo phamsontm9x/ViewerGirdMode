@@ -10,16 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Page View Controller-->
-        <scene sceneID="dEU-It-He8">
-            <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="scroll" pageSpacing="16" navigationOrientation="horizontal" spineLocation="none" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="4Yj-OR-XZZ"/>
-                </pageViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2BA-8G-hSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2428" y="441"/>
-        </scene>
         <!--Viewer Controller-->
         <scene sceneID="1eB-nv-x85">
             <objects>
@@ -28,12 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kda-Mr-5cP">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <connections>
-                                    <segue destination="PfA-Fs-XfX" kind="embed" identifier="pageViewController" id="aGt-Lk-X1B"/>
-                                </connections>
-                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFr-gJ-8Z7">
                                 <rect key="frame" x="0.0" y="20" width="375" height="40"/>
                                 <subviews>
@@ -80,13 +64,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="bottom" secondItem="kda-Mr-5cP" secondAttribute="bottom" id="6kQ-zq-WgQ"/>
-                            <constraint firstItem="kda-Mr-5cP" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="Dj8-eh-LRo"/>
                             <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="wFr-gJ-8Z7" secondAttribute="trailing" id="Ttw-Ds-58k"/>
                             <constraint firstItem="wFr-gJ-8Z7" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="Vfy-ic-o1i"/>
-                            <constraint firstItem="kda-Mr-5cP" firstAttribute="top" secondItem="vVa-Lc-Naw" secondAttribute="top" id="YiO-5K-ndT"/>
                             <constraint firstItem="wFr-gJ-8Z7" firstAttribute="top" secondItem="vVa-Lc-Naw" secondAttribute="top" id="jPS-H1-AlY"/>
-                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="kda-Mr-5cP" secondAttribute="trailing" id="rHY-zv-hCv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vVa-Lc-Naw"/>
                     </view>
@@ -114,41 +94,41 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pi-Ou-07o">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oRY-Cy-JnZ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                            </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RP8-F9-DvC">
-                                <rect key="frame" x="0.0" y="637" width="375" height="30"/>
-                                <color key="backgroundColor" red="0.84299618009999999" green="0.84289509060000001" blue="0.85935825109999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pi-Ou-07o">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="WQR-SU-BD5"/>
+                                    <constraint firstAttribute="trailing" secondItem="3pi-Ou-07o" secondAttribute="trailing" id="1Hg-jG-azk"/>
+                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="top" secondItem="oRY-Cy-JnZ" secondAttribute="top" id="3qu-B0-561"/>
+                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="leading" secondItem="oRY-Cy-JnZ" secondAttribute="leading" id="5uP-FK-IYs"/>
+                                    <constraint firstAttribute="bottom" secondItem="3pi-Ou-07o" secondAttribute="bottom" id="9b0-bf-YDc"/>
+                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="centerY" secondItem="oRY-Cy-JnZ" secondAttribute="centerY" id="Oey-Hv-Jrk"/>
+                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="centerX" secondItem="oRY-Cy-JnZ" secondAttribute="centerX" id="QBr-R9-l08"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="didSelectGirdMode:" destination="kTF-YQ-niy" eventType="touchUpInside" id="5pd-2G-DJF"/>
-                                </connections>
-                            </button>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="L6x-3u-NuX" firstAttribute="bottom" secondItem="3pi-Ou-07o" secondAttribute="bottom" id="07X-is-Afz"/>
                             <constraint firstItem="z2F-yb-rXF" firstAttribute="leading" secondItem="L6x-3u-NuX" secondAttribute="leading" id="1fk-er-ecb"/>
+                            <constraint firstItem="oRY-Cy-JnZ" firstAttribute="leading" secondItem="L6x-3u-NuX" secondAttribute="leading" id="2cE-RP-rcZ"/>
+                            <constraint firstItem="L6x-3u-NuX" firstAttribute="trailing" secondItem="oRY-Cy-JnZ" secondAttribute="trailing" id="Fjb-DQ-5oy"/>
+                            <constraint firstItem="L6x-3u-NuX" firstAttribute="bottom" secondItem="oRY-Cy-JnZ" secondAttribute="bottom" id="Rce-1d-cak"/>
                             <constraint firstItem="L6x-3u-NuX" firstAttribute="trailing" secondItem="z2F-yb-rXF" secondAttribute="trailing" id="Ss6-aL-OGe"/>
-                            <constraint firstItem="L6x-3u-NuX" firstAttribute="trailing" secondItem="RP8-F9-DvC" secondAttribute="trailing" id="eLh-bZ-F2i"/>
-                            <constraint firstItem="L6x-3u-NuX" firstAttribute="trailing" secondItem="3pi-Ou-07o" secondAttribute="trailing" id="mK9-gH-rOj"/>
                             <constraint firstItem="z2F-yb-rXF" firstAttribute="top" secondItem="L6x-3u-NuX" secondAttribute="top" id="n29-Pf-By4"/>
-                            <constraint firstItem="3pi-Ou-07o" firstAttribute="leading" secondItem="L6x-3u-NuX" secondAttribute="leading" id="oyU-uz-SD9"/>
+                            <constraint firstItem="oRY-Cy-JnZ" firstAttribute="top" secondItem="L6x-3u-NuX" secondAttribute="top" id="qAN-ht-RWV"/>
                             <constraint firstAttribute="bottom" secondItem="z2F-yb-rXF" secondAttribute="bottom" id="qgb-ih-OWF"/>
-                            <constraint firstItem="L6x-3u-NuX" firstAttribute="bottom" secondItem="RP8-F9-DvC" secondAttribute="bottom" id="xFe-wX-JvE"/>
-                            <constraint firstItem="RP8-F9-DvC" firstAttribute="leading" secondItem="L6x-3u-NuX" secondAttribute="leading" id="yCM-P8-XNS"/>
-                            <constraint firstItem="3pi-Ou-07o" firstAttribute="top" secondItem="L6x-3u-NuX" secondAttribute="top" id="zaE-ij-6Ms"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="L6x-3u-NuX"/>
                     </view>
                     <connections>
-                        <outlet property="btnShowList" destination="RP8-F9-DvC" id="5gg-v5-Sgn"/>
                         <outlet property="defaultView" destination="z2F-yb-rXF" id="qEK-zg-Gyu"/>
                         <outlet property="imv" destination="3pi-Ou-07o" id="aNb-9b-YOc"/>
+                        <outlet property="scrPageView" destination="oRY-Cy-JnZ" id="M75-YD-zsZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YD6-PY-Zb8" userLabel="First Responder" sceneMemberID="firstResponder"/>

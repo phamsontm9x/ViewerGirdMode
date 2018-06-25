@@ -38,7 +38,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-//    [self.collectionView reloadData];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -62,7 +61,7 @@ static NSString * const reuseIdentifier = @"Cell";
     return 20;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(10, 10, 10, 10);
+    return UIEdgeInsetsMake(5, 10, 5, 10);
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -81,18 +80,19 @@ static NSString * const reuseIdentifier = @"Cell";
     ViewerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ViewerCollectionViewCell" forIndexPath:indexPath];
     
     cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
+    cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
     if (indexPath.row == _currentIndexPath.row) {
         if (_isProcessingTransition) {
-            cell.hidden = YES;
+            cell.imv.hidden = YES;
         } else {
             cell.imv.layer.borderWidth = 2;
             cell.imv.layer.borderColor = [UIColor blueColor].CGColor;
-            cell.hidden = NO;
+            cell.imv.hidden = NO;
         }
 
     } else {
         cell.imv.layer.borderWidth = 0;
-        cell.hidden = NO;
+        cell.imv.hidden = NO;
     }
     cell.imv.layer.masksToBounds = YES;
     
@@ -130,7 +130,7 @@ static NSString * const reuseIdentifier = @"Cell";
             height = (frameCell.origin.y+self.collectionView.frame.size.height > self.collectionView.contentSize.height) ?  self.collectionView.contentSize.height - self.collectionView.frame.size.height : frameCell.origin.y+self.collectionView.frame.size.height ;
         }
         self.collectionView.contentOffset= CGPointMake(0, height);
-        frameCell.origin.y = frameCell.origin.y - height - 20;
+        frameCell.origin.y = frameCell.origin.y - height;
         return [[UIImageView alloc] initWithFrame:frameCell];
     }
     

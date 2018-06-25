@@ -27,11 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) IBOutlet UIImageView *imv;
 @property (nonatomic, weak) IBOutlet UIView *defaultView;
-@property (nonatomic, weak) IBOutlet UIButton *btnShowList;
+@property (nonatomic, weak) IBOutlet UIScrollView *scrPageView;
+@property (nonatomic) BOOL isZoomImage;
+
 @property (nonatomic) NSInteger indexPath;
-@property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
 
 @property (nonatomic, weak) id<ViewerPageViewControllerDelegate> delegate;
+@property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
 
 @end
 

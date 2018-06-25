@@ -19,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self changeModeTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOritentation:UIPageViewControllerNavigationOrientationHorizontal withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     tapGesture.delegate = self;
@@ -34,16 +35,6 @@
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-
-    if ([segue.destinationViewController isKindOfClass:[PageViewController class]]) {
-        self.pageViewController = segue.destinationViewController;
-    } else {
-        [super prepareForSegue:segue sender:sender];
-    }
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gesture {

@@ -12,7 +12,7 @@
 
 
 
-@interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, ViewerPageViewControllerDelegate, ViewerInteractiveTransitioningDelegate>
+@interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, ViewerPageViewControllerDelegate>
 
 
 @property (nonatomic) NSInteger totalImage;
@@ -81,7 +81,6 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(ViewerPageViewController *)viewController {
     
     _currentVC = viewController;
-    _currentVC.interactiveTransitionPresent.delegateGesture = self;
     _index = [_currentVC indexPath];
     
     if (_index > 0 ) {
@@ -93,7 +92,6 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(ViewerPageViewController *)viewController {
     _currentVC = viewController;
-    _currentVC.interactiveTransitionPresent.delegateGesture = self;
     _index = [_currentVC indexPath];
     
     if (_index < _totalImage -1 ) {
@@ -107,7 +105,6 @@
 
 - (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
     ViewerPageViewController *currentPage = [self viewControllerAtIndex:index];
-    currentPage.interactiveTransitionPresent.delegateGesture = self;
     
     [self setViewControllers:@[currentPage] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
         if (finished) {
@@ -120,13 +117,10 @@
 
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
-    _currentVC.interactiveTransitionPresent.enableGesture = NO;
+
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
-    if (finished) {
-         _currentVC.interactiveTransitionPresent.enableGesture = YES;
-    }
 }
 
 @end
