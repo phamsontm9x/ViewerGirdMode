@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PageViewController.h"
+#import "ViewerPageViewController.h"
 
 @interface ViewerController : UIViewController
 
@@ -15,7 +16,5 @@
 @property (nonatomic, weak) IBOutlet UIButton *btnVertical;
 @property (nonatomic, weak) IBOutlet UIButton *btnpageCurl;
 @property (nonatomic, weak) IBOutlet UIView *topView;
-
-
 
 @end

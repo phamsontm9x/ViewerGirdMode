@@ -103,10 +103,13 @@ const CGFloat kMinScale = 0.4;
 //                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
 //                    [_delegateGesture beginGesture];
 //                }
-                self.presentViewController.isProcessingTransition = YES;
-                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
-                    
-                }];
+                
+                if (gestureRecognizer.scale < 1.0) {
+                    self.presentViewController.isProcessingTransition = YES;
+                    [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
+                        [self.viewController.view removeGestureRecognizer:_panGestureVC];
+                    }];
+                }
                 _interactionInProgress = YES;
             }
         }
@@ -155,16 +158,16 @@ const CGFloat kMinScale = 0.4;
     CGPoint pointGesture = [gestureRecognizer translationInView: gestureRecognizer.view];
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            if (!_interactionInProgress) {
-                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
-                    [_delegateGesture beginGesture];
-                }
-                self.presentViewController.isProcessingTransition = YES;
-                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
-                    
-                }];
-                _interactionInProgress = YES;
-            }
+//            if (!_interactionInProgress) {
+//                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
+//                    [_delegateGesture beginGesture];
+//                }
+//                self.presentViewController.isProcessingTransition = YES;
+//                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
+//
+//                }];
+//                _interactionInProgress = YES;
+//            }
         }
             break;
             
@@ -188,16 +191,16 @@ const CGFloat kMinScale = 0.4;
     
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            if (!_interactionInProgress) {
-                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
-                    [_delegateGesture beginGesture];
-                }
-                self.presentViewController.isProcessingTransition = YES;
-                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
-                    
-                }];
-                _interactionInProgress = YES;
-            }
+//            if (!_interactionInProgress) {
+//                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
+//                    [_delegateGesture beginGesture];
+//                }
+//                self.presentViewController.isProcessingTransition = YES;
+//                [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
+//                    
+//                }];
+//                _interactionInProgress = YES;
+//            }
         }
             break;
             
@@ -221,11 +224,13 @@ const CGFloat kMinScale = 0.4;
 
 - (void)animationEndGesture {
     
-    [self.viewController.view addGestureRecognizer:self.panGestureVC];
-    [self.panGestureVC requireGestureRecognizerToFail:self.panGesture];
+
     
     if (_shouldCompleteTransition) {
         _shouldCompleteTransition = NO;
+        
+        [self.viewController.view addGestureRecognizer:self.panGestureVC];
+        [self.panGestureVC requireGestureRecognizerToFail:self.panGesture];
         
         UIImageView *endView = [self.presentViewController getImageViewPresent];
         CGRect frame = endView.frame;
@@ -239,7 +244,7 @@ const CGFloat kMinScale = 0.4;
             currentView.frame = endView.frame;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
-            [self.viewController.view removeGestureRecognizer:_panGestureVC];
+            
             self.presentViewController.isProcessingTransition = NO;
 //            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
 //                [_delegateGesture endGesture];

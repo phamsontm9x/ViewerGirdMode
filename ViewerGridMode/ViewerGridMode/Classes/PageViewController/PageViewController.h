@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ViewerPageViewController;
 
 @interface PageViewController : UIPageViewController
+
+@property (nonatomic) NSInteger index;
+@property (nonatomic) ViewerPageViewController *currentVC;
 
 - (void)initData;
 

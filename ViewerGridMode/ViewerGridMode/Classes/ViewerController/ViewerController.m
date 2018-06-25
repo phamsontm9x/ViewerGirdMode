@@ -20,9 +20,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-//    tapGesture.delegate = self;
-//    [self.view addGestureRecognizer:tapGesture];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    tapGesture.delegate = self;
+    [self.view addGestureRecognizer:tapGesture];
     [self.topView setHidden:YES];
 }
 
@@ -55,20 +55,39 @@
 
 
 - (IBAction)selectedHorizontol:(id)sender {
-
-    self.pageViewController = [[PageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
-    [self.pageViewController initData];
+    
+    [self changeModeTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOritentation:UIPageViewControllerNavigationOrientationHorizontal withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
 }
 
 - (IBAction)selectedVertical:(id)sender {
-    self.pageViewController = [[PageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
-
+    
+    [self changeModeTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOritentation:UIPageViewControllerNavigationOrientationVertical withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
 }
 
 - (IBAction)selectedPageCurl:(id)sender {
-    self.pageViewController = [[PageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
+    
+    [self changeModeTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOritentation:UIPageViewControllerNavigationOrientationHorizontal withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
+
 }
 
+- (void)changeModeTransitionStyle:(UIPageViewControllerTransitionStyle)transitionStyle navigationOritentation:(UIPageViewControllerNavigationOrientation)navigationOrientation withOptions:(NSDictionary<NSString *,id> *)options {
+    NSInteger index = [self.pageViewController.currentVC indexPath];
+    
+    [self.pageViewController willMoveToParentViewController:nil];
+    [self.pageViewController.view removeFromSuperview];
+    [self.pageViewController removeFromParentViewController];
+    [self.pageViewController didMoveToParentViewController:nil];
+    
+    self.pageViewController = [[PageViewController alloc] initWithTransitionStyle:transitionStyle navigationOrientation:navigationOrientation options:options];
+    
+    self.pageViewController.index = index;
+    [self.pageViewController initData];
+    
+    [self addChildViewController:self.pageViewController];
+    [self.view addSubview:self.pageViewController.view];
+    
+    [self.view bringSubviewToFront:self.topView];
+}
 
 
 @end

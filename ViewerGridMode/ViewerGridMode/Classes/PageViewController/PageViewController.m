@@ -14,18 +14,28 @@
 
 @interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, ViewerPageViewControllerDelegate, ViewerInteractiveTransitioningDelegate>
 
-@property (nonatomic) NSInteger index;
+
 @property (nonatomic) NSInteger totalImage;
 @property (nonatomic) BOOL enableGesture;
-@property (nonatomic) ViewerPageViewController *currentVC;
 
 @end
 
 
 @implementation PageViewController
 
+- (instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(NSDictionary<NSString *,id> *)options {
+    self = [super initWithTransitionStyle:style navigationOrientation:navigationOrientation options:options];
+    if (self) {
+
+        return self;
+    }
+    return nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dataSource = self;
+    self.delegate = self;
     [self initData];
 
 }
@@ -40,25 +50,25 @@
 }
 
 - (void)initData {
-    
+
     self.dataSource = self;
     self.delegate = self;
     
     _totalImage = 20;
     _enableGesture = YES;
-    _currentVC = [self viewControllerAtIndex:0];
-    
+    _currentVC = [self viewControllerAtIndex:_index];
 
-    
-    [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
+    [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];    
     [self addChildViewController:_currentVC];
     
 }
 
 - (ViewerPageViewController *)viewControllerAtIndex:(NSInteger)index {
     
-    ViewerPageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerPageViewController"];
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:nil];
+    ViewerPageViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ViewerPageViewController"];
+                                     
     vc.indexPath = index;
     vc.delegate = self;
     
@@ -72,10 +82,10 @@
     
     _currentVC = viewController;
     _currentVC.interactiveTransitionPresent.delegateGesture = self;
-    NSInteger index = [_currentVC indexPath];
+    _index = [_currentVC indexPath];
     
-    if (index > 0 ) {
-        return [self viewControllerAtIndex:index - 1];
+    if (_index > 0 ) {
+        return [self viewControllerAtIndex:_index - 1];
     }
     
     return nil;
@@ -84,10 +94,10 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(ViewerPageViewController *)viewController {
     _currentVC = viewController;
     _currentVC.interactiveTransitionPresent.delegateGesture = self;
-    NSInteger index = [_currentVC indexPath];
+    _index = [_currentVC indexPath];
     
-    if (index < _totalImage -1 ) {
-        return [self viewControllerAtIndex:index+1];
+    if (_index < _totalImage -1 ) {
+        return [self viewControllerAtIndex:_index+1];
     }
     
     return nil;

@@ -13,7 +13,7 @@
         <!--Page View Controller-->
         <scene sceneID="dEU-It-He8">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="scroll" pageSpacing="16" navigationOrientation="vertical" spineLocation="none" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" transitionStyle="scroll" pageSpacing="16" navigationOrientation="horizontal" spineLocation="none" id="PfA-Fs-XfX" customClass="PageViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="4Yj-OR-XZZ"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2BA-8G-hSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -153,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YD6-PY-Zb8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1610" y="1099"/>
+            <point key="canvasLocation" x="1633" y="1099"/>
         </scene>
         <!--Viewer Collection View-->
         <scene sceneID="Hw3-Hu-TCV">
