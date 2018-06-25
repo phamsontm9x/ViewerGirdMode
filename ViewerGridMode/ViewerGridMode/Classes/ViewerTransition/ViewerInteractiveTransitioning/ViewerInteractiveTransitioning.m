@@ -49,6 +49,11 @@ const CGFloat kMinScale = 0.4;
     [self.viewController.imv removeGestureRecognizer:_panGesture];
     [self.viewController.imv removeGestureRecognizer:_pinchGesture];
     [self.viewController.imv removeGestureRecognizer:_roationGesture];
+    [self.viewController.view removeGestureRecognizer:_panGestureVC];
+    
+    self.panGestureVC = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanVC:)];
+    self.panGestureVC.delegate = self;
+    
     
     // add gesture
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
@@ -85,15 +90,19 @@ const CGFloat kMinScale = 0.4;
     return 1 - self.percentComplete;
 }
 
+- (void)handlePanVC:(UIPanGestureRecognizer*)gestureRecognizer {
+    
+}
+
 - (void)handlePinch:(UIPinchGestureRecognizer*)gestureRecognizer {
     
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
             
             if (!_interactionInProgress) {
-                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
-                    [_delegateGesture beginGesture];
-                }
+//                if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(beginGesture)]) {
+//                    [_delegateGesture beginGesture];
+//                }
                 self.presentViewController.isProcessingTransition = YES;
                 [self.viewController presentViewController:self.presentViewController animated:YES completion:^{
                     
@@ -211,7 +220,10 @@ const CGFloat kMinScale = 0.4;
 }
 
 - (void)animationEndGesture {
-
+    
+    [self.viewController.view addGestureRecognizer:self.panGestureVC];
+    [self.panGestureVC requireGestureRecognizerToFail:self.panGesture];
+    
     if (_shouldCompleteTransition) {
         _shouldCompleteTransition = NO;
         
@@ -227,10 +239,11 @@ const CGFloat kMinScale = 0.4;
             currentView.frame = endView.frame;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
+            [self.viewController.view removeGestureRecognizer:_panGestureVC];
             self.presentViewController.isProcessingTransition = NO;
-            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
-                [_delegateGesture endGesture];
-            }
+//            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
+//                [_delegateGesture endGesture];
+//            }
         }];
     } else {
         UIView *currentView = self.pinchGesture.view;
@@ -243,9 +256,10 @@ const CGFloat kMinScale = 0.4;
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
-            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
-                [_delegateGesture endGesture];
-            }
+            [self.viewController.view removeGestureRecognizer:_panGestureVC];
+//            if (_delegateGesture && [_delegateGesture respondsToSelector:@selector(endGesture)]) {
+//                [_delegateGesture endGesture];
+//            }
         }];
     }
 
@@ -254,13 +268,14 @@ const CGFloat kMinScale = 0.4;
 #pragma mark - TransitionControllerGestureTarget
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([otherGestureRecognizer isKindOfClass:[UIRotationGestureRecognizer class]]) {
+    
+    if ((gestureRecognizer == self.panGesture || gestureRecognizer == self.pinchGesture || gestureRecognizer == self.roationGesture)
+        &&(otherGestureRecognizer == self.panGesture || otherGestureRecognizer == self.pinchGesture || otherGestureRecognizer == self.roationGesture)) {
         return YES;
     }
     
-    if ([otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer.view isKindOfClass:[UIImageView class]]){
-        
-        return YES;
+    if (gestureRecognizer == self.panGestureVC) {
+        NSLog(@"%@",otherGestureRecognizer.description);
     }
     
     return NO;
@@ -272,10 +287,6 @@ const CGFloat kMinScale = 0.4;
         NSLog(@"%@",gestureRecognizer.description);
     }
     
-    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        
-    }
-    
     return YES;
 }
 
@@ -283,8 +294,7 @@ const CGFloat kMinScale = 0.4;
     if (gestureRecognizer != self.panGesture && gestureRecognizer != self.pinchGesture && gestureRecognizer != self.roationGesture) {
         NSLog(@"%@",gestureRecognizer.description);
     }
-
+    
     return YES;
 }
-
 @end

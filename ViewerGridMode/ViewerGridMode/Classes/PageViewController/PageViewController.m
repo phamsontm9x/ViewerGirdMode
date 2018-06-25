@@ -44,10 +44,9 @@
     self.dataSource = self;
     self.delegate = self;
     
-    _totalImage = 1;
+    _totalImage = 20;
     _enableGesture = YES;
     _currentVC = [self viewControllerAtIndex:0];
-//    _currentVC.interactiveTransitionPresent.enableGesture = NO;
     
 
     
@@ -99,7 +98,6 @@
 - (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
     ViewerPageViewController *currentPage = [self viewControllerAtIndex:index];
     currentPage.interactiveTransitionPresent.delegateGesture = self;
-    [self endGesture];
     
     [self setViewControllers:@[currentPage] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
         if (finished) {
@@ -118,26 +116,6 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     if (finished) {
          _currentVC.interactiveTransitionPresent.enableGesture = YES;
-    }
-}
-
-- (void)beginGesture {
-    for (UIScrollView *view in self.view.subviews) {
-        
-        if ([view isKindOfClass:[UIScrollView class]]) {
-            
-            view.scrollEnabled = NO;
-        }
-    }
-}
-
-- (void)endGesture {
-    for (UIScrollView *view in self.view.subviews) {
-
-        if ([view isKindOfClass:[UIScrollView class]]) {
-
-            view.scrollEnabled = YES;
-        }
     }
 }
 

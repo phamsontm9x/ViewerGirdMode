@@ -40,7 +40,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerController/ViewerController.m"
-            timestampString = "551356989.991441"
+            timestampString = "551589639.58588"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -56,7 +56,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerController/ViewerController.m"
-            timestampString = "551356989.991513"
+            timestampString = "551589639.585945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -72,7 +72,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerController/ViewerController.m"
-            timestampString = "551356989.991582"
+            timestampString = "551589639.586001"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -88,60 +88,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerTransition.m"
-            timestampString = "551356989.991641"
+            timestampString = "551591180.0363179"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "-animateTransition:fromVC:toVC:fromView:toView:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerInteractiveTransitioning/ViewerInteractiveTransitioning.m"
-            timestampString = "551356989.991698"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "-animationEndGesture"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerInteractiveTransitioning/ViewerInteractiveTransitioning.m"
-            timestampString = "551356989.9917541"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-handlePinch:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
-            timestampString = "551356989.991809"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-initInteractiveTransition"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

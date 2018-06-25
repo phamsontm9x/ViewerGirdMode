@@ -28,6 +28,7 @@
 @property (nonatomic) BOOL isPresent;
 @property (nonatomic) BOOL enableGesture;
 
+@property (nonatomic) UIPanGestureRecognizer *panGestureVC;
 @property (nonatomic) UIPanGestureRecognizer *panGesture;
 @property (nonatomic) UIPinchGestureRecognizer *pinchGesture;
 @property (nonatomic) UIRotationGestureRecognizer *roationGesture;

@@ -62,7 +62,7 @@
             }
             //
             [viewBegin setFrame:toView.frame];
-            viewBegin.backgroundColor = [UIColor whiteColor];
+            viewBegin.backgroundColor = [UIColor clearColor];
             viewBegin.alpha = 1.0;
             fromView.alpha = 1.0;
             fromView.backgroundColor = [UIColor clearColor];
