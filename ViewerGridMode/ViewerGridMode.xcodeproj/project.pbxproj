@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1322C1E820DA5D430032E4D8 /* NavigationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1322C1E720DA5D430032E4D8 /* NavigationVC.m */; };
+		135B80C220E1F4AC000D3354 /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 135B80C120E1F4AC000D3354 /* CustomImageView.m */; };
 		136AFBDE20DCF6EE00AFFAF8 /* ViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 136AFBDC20DCF6EE00AFFAF8 /* ViewerController.m */; };
 		138AC89920DB531500AA4537 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138AC89820DB531500AA4537 /* MessageUI.framework */; };
 		CA89923020D80FAC00F396FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA89922E20D80FAC00F396FB /* LaunchScreen.storyboard */; };
@@ -57,6 +58,8 @@
 /* Begin PBXFileReference section */
 		1322C1E620DA5D430032E4D8 /* NavigationVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationVC.h; sourceTree = "<group>"; };
 		1322C1E720DA5D430032E4D8 /* NavigationVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationVC.m; sourceTree = "<group>"; };
+		135B80C020E1F4AC000D3354 /* CustomImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomImageView.h; sourceTree = "<group>"; };
+		135B80C120E1F4AC000D3354 /* CustomImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomImageView.m; sourceTree = "<group>"; };
 		136AFBDC20DCF6EE00AFFAF8 /* ViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewerController.m; sourceTree = "<group>"; };
 		136AFBDD20DCF6EE00AFFAF8 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
 		138AC89820DB531500AA4537 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -291,6 +294,8 @@
 			children = (
 				CA89926D20D80FE800F396FB /* ViewerInteractiveTransitioning.h */,
 				CA89926E20D80FE800F396FB /* ViewerInteractiveTransitioning.m */,
+				135B80C020E1F4AC000D3354 /* CustomImageView.h */,
+				135B80C120E1F4AC000D3354 /* CustomImageView.m */,
 			);
 			path = ViewerInteractiveTransitioning;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 				CA89923320D80FAC00F396FB /* main.m in Sources */,
 				136AFBDE20DCF6EE00AFFAF8 /* ViewerController.m in Sources */,
 				CA89927420D80FE800F396FB /* ViewerCollectionViewCell.m in Sources */,
+				135B80C220E1F4AC000D3354 /* CustomImageView.m in Sources */,
 				CA89927720D80FE800F396FB /* ViewerPageViewController.m in Sources */,
 				CA89927320D80FE800F396FB /* ViewerCollectionView.m in Sources */,
 				CA89927620D80FE800F396FB /* ViewerCollectionViewLayout.m in Sources */,

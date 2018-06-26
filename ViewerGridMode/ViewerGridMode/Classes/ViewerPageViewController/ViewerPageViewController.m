@@ -21,7 +21,9 @@
 @property (nonatomic) UIPanGestureRecognizer *panGestureVC;
 @property (nonatomic) UIPanGestureRecognizer *panGesture;
 @property (nonatomic) UIPinchGestureRecognizer *pinchGesture;
-@property (nonatomic) UIRotationGestureRecognizer *roationGesture;
+@property (nonatomic) UIRotationGestureRecognizer *rotationGesture;
+
+@property (nonatomic, weak) IBOutlet UIImageView *imv;
 
 @property (nonatomic) BOOL interactionInProgress;
 @property (nonatomic) BOOL isPresent;
@@ -100,9 +102,6 @@ const CGFloat kMinScale = 0.4;
     _scrPageView.scrollEnabled = YES;
     _scrPageView.maximumZoomScale = 3.0;
     _scrPageView.minimumZoomScale = 1.0;
-    
-    //[self.scrPageView.pinchGestureRecognizer requireGestureRecognizerToFail:self.pinchGesture];
-    //[self.pinchGesture requireGestureRecognizerToFail:self.scrPageView.pinchGestureRecognizer];
 
 }
 
@@ -135,8 +134,7 @@ const CGFloat kMinScale = 0.4;
     }
     _transition.isPresent = YES;
     _transition.snapShot = _imv;
-    [_transition.snapShot setFrame:_defaultView.frame];
-    _transition.frameSnapShot = _defaultView.frame;
+    _transition.frameSnapShot = _imv.frame;
 
     return _transition;
 }
@@ -164,10 +162,6 @@ const CGFloat kMinScale = 0.4;
     return self.imv;
 }
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
-    
-}
-
 
 #pragma mark - ConfigGesture
 
@@ -178,7 +172,7 @@ const CGFloat kMinScale = 0.4;
     // remove gestures
     [self.imv removeGestureRecognizer:_panGesture];
     [self.imv removeGestureRecognizer:_pinchGesture];
-    [self.imv removeGestureRecognizer:_roationGesture];
+    [self.imv removeGestureRecognizer:_rotationGesture];
     [self.view removeGestureRecognizer:_panGestureVC];
     
     self.panGestureVC = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanVC:)];
@@ -195,18 +189,18 @@ const CGFloat kMinScale = 0.4;
 
     currentScale = 1;
     
-    self.roationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotateGestureRecognizer:)];
-    self.roationGesture.delegate = self;
+    self.rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotateGestureRecognizer:)];
+    self.rotationGesture.delegate = self;
     
     [self.imv addGestureRecognizer:self.pinchGesture];
-    //[self.imv addGestureRecognizer:self.panGesture];
-   // [self.imv addGestureRecognizer:self.roationGesture];
+    [self.imv addGestureRecognizer:self.panGesture];
+    [self.imv addGestureRecognizer:self.rotationGesture];
 }
 
 - (void)setEnableGesture:(BOOL)enableGesture {
     [self.pinchGesture setEnabled:enableGesture];
     [self.panGesture setEnabled:enableGesture];
-    [self.roationGesture setEnabled:enableGesture];
+    [self.rotationGesture setEnabled:enableGesture];
 }
 
 #pragma mark - Handler Gesture
@@ -231,9 +225,6 @@ const CGFloat kMinScale = 0.4;
                     _interactionInProgress = YES;
                 }
 
-            } else {
-                _isZoomImage = YES;
-                [self.roationGesture setEnabled:NO];
             }
         }
             break;
@@ -260,15 +251,7 @@ const CGFloat kMinScale = 0.4;
                         [self setEnableGesture:NO];
                     }
                 }
-            } else {
-                // Zoom image
-//                if (gestureRecognizer.scale < kMaxScale && gestureRecognizer.scale > kMinScale) {
-//                    [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
-//                } else {
-//                    NSLog(@"%f",gestureRecognizer.scale);
-//                }
             }
-            
         }
             break;
             
@@ -402,27 +385,16 @@ const CGFloat kMinScale = 0.4;
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
-    if ((gestureRecognizer == self.panGesture || gestureRecognizer == self.pinchGesture || gestureRecognizer == self.roationGesture)
-        &&(otherGestureRecognizer == self.panGesture || otherGestureRecognizer == self.pinchGesture || otherGestureRecognizer == self.roationGesture)) {
-        return YES;
-    }
-    
-    if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
+    if (([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] || gestureRecognizer == self.panGesture || gestureRecognizer == self.rotationGesture)
+        &&([otherGestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] || otherGestureRecognizer == self.panGesture || otherGestureRecognizer == self.rotationGesture)) {
         return YES;
     }
     
     return NO;
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-
-   // NSLog(@"%@",gestureRecognizer.description);
-    
-    return YES;
-}
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if (gestureRecognizer != self.panGesture && gestureRecognizer != self.pinchGesture && gestureRecognizer != self.roationGesture) {
+    if (gestureRecognizer != self.panGesture && gestureRecognizer != self.pinchGesture && gestureRecognizer != self.rotationGesture) {
         
         NSLog(@"%@",gestureRecognizer.description);
     }
@@ -430,23 +402,29 @@ const CGFloat kMinScale = 0.4;
     return YES;
 }
 
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-//    if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
-//        if (self.pinchGesture.velocity < 0 || self.scrPageView.pinchGestureRecognizer.velocity < 0) {
-//            NSLog(@"%@",otherGestureRecognizer.description);
-//            NSLog(@"----%@",gestureRecognizer.description);
-//            if (self.pinchGesture == gestureRecognizer) {
-//                return NO;
-//            }
-//        }
-//        
-//        return NO;
-//    }
-//    return YES;
-//}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == self.pinchGesture) {
+        if ((self.pinchGesture.velocity < 0 && self.pinchGesture.scale < 1.0 ) && _scrPageView.zoomScale == 1) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
     
+    return YES;
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    NSLog(@"%f",scrollView.pinchGestureRecognizer.velocity);
+    if ((scrollView.pinchGestureRecognizer.velocity < 0 && scrollView.pinchGestureRecognizer.scale <= 1.0 ) && scrollView.zoomScale == 1 && scrollView == _scrPageView) {
+        [scrollView.pinchGestureRecognizer setEnabled:NO];
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale  {
+    if (scrollView == _scrPageView) {
+        [scrollView.pinchGestureRecognizer setEnabled:YES];
+    }
 }
 
 

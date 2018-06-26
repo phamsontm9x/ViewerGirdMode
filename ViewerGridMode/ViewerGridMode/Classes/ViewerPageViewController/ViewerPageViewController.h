@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ViewerPageViewController : UIViewController
 
-@property (nonatomic, weak) IBOutlet UIImageView *imv;
+
 @property (nonatomic, weak) IBOutlet UIView *defaultView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrPageView;
 @property (nonatomic) BOOL isZoomImage;

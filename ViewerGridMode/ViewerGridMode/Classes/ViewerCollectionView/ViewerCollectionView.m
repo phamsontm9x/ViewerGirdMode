@@ -10,7 +10,7 @@
 #import "ViewerCollectionViewCell.h"
 #import "ViewerTransition.h"
 
-@interface ViewerCollectionView () <UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol>
+@interface ViewerCollectionView () <UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate>
 
 @end
 
@@ -23,11 +23,49 @@ static NSString * const reuseIdentifier = @"Cell";
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"ViewerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewerCollectionViewCell"];
     [self.collectionView reloadData];
+    
+    [self initBackToReading];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)initBackToReading {
+    UIButton *btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 200)/2, self.collectionView.frame.size.height - 70 , 200, 50)];
+    [btnBackToReading addTarget:self action:@selector(didSelectBackToReading:) forControlEvents:UIControlEventTouchUpInside];
+    [btnBackToReading setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnBackToReading setBackgroundColor:[UIColor whiteColor]];
+    btnBackToReading.layer.cornerRadius = 15;
+    btnBackToReading.clipsToBounds = YES;
+    btnBackToReading.layer.borderWidth = 1;
+    btnBackToReading.layer.borderColor = [UIColor blueColor].CGColor;
+    [btnBackToReading setTitle:@"X  Back To Reading" forState:UIControlStateNormal];
+    
+    [self.view addSubview:btnBackToReading];
+}
+
+- (void)didSelectBackToReading:(UIButton *)btn {
+    
+    CGFloat width = self.collectionView.frame.size.width / 3 - 20;
+    NSInteger index = (_currentIndexPath.row / 3  > 0) ? _currentIndexPath.row / 3 : 0;
+    CGFloat height = (width*1.6 + 10) * index;
+    
+    if (self.collectionView.contentOffset.y <= height && self.collectionView.contentOffset.y + self.collectionView.frame.size.height >= height) {
+        if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:DismissViewController:)]) {
+            [_delegate viewerCollectionView:self DismissViewController:_currentIndexPath.row];
+        }
+        return;
+    }
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.collectionView scrollToItemAtIndexPath:_currentIndexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    } completion:^(BOOL finished){
+        if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:DismissViewController:)]) {
+            [_delegate viewerCollectionView:self DismissViewController:_currentIndexPath.row];
+        }
+    }];
 }
 
 - (void)setIsProcessingTransition:(BOOL)isProcessingTransition {

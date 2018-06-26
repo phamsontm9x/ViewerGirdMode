@@ -85,7 +85,7 @@
         <!--Viewer Page View Controller-->
         <scene sceneID="FNN-4l-AK9">
             <objects>
-                <viewController storyboardIdentifier="ViewerPageViewController" extendedLayoutIncludesOpaqueBars="YES" id="kTF-YQ-niy" customClass="ViewerPageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewerPageViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="kTF-YQ-niy" customClass="ViewerPageViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="15t-wN-6mP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -97,7 +97,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oRY-Cy-JnZ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pi-Ou-07o">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pi-Ou-07o" customClass="CustomImageView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     </imageView>
                                 </subviews>
@@ -106,9 +106,9 @@
                                     <constraint firstAttribute="trailing" secondItem="3pi-Ou-07o" secondAttribute="trailing" id="1Hg-jG-azk"/>
                                     <constraint firstItem="3pi-Ou-07o" firstAttribute="top" secondItem="oRY-Cy-JnZ" secondAttribute="top" id="3qu-B0-561"/>
                                     <constraint firstItem="3pi-Ou-07o" firstAttribute="leading" secondItem="oRY-Cy-JnZ" secondAttribute="leading" id="5uP-FK-IYs"/>
+                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="height" secondItem="oRY-Cy-JnZ" secondAttribute="height" id="8dP-31-wua"/>
                                     <constraint firstAttribute="bottom" secondItem="3pi-Ou-07o" secondAttribute="bottom" id="9b0-bf-YDc"/>
-                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="centerY" secondItem="oRY-Cy-JnZ" secondAttribute="centerY" id="Oey-Hv-Jrk"/>
-                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="centerX" secondItem="oRY-Cy-JnZ" secondAttribute="centerX" id="QBr-R9-l08"/>
+                                    <constraint firstItem="3pi-Ou-07o" firstAttribute="width" secondItem="oRY-Cy-JnZ" secondAttribute="width" id="OsC-Ko-Fsq"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -125,6 +125,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="L6x-3u-NuX"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="defaultView" destination="z2F-yb-rXF" id="qEK-zg-Gyu"/>
                         <outlet property="imv" destination="3pi-Ou-07o" id="aNb-9b-YOc"/>
