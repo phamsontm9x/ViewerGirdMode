@@ -32,8 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSInteger indexPath;
 
+@property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
 @property (nonatomic, weak) id<ViewerPageViewControllerDelegate> delegate;
 @property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
+
+- (void)didTapOnGirdMode;
 
 @end
 

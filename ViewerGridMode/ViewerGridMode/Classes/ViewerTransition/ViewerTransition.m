@@ -50,6 +50,7 @@
     
     UIImageView *viewBegin = [[UIImageView alloc] init];
     UIImageView *viewEnd = [[UIImageView alloc] init];
+    viewBegin.contentMode = UIViewContentModeScaleAspectFit;
     
     if (_isPresent) {
         if (_enabledInteractive) {
@@ -60,7 +61,7 @@
             } else {
                 viewEnd.frame = toView.frame;
             }
-            //
+
             [viewBegin setFrame:toView.frame];
             viewBegin.backgroundColor = [UIColor clearColor];
             viewBegin.alpha = 1.0;
@@ -74,9 +75,9 @@
             
         } else {
             
-            viewBegin = [self snapshotImageViewFromView:_snapShot];
-            _frameSnapShot.origin.y = 20;
+            //viewBegin = [self snapshotImageViewFromView:_snapShot];
             [viewBegin setFrame:_frameSnapShot];
+            viewBegin.image = _snapShot.image;
             
             // get frame and image view begin
             if ([toVC respondsToSelector:@selector(getImageViewPresent)]) {
@@ -97,8 +98,9 @@
         // get frame and image view begin
         if ([fromVC respondsToSelector:@selector(getImageViewPresent)]) {
             UIImageView *view = [fromVC getImageViewPresent];
+            //viewBegin = [self snapshotImageViewFromView:view];
             
-            viewBegin = [self snapshotImageViewFromView:view];
+            viewBegin.image = view.image;
             viewBegin.frame = view.frame;
         } else {
             viewBegin.frame = fromView.frame;
@@ -106,7 +108,6 @@
         [containerView addSubview:toView];
         [containerView addSubview:fromView];
         [containerView addSubview:viewBegin];
-        _toViewDefault.origin.y = 20;
         viewEnd.frame = _toViewDefault;
         fromView.alpha = 1.0;
         toView.alpha = 0;
@@ -152,7 +153,7 @@
 -(UIImageView *)snapshotImageViewFromView:(UIView *)view {
     UIImage * snapshot = [self dt_takeSnapshotWihtView:view];
     UIImageView * imageView = [[UIImageView alloc] initWithImage:snapshot];
-    imageView.contentMode = UIViewContentModeScaleToFill;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.clipsToBounds = YES;
     return imageView;
 }

@@ -104,9 +104,9 @@
 #pragma mark - ViewerPageViewControllerDelegate
 
 - (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
-    ViewerPageViewController *currentPage = [self viewControllerAtIndex:index];
+    _currentVC = [self viewControllerAtIndex:index];
     
-    [self setViewControllers:@[currentPage] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
+    [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
         if (finished) {
             [clv dismissViewControllerAnimated:YES completion:nil];
         }

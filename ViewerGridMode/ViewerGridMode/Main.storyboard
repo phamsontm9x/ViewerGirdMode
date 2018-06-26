@@ -61,18 +61,45 @@
                                     <constraint firstItem="qU3-bM-qGx" firstAttribute="leading" secondItem="wFr-gJ-8Z7" secondAttribute="leading" id="qBu-YR-5bR"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C1W-3H-V7g">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBn-pG-n4y">
+                                        <rect key="frame" x="305" y="0.0" width="50" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="vCe-yO-aqw"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="selectedTapOnGird:" destination="WP9-v7-PA8" eventType="touchUpInside" id="8Eo-UM-7bl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="EBn-pG-n4y" secondAttribute="trailing" constant="20" id="GLz-88-gMf"/>
+                                    <constraint firstAttribute="height" constant="40" id="KQe-P3-NUw"/>
+                                    <constraint firstAttribute="bottom" secondItem="EBn-pG-n4y" secondAttribute="bottom" id="Y4t-hF-spg"/>
+                                    <constraint firstItem="EBn-pG-n4y" firstAttribute="top" secondItem="C1W-3H-V7g" secondAttribute="top" id="yaH-Tf-rtP"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="C1W-3H-V7g" secondAttribute="trailing" id="BTc-uC-qPU"/>
+                            <constraint firstItem="C1W-3H-V7g" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="HiF-LF-7B8"/>
                             <constraint firstItem="vVa-Lc-Naw" firstAttribute="trailing" secondItem="wFr-gJ-8Z7" secondAttribute="trailing" id="Ttw-Ds-58k"/>
                             <constraint firstItem="wFr-gJ-8Z7" firstAttribute="leading" secondItem="vVa-Lc-Naw" secondAttribute="leading" id="Vfy-ic-o1i"/>
                             <constraint firstItem="wFr-gJ-8Z7" firstAttribute="top" secondItem="vVa-Lc-Naw" secondAttribute="top" id="jPS-H1-AlY"/>
+                            <constraint firstItem="vVa-Lc-Naw" firstAttribute="bottom" secondItem="C1W-3H-V7g" secondAttribute="bottom" id="nq8-nG-K1w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vVa-Lc-Naw"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ngz-c5-uiY"/>
                     <connections>
+                        <outlet property="botView" destination="C1W-3H-V7g" id="dQb-FH-RGa"/>
                         <outlet property="btnHorizontol" destination="xsH-7B-vC3" id="Ejf-UB-cJD"/>
+                        <outlet property="btnTapOnGrid" destination="EBn-pG-n4y" id="Ehd-Cb-51Q"/>
                         <outlet property="btnVertical" destination="d6x-33-Y8P" id="hfs-e9-r36"/>
                         <outlet property="btnpageCurl" destination="4E6-W1-zew" id="sDb-DB-C1A"/>
                         <outlet property="topView" destination="wFr-gJ-8Z7" id="mAN-Xe-63l"/>
@@ -97,7 +124,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oRY-Cy-JnZ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pi-Ou-07o" customClass="CustomImageView">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pi-Ou-07o">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     </imageView>
                                 </subviews>

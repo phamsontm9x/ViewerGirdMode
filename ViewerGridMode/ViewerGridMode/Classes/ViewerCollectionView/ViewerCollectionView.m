@@ -119,6 +119,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
     cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+        
     if (indexPath.row == _currentIndexPath.row) {
         if (_isProcessingTransition) {
             cell.imv.hidden = YES;
@@ -175,6 +176,7 @@ static NSString * const reuseIdentifier = @"Cell";
     CGRect frame = [cell convertRect:cell.imv.frame toView: [self.collectionView superview]];
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
+    img.contentMode = UIViewContentModeScaleAspectFit;
     img.image = cell.imv.image;
     
     return img;

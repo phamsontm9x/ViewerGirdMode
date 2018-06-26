@@ -25,6 +25,7 @@
     tapGesture.delegate = self;
     [self.view addGestureRecognizer:tapGesture];
     [self.topView setHidden:YES];
+    [self.botView setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,14 +40,18 @@
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gesture {
     _topView.hidden = NO;
+    _botView.hidden = NO;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _topView.hidden = YES;
+        _botView.hidden = YES;
     });
 }
 
+- (IBAction)selectedTapOnGird:(id)sender {
+    [self.pageViewController.currentVC didTapOnGirdMode];
+}
 
 - (IBAction)selectedHorizontol:(id)sender {
-    
     [self changeModeTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOritentation:UIPageViewControllerNavigationOrientationHorizontal withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
 }
 
@@ -78,6 +83,7 @@
     [self.view addSubview:self.pageViewController.view];
     
     [self.view bringSubviewToFront:self.topView];
+    [self.view bringSubviewToFront:self.botView];
 }
 
 

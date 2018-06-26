@@ -10,11 +10,19 @@
 #import "PageViewController.h"
 #import "ViewerPageViewController.h"
 
+
+
+@class ViewerController;
+
+
 @interface ViewerController : UIViewController
 
 @property (nonatomic, weak) IBOutlet UIButton *btnHorizontol;
 @property (nonatomic, weak) IBOutlet UIButton *btnVertical;
 @property (nonatomic, weak) IBOutlet UIButton *btnpageCurl;
 @property (nonatomic, weak) IBOutlet UIView *topView;
+
+@property (nonatomic, weak) IBOutlet UIView *botView;
+@property (nonatomic, weak) IBOutlet UIButton *btnTapOnGrid;
 
 @end

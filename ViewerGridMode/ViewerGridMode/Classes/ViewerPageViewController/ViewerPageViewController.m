@@ -14,7 +14,7 @@
 @interface ViewerPageViewController () <ViewerCollectionViewDelegate, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 // Transition
-@property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
+
 @property (nonatomic, strong) ViewerTransition *transition;
 
 // Gesture
@@ -84,6 +84,14 @@ const CGFloat kMinScale = 0.4;
     [super viewDidAppear:animated];
 }
 
+- (void)didTapOnGirdMode {
+    _selectedButton = YES;
+    [self presentViewController:_vcPresent animated:YES completion:^{
+        [self.view removeGestureRecognizer:self.panGestureVC];
+    }];
+}
+
+#pragma mark - Init Interactive
 - (void)initInteractiveTransition {
     _vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
     _interactiveTransitionPresent = [[ViewerInteractiveTransitioning alloc] init];
@@ -134,7 +142,7 @@ const CGFloat kMinScale = 0.4;
     }
     _transition.isPresent = YES;
     _transition.snapShot = _imv;
-    _transition.frameSnapShot = _imv.frame;
+    _transition.frameSnapShot = _defaultView.frame;
 
     return _transition;
 }
