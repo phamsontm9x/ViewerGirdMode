@@ -14,7 +14,8 @@
 
 @end
 
-@implementation ViewerCollectionView
+@implementation ViewerCollectionView {
+}
 
 static NSString * const reuseIdentifier = @"Cell";
 

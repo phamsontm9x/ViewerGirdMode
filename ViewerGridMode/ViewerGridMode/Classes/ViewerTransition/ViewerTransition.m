@@ -53,46 +53,47 @@
     viewBegin.contentMode = UIViewContentModeScaleAspectFit;
     
     if (_isPresent) {
+        
+        ViewerCollectionView *vc = (ViewerCollectionView*)toVC;
+        vc.collectionView.userInteractionEnabled = NO;
+        
+        if ([toVC respondsToSelector:@selector(getImageViewPresent)]) {
+            viewEnd = [toVC getImageViewPresent];
+        } else {
+            viewEnd.frame = toView.frame;
+        }
+        
         if (_enabledInteractive) {
             
-            
-            if ([toVC respondsToSelector:@selector(getImageViewPresent)]) {
-                viewEnd = [toVC getImageViewPresent];
-            } else {
-                viewEnd.frame = toView.frame;
-            }
-
             [viewBegin setFrame:toView.frame];
             viewBegin.backgroundColor = [UIColor clearColor];
             viewBegin.alpha = 1.0;
-            fromView.alpha = 1.0;
-            fromView.backgroundColor = [UIColor clearColor];
+            
             toView.alpha = 1.0;
-        
-            [containerView addSubview:toView];
-            [containerView addSubview:viewBegin];
-            [containerView addSubview:fromView];
+            
+            fromView.backgroundColor = [UIColor clearColor];
+            fromView.alpha = 1.0;
             
         } else {
             
-            //viewBegin = [self snapshotImageViewFromView:_snapShot];
-            [viewBegin setFrame:_frameSnapShot];
-            viewBegin.image = _snapShot.image;
-            
-            // get frame and image view begin
             if ([toVC respondsToSelector:@selector(getImageViewPresent)]) {
                 viewEnd = [toVC getImageViewPresent];
             } else {
                 viewEnd.frame = toView.frame;
             }
-
+            
+            [viewBegin setFrame:_frameSnapShot];
+            viewBegin.image = _snapShot.image;
+            
             viewBegin.alpha = 1.0;
             fromView.alpha = 0.0;
             toView.alpha = 1.0;
-            [containerView addSubview:toView];
-            [containerView addSubview:fromView];
-            [containerView addSubview:viewBegin];
         }
+        
+        [containerView addSubview:toView];
+        [containerView addSubview:viewBegin];
+        [containerView addSubview:fromView];
+        
     } else {
         
         // get frame and image view begin
@@ -119,7 +120,7 @@
     
     [UIView animateWithDuration:duration
                           delay:0
-                        options:UIViewAnimationOptionCurveLinear|UIViewAnimationOptionCurveEaseInOut
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          if (_isPresent) {
                              if (!_enabledInteractive) {
@@ -134,18 +135,26 @@
                          }
                          
                      } completion:^(BOOL finished) {
-                         _enabledInteractive = YES;
                          if (![transitionContext transitionWasCancelled]) {
                              toView.alpha = 1.0;
                              [fromView removeFromSuperview];
                              [viewBegin removeFromSuperview];
                              [_snapShot removeFromSuperview];
+                             
+                             if (_isPresent) {
+                                 ViewerCollectionView *vc = (ViewerCollectionView*)toVC;
+                                 if (!_enabledInteractive) {
+                                     vc.isProcessingTransition = NO;
+                                 }
+                                 vc.collectionView.userInteractionEnabled = YES;
+                             }
+                             
                          } else {
                              fromView.alpha = 1;
                              [toView removeFromSuperview];
                              [viewBegin removeFromSuperview];
-                             //                             //[_snapShot removeFromSuperview];
                          }
+                         _enabledInteractive = YES;
                          [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                      }];
 }

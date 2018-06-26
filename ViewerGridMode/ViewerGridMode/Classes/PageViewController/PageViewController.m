@@ -111,7 +111,6 @@
             [clv dismissViewControllerAnimated:YES completion:nil];
         }
     }];
-    [clv dismissViewControllerAnimated:YES completion:nil];
 }
 
 

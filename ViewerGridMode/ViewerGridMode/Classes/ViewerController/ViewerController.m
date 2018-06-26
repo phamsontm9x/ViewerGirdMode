@@ -39,12 +39,15 @@
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gesture {
-    _topView.hidden = NO;
-    _botView.hidden = NO;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _topView.hidden = YES;
-        _botView.hidden = YES;
-    });
+    
+    if ([_topView isHidden]) {
+        _topView.hidden = NO;
+        _botView.hidden = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _topView.hidden = YES;
+            _botView.hidden = YES;
+        });
+    }
 }
 
 - (IBAction)selectedTapOnGird:(id)sender {

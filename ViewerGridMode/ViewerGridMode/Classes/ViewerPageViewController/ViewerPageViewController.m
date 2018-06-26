@@ -36,7 +36,6 @@
 
 @implementation ViewerPageViewController {
     BOOL _shouldCompleteTransition;
-    BOOL _isZoomImage;
     
     NSMutableSet *_activeRecognizers;
     CGPoint center;
@@ -59,6 +58,7 @@ const CGFloat kMinScale = 0.4;
         _indexPath = 0;
     }
     
+    
     _imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",_indexPath%10]];
 
     [self configGesture];
@@ -68,6 +68,10 @@ const CGFloat kMinScale = 0.4;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,9 +90,14 @@ const CGFloat kMinScale = 0.4;
 
 - (void)didTapOnGirdMode {
     _selectedButton = YES;
-    [self presentViewController:_vcPresent animated:YES completion:^{
-        [self.view removeGestureRecognizer:self.panGestureVC];
-    }];
+    
+    if (![self.presentedViewController isBeingDismissed]) {
+        [self presentViewController:_vcPresent animated:YES completion:^{
+            [self.view removeGestureRecognizer:self.panGestureVC];
+        }];
+    }
+    
+
 }
 
 #pragma mark - Init Interactive
@@ -113,10 +122,6 @@ const CGFloat kMinScale = 0.4;
 
 }
 
-- (void)setIsZoomImage:(BOOL)isZoomImage {
-    _isZoomImage = isZoomImage;
-}
-
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)aScrollView {
     return self.imv;
 }
@@ -134,7 +139,10 @@ const CGFloat kMinScale = 0.4;
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
-- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(ViewerCollectionView *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    
+    presented.isProcessingTransition = YES;
+    
     _transition = [[ViewerTransition alloc] init];
     if (_selectedButton) {
         _transition.enabledInteractive = NO;
@@ -147,7 +155,10 @@ const CGFloat kMinScale = 0.4;
     return _transition;
 }
 
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(ViewerCollectionView *)dismissed {
+    
+    dismissed.isProcessingTransition = YES;
+    
     _transition = [[ViewerTransition alloc] init];
     _transition.isPresent = NO;
     _transition.toViewDefault = _defaultView.frame;
@@ -223,7 +234,7 @@ const CGFloat kMinScale = 0.4;
         case UIGestureRecognizerStateBegan: {
             NSLog(@"%f",gestureRecognizer.velocity);
             if (gestureRecognizer.scale < 1 && gestureRecognizer.velocity < 0) {
-                if (!_interactionInProgress && _isZoomImage == NO) {
+                if (!_interactionInProgress ) {
                     
                     _vcPresent.isProcessingTransition = YES;
                     [self presentViewController:_vcPresent animated:YES completion:^{
@@ -239,7 +250,6 @@ const CGFloat kMinScale = 0.4;
             
         case UIGestureRecognizerStateChanged: {
             
-            if (!_isZoomImage) {
                 if (gestureRecognizer.scale < kMaxScale && gestureRecognizer.scale > kMinScale) {
                     [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
                     
@@ -259,7 +269,6 @@ const CGFloat kMinScale = 0.4;
                         [self setEnableGesture:NO];
                     }
                 }
-            }
         }
             break;
             
@@ -343,8 +352,7 @@ const CGFloat kMinScale = 0.4;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
         [self.interactiveTransitionPresent finishInteractiveTransition];
-        
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
             currentView.frame = endView.frame;
@@ -355,37 +363,19 @@ const CGFloat kMinScale = 0.4;
         
     } else {
         
-        if (!_isZoomImage) {
-            UIView *currentView = self.pinchGesture.view;
-            _interactionInProgress = NO;
-            
-            [self.interactiveTransitionPresent cancelInteractiveTransition];
-            
-            [UIView animateWithDuration:0.3 animations:^{
-                [self setEnableGesture:NO];
-                currentView.transform = CGAffineTransformIdentity;
-            } completion:^(BOOL finished) {
-                [self setEnableGesture:YES];
-                [self.view removeGestureRecognizer:_panGestureVC];
-            }];
-        } else {
-            if (self.pinchGesture.scale < 1) {
-                _isZoomImage = NO;
-                UIView *currentView = self.pinchGesture.view;
-                _interactionInProgress = NO;
-                
-                [UIView animateWithDuration:0.3 animations:^{
-                    [self setEnableGesture:NO];
-                    currentView.transform = CGAffineTransformIdentity;
-                } completion:^(BOOL finished) {
-                    [self setEnableGesture:YES];
-                    [self.view removeGestureRecognizer:_panGestureVC];
-                }];
-            } else {
-                //[self setEnableGesture:NO];
-                //[self configScrollView];
-            }
-        }
+        UIView *currentView = self.pinchGesture.view;
+        _interactionInProgress = NO;
+        
+        [self.interactiveTransitionPresent cancelInteractiveTransition];
+        
+        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self setEnableGesture:NO];
+            currentView.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            [self setEnableGesture:YES];
+            [self.view removeGestureRecognizer:_panGestureVC];
+        }];
+       
     }
 }
 
@@ -434,6 +424,5 @@ const CGFloat kMinScale = 0.4;
         [scrollView.pinchGestureRecognizer setEnabled:YES];
     }
 }
-
 
 @end
