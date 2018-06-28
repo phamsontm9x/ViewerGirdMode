@@ -12,6 +12,11 @@
 		135B80CA20E1FCC6000D3354 /* image5.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B80C920E1FCC5000D3354 /* image5.png */; };
 		136AFBDE20DCF6EE00AFFAF8 /* ViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 136AFBDC20DCF6EE00AFFAF8 /* ViewerController.m */; };
 		1387DF5220E47EA600F30FB7 /* image6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1387DF5120E47EA600F30FB7 /* image6.png */; };
+		1387DF5A20E4823A00F30FB7 /* ReadingBreakController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF5920E4823A00F30FB7 /* ReadingBreakController.m */; };
+		1387DF5D20E4825500F30FB7 /* ReadingBreakPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF5C20E4825500F30FB7 /* ReadingBreakPageViewController.m */; };
+		1387DF6020E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF5F20E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m */; };
+		1387DF6320E482B100F30FB7 /* ReadingBreakTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF6220E482B100F30FB7 /* ReadingBreakTransition.m */; };
+		1387DF6720E4A2A700F30FB7 /* ReadingBreakPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF6620E4A2A700F30FB7 /* ReadingBreakPresentationController.m */; };
 		138AC89920DB531500AA4537 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138AC89820DB531500AA4537 /* MessageUI.framework */; };
 		CA89923020D80FAC00F396FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA89922E20D80FAC00F396FB /* LaunchScreen.storyboard */; };
 		CA89923320D80FAC00F396FB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA89923220D80FAC00F396FB /* main.m */; };
@@ -62,6 +67,16 @@
 		136AFBDC20DCF6EE00AFFAF8 /* ViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewerController.m; sourceTree = "<group>"; };
 		136AFBDD20DCF6EE00AFFAF8 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
 		1387DF5120E47EA600F30FB7 /* image6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image6.png; path = ../../../../../../image6.png; sourceTree = "<group>"; };
+		1387DF5820E4823A00F30FB7 /* ReadingBreakController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakController.h; sourceTree = "<group>"; };
+		1387DF5920E4823A00F30FB7 /* ReadingBreakController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakController.m; sourceTree = "<group>"; };
+		1387DF5B20E4825500F30FB7 /* ReadingBreakPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakPageViewController.h; sourceTree = "<group>"; };
+		1387DF5C20E4825500F30FB7 /* ReadingBreakPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakPageViewController.m; sourceTree = "<group>"; };
+		1387DF5E20E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakInteractiveTransitioning.h; sourceTree = "<group>"; };
+		1387DF5F20E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakInteractiveTransitioning.m; sourceTree = "<group>"; };
+		1387DF6120E482B100F30FB7 /* ReadingBreakTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakTransition.h; sourceTree = "<group>"; };
+		1387DF6220E482B100F30FB7 /* ReadingBreakTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakTransition.m; sourceTree = "<group>"; };
+		1387DF6520E4A2A700F30FB7 /* ReadingBreakPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakPresentationController.h; sourceTree = "<group>"; };
+		1387DF6620E4A2A700F30FB7 /* ReadingBreakPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakPresentationController.m; sourceTree = "<group>"; };
 		138AC89820DB531500AA4537 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CA89922020D80FAC00F396FB /* ViewerGridMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewerGridMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA89922F20D80FAC00F396FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -145,6 +160,62 @@
 			path = ViewerController;
 			sourceTree = "<group>";
 		};
+		1387DF5320E4818900F30FB7 /* ReadingBreak */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF5520E481B800F30FB7 /* ReadingBreakPageViewController */,
+				1387DF5420E481AB00F30FB7 /* ReadingBreakController */,
+			);
+			path = ReadingBreak;
+			sourceTree = "<group>";
+		};
+		1387DF5420E481AB00F30FB7 /* ReadingBreakController */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF5820E4823A00F30FB7 /* ReadingBreakController.h */,
+				1387DF5920E4823A00F30FB7 /* ReadingBreakController.m */,
+			);
+			path = ReadingBreakController;
+			sourceTree = "<group>";
+		};
+		1387DF5520E481B800F30FB7 /* ReadingBreakPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF5B20E4825500F30FB7 /* ReadingBreakPageViewController.h */,
+				1387DF5C20E4825500F30FB7 /* ReadingBreakPageViewController.m */,
+			);
+			path = ReadingBreakPageViewController;
+			sourceTree = "<group>";
+		};
+		1387DF5620E481F000F30FB7 /* ReadingBreakTransition */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF6420E4A27A00F30FB7 /* ReadingBreakPresentationController */,
+				1387DF5720E4821100F30FB7 /* ReadingBreakInteractiveTransitioning */,
+				1387DF6120E482B100F30FB7 /* ReadingBreakTransition.h */,
+				1387DF6220E482B100F30FB7 /* ReadingBreakTransition.m */,
+			);
+			path = ReadingBreakTransition;
+			sourceTree = "<group>";
+		};
+		1387DF5720E4821100F30FB7 /* ReadingBreakInteractiveTransitioning */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF5E20E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.h */,
+				1387DF5F20E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m */,
+			);
+			path = ReadingBreakInteractiveTransitioning;
+			sourceTree = "<group>";
+		};
+		1387DF6420E4A27A00F30FB7 /* ReadingBreakPresentationController */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF6520E4A2A700F30FB7 /* ReadingBreakPresentationController.h */,
+				1387DF6620E4A2A700F30FB7 /* ReadingBreakPresentationController.m */,
+			);
+			path = ReadingBreakPresentationController;
+			sourceTree = "<group>";
+		};
 		138AC89720DB531400AA4537 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +279,8 @@
 		CA89925720D80FE800F396FB /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1387DF5320E4818900F30FB7 /* ReadingBreak */,
+				1387DF5620E481F000F30FB7 /* ReadingBreakTransition */,
 				1322C1E520DA5D2B0032E4D8 /* NavigationVC */,
 				CA89925820D80FE800F396FB /* Appdelegate */,
 				CA89925B20D80FE800F396FB /* PageViewController */,
@@ -457,6 +530,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1387DF5D20E4825500F30FB7 /* ReadingBreakPageViewController.m in Sources */,
+				1387DF6320E482B100F30FB7 /* ReadingBreakTransition.m in Sources */,
 				CA89927820D80FE800F396FB /* ViewerInteractiveTransitioning.m in Sources */,
 				CA89927120D80FE800F396FB /* AppDelegate.m in Sources */,
 				CA89923320D80FAC00F396FB /* main.m in Sources */,
@@ -467,7 +542,10 @@
 				CA89927620D80FE800F396FB /* ViewerCollectionViewLayout.m in Sources */,
 				CA89927220D80FE800F396FB /* PageViewController.m in Sources */,
 				1322C1E820DA5D430032E4D8 /* NavigationVC.m in Sources */,
+				1387DF5A20E4823A00F30FB7 /* ReadingBreakController.m in Sources */,
 				CA89927920D80FE800F396FB /* ViewerTransition.m in Sources */,
+				1387DF6720E4A2A700F30FB7 /* ReadingBreakPresentationController.m in Sources */,
+				1387DF6020E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

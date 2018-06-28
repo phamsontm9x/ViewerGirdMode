@@ -117,47 +117,6 @@
     // animate
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-//    [UIView animateWithDuration:duration
-//                          delay:0
-//                        options:UIViewAnimationOptionCurveEaseInOut
-//                     animations:^{
-//                         if (_isPresent) {
-//                             if (!_enabledInteractive) {
-//                                 [viewBegin setFrame:viewEnd.frame];
-//                                 toView.alpha = 1;
-//                                 viewBegin.alpha = 1;
-//                             } else {
-//                                 viewBegin.alpha = 0;
-//                             }
-//                         } else {
-//                             [viewBegin setFrame:viewEnd.frame];
-//                         }
-//
-//                     } completion:^(BOOL finished) {
-//                         if (![transitionContext transitionWasCancelled]) {
-//                             toView.alpha = 1.0;
-//                             [fromView removeFromSuperview];
-//                             [viewBegin removeFromSuperview];
-//                             [_snapShot removeFromSuperview];
-//
-//                             if (_isPresent) {
-//                                 ViewerCollectionView *vc = (ViewerCollectionView*)toVC;
-//                                 if (!_enabledInteractive) {
-//                                     vc.isProcessingTransition = NO;
-//                                 }
-//                                 vc.collectionView.userInteractionEnabled = YES;
-//                             }
-//
-//                         } else {
-//                             fromView.alpha = 1;
-//                             [toView removeFromSuperview];
-//                             [viewBegin removeFromSuperview];
-//                         }
-//                         _enabledInteractive = YES;
-//                         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-//                     }];
-    
-    
     [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         if (_isPresent) {
             if (!_enabledInteractive) {
