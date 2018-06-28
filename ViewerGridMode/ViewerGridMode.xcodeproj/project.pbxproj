@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		1322C1E820DA5D430032E4D8 /* NavigationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1322C1E720DA5D430032E4D8 /* NavigationVC.m */; };
 		135B80C620E1FC4A000D3354 /* image7.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B80C320E1FC4A000D3354 /* image7.png */; };
-		135B80C820E1FC4A000D3354 /* image6.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B80C520E1FC4A000D3354 /* image6.png */; };
 		135B80CA20E1FCC6000D3354 /* image5.png in Resources */ = {isa = PBXBuildFile; fileRef = 135B80C920E1FCC5000D3354 /* image5.png */; };
 		136AFBDE20DCF6EE00AFFAF8 /* ViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 136AFBDC20DCF6EE00AFFAF8 /* ViewerController.m */; };
+		1387DF5220E47EA600F30FB7 /* image6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1387DF5120E47EA600F30FB7 /* image6.png */; };
 		138AC89920DB531500AA4537 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138AC89820DB531500AA4537 /* MessageUI.framework */; };
 		CA89923020D80FAC00F396FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA89922E20D80FAC00F396FB /* LaunchScreen.storyboard */; };
 		CA89923320D80FAC00F396FB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA89923220D80FAC00F396FB /* main.m */; };
@@ -58,10 +58,10 @@
 		1322C1E620DA5D430032E4D8 /* NavigationVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationVC.h; sourceTree = "<group>"; };
 		1322C1E720DA5D430032E4D8 /* NavigationVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationVC.m; sourceTree = "<group>"; };
 		135B80C320E1FC4A000D3354 /* image7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image7.png; sourceTree = "<group>"; };
-		135B80C520E1FC4A000D3354 /* image6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image6.png; path = ../../../../../../image6.png; sourceTree = "<group>"; };
 		135B80C920E1FCC5000D3354 /* image5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image5.png; path = ../../../../../../../.Trash/image5.png; sourceTree = "<group>"; };
 		136AFBDC20DCF6EE00AFFAF8 /* ViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewerController.m; sourceTree = "<group>"; };
 		136AFBDD20DCF6EE00AFFAF8 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		1387DF5120E47EA600F30FB7 /* image6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image6.png; path = ../../../../../../image6.png; sourceTree = "<group>"; };
 		138AC89820DB531500AA4537 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CA89922020D80FAC00F396FB /* ViewerGridMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewerGridMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA89922F20D80FAC00F396FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 				CA89927F20D80FFA00F396FB /* image3.png */,
 				CA89928020D80FFA00F396FB /* image4.png */,
 				135B80C920E1FCC5000D3354 /* image5.png */,
-				135B80C520E1FC4A000D3354 /* image6.png */,
+				1387DF5120E47EA600F30FB7 /* image6.png */,
 				135B80C320E1FC4A000D3354 /* image7.png */,
 				CA89928420D80FFA00F396FB /* image8.png */,
 				CA89928520D80FFA00F396FB /* image9.png */,
@@ -420,8 +420,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA89928F20D80FFA00F396FB /* image8.png in Resources */,
-				135B80C820E1FC4A000D3354 /* image6.png in Resources */,
 				CA89929020D80FFA00F396FB /* image9.png in Resources */,
+				1387DF5220E47EA600F30FB7 /* image6.png in Resources */,
 				CA89928820D80FFA00F396FB /* image1.png in Resources */,
 				135B80C620E1FC4A000D3354 /* image7.png in Resources */,
 				CA89925620D80FD600F396FB /* Main.storyboard in Resources */,

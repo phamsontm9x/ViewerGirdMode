@@ -257,7 +257,7 @@ const CGFloat kMinScale = 0.4;
                         if (_interactionInProgress && gestureRecognizer.scale < 1) {
                             CGFloat fraction = fabs((1 - gestureRecognizer.scale) / 0.4);
                             fraction = fminf(fmaxf(fraction, 0.0), 0.7);
-                            _shouldCompleteTransition = (fraction > 0.4);
+                            _shouldCompleteTransition = (fraction > 0.5);
                             if (fraction >= 1.0)
                                 fraction = 0.99;
                             
@@ -352,7 +352,8 @@ const CGFloat kMinScale = 0.4;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
         [self.interactiveTransitionPresent finishInteractiveTransition];
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
             currentView.frame = endView.frame;
@@ -361,6 +362,15 @@ const CGFloat kMinScale = 0.4;
             _vcPresent.isProcessingTransition = NO;
         }];
         
+//        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//            [self setEnableGesture:NO];
+//            currentView.transform = CGAffineTransformIdentity;
+//            currentView.frame = endView.frame;
+//        } completion:^(BOOL finished) {
+//            [self setEnableGesture:YES];
+//            _vcPresent.isProcessingTransition = NO;
+//        }];
+        
     } else {
         
         UIView *currentView = self.pinchGesture.view;
@@ -368,13 +378,21 @@ const CGFloat kMinScale = 0.4;
         
         [self.interactiveTransitionPresent cancelInteractiveTransition];
         
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
             [self.view removeGestureRecognizer:_panGestureVC];
         }];
+        
+//        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//            [self setEnableGesture:NO];
+//            currentView.transform = CGAffineTransformIdentity;
+//        } completion:^(BOOL finished) {
+//            [self setEnableGesture:YES];
+//            [self.view removeGestureRecognizer:_panGestureVC];
+//        }];
        
     }
 }
