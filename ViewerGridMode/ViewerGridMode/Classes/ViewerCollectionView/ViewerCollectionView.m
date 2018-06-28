@@ -12,20 +12,23 @@
 
 @interface ViewerCollectionView () <UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate>
 
+@property (nonatomic) UIButton *btnBackToReading;
+@property (nonatomic) NSInteger totalItems;
+
 @end
 
 @implementation ViewerCollectionView {
 }
 
-static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    _totalItems = 21;
+    
     [self.collectionView registerNib:[UINib nibWithNibName:@"ViewerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewerCollectionViewCell"];
     [self.collectionView reloadData];
     
-    [self initBackToReading];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,18 +36,27 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-- (void)initBackToReading {
-    UIButton *btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 200)/2, self.collectionView.frame.size.height - 70 , 200, 50)];
-    [btnBackToReading addTarget:self action:@selector(didSelectBackToReading:) forControlEvents:UIControlEventTouchUpInside];
-    [btnBackToReading setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [btnBackToReading setBackgroundColor:[UIColor whiteColor]];
-    btnBackToReading.layer.cornerRadius = 15;
-    btnBackToReading.clipsToBounds = YES;
-    btnBackToReading.layer.borderWidth = 1;
-    btnBackToReading.layer.borderColor = [UIColor blueColor].CGColor;
-    [btnBackToReading setTitle:@"X  Back To Reading" forState:UIControlStateNormal];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    [self.view addSubview:btnBackToReading];
+    [self initBackToReading];
+}
+
+- (void)initBackToReading {
+    
+    [_btnBackToReading removeFromSuperview];
+    
+    _btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 200)/2, self.collectionView.frame.size.height - 70 , 200, 50)];
+    [_btnBackToReading addTarget:self action:@selector(didSelectBackToReading:) forControlEvents:UIControlEventTouchUpInside];
+    [_btnBackToReading setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_btnBackToReading setBackgroundColor:[UIColor whiteColor]];
+    _btnBackToReading.layer.cornerRadius = 15;
+    _btnBackToReading.clipsToBounds = YES;
+    _btnBackToReading.layer.borderWidth = 1;
+    _btnBackToReading.layer.borderColor = [UIColor blueColor].CGColor;
+    [_btnBackToReading setTitle:@"X  Back To Reading" forState:UIControlStateNormal];
+    
+    [self.view addSubview:_btnBackToReading];
 }
 
 - (void)didSelectBackToReading:(UIButton *)btn {
@@ -85,7 +97,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark <UICollectionViewFlowLayout>
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width = self.collectionView.frame.size.width / 3 - 20;
@@ -112,29 +124,35 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-    return 20;
+    return _totalItems;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ViewerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ViewerCollectionViewCell" forIndexPath:indexPath];
     
-    cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
-    cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+    if (indexPath.row == _totalItems -1) {
+        cell.imv.image = [UIImage imageNamed:@"imageGird"];
+    } else {
+        cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
+        cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
         
-    if (indexPath.row == _currentIndexPath.row) {
-        if (_isProcessingTransition) {
-            cell.imv.hidden = YES;
+        if (indexPath.row == _currentIndexPath.row) {
+            if (_isProcessingTransition) {
+                cell.imv.hidden = YES;
+            } else {
+                cell.imv.layer.borderWidth = 2;
+                cell.imv.layer.borderColor = [UIColor blueColor].CGColor;
+                cell.imv.hidden = NO;
+            }
+            
         } else {
-            cell.imv.layer.borderWidth = 2;
-            cell.imv.layer.borderColor = [UIColor blueColor].CGColor;
+            cell.imv.layer.borderWidth = 0;
             cell.imv.hidden = NO;
         }
-
-    } else {
-        cell.imv.layer.borderWidth = 0;
-        cell.imv.hidden = NO;
+        cell.imv.layer.masksToBounds = YES;
     }
-    cell.imv.layer.masksToBounds = YES;
+    
+
     
     return cell;
 }
@@ -169,6 +187,7 @@ static NSString * const reuseIdentifier = @"Cell";
         if (frameCell.origin.y > self.collectionView.frame.size.height + self.collectionView.contentOffset.y) {
             height = (frameCell.origin.y+self.collectionView.frame.size.height > self.collectionView.contentSize.height) ?  self.collectionView.contentSize.height - self.collectionView.frame.size.height : frameCell.origin.y+self.collectionView.frame.size.height ;
         }
+        // change contentOffSet -> 
         self.collectionView.contentOffset= CGPointMake(0, height);
         frameCell.origin.y = frameCell.origin.y - height;
         return [[UIImageView alloc] initWithFrame:frameCell];

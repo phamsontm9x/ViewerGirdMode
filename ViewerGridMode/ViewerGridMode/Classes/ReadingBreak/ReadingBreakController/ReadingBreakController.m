@@ -14,7 +14,7 @@
 
 
 
-@interface ReadingBreakController () <UIViewControllerTransitioningDelegate, ReadingBreakTransitionProtocol>
+@interface ReadingBreakController () <UIViewControllerTransitioningDelegate>
 
 @property (nonatomic) ReadingBreakInteractiveTransitioning *interactiveTransitionPresent;
 
@@ -32,18 +32,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 
 - (IBAction)btnPresentListCredits:(id)sender {
     ReadingBreakPageViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([ReadingBreakPageViewController class])];
     
-
     _interactiveTransitionPresent = [[ReadingBreakInteractiveTransitioning alloc] init];
     [_interactiveTransitionPresent attachToPresentViewController:vc withView:vc.view];
-
     vc.transitioningDelegate = self;
-
-
-    [self presentViewController:vc animated:nil completion:nil];
+    
+    vc.modalPresentationStyle = UIModalPresentationCustom;
+    
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 
@@ -65,20 +68,17 @@
     return transition;
 }
 
-- (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator {
+//- (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator {
+//
+//    _interactiveTransitionPresent.interactionInProgress = YES;
+//
+//    return _interactiveTransitionPresent;
+//}
+
+- (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
+    _interactiveTransitionPresent.interactionInProgress = YES;
     
     return _interactiveTransitionPresent;
-}
-
-
-#pragma mark - ReadingBreakTransitionProtocol
-
-- (UIImageView *)getImageViewPresentWithTransition {
-    return nil;
-}
-
-- (UIImageView *)getImageViewDismissWithTransition {
-    return nil;
 }
 
 @end

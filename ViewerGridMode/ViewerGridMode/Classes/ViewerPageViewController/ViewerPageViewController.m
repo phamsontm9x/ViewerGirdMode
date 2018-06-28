@@ -91,6 +91,7 @@ const CGFloat kMinScale = 0.4;
 - (void)didTapOnGirdMode {
     _selectedButton = YES;
     
+    
     if (![self.presentedViewController isBeingDismissed]) {
         [self presentViewController:_vcPresent animated:YES completion:^{
             [self.view removeGestureRecognizer:self.panGestureVC];
@@ -362,15 +363,6 @@ const CGFloat kMinScale = 0.4;
             _vcPresent.isProcessingTransition = NO;
         }];
         
-//        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//            [self setEnableGesture:NO];
-//            currentView.transform = CGAffineTransformIdentity;
-//            currentView.frame = endView.frame;
-//        } completion:^(BOOL finished) {
-//            [self setEnableGesture:YES];
-//            _vcPresent.isProcessingTransition = NO;
-//        }];
-        
     } else {
         
         UIView *currentView = self.pinchGesture.view;
@@ -385,15 +377,7 @@ const CGFloat kMinScale = 0.4;
             [self setEnableGesture:YES];
             [self.view removeGestureRecognizer:_panGestureVC];
         }];
-        
-//        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//            [self setEnableGesture:NO];
-//            currentView.transform = CGAffineTransformIdentity;
-//        } completion:^(BOOL finished) {
-//            [self setEnableGesture:YES];
-//            [self.view removeGestureRecognizer:_panGestureVC];
-//        }];
-       
+               
     }
 }
 

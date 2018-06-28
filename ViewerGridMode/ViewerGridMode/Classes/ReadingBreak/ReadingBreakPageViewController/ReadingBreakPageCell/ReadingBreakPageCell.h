@@ -1,5 +1,5 @@
 //
-//  ReadingBreakController.h
+//  ReadingBreakPageCell.h
 //  ViewerGridMode
 //
 //  Created by Son Pham on 6/28/18.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReadingBreakController : UIViewController
+@interface ReadingBreakPageCell : UICollectionViewCell
 
-@property (nonatomic) NSInteger indexPath;
+@property (nonatomic, weak) IBOutlet UIImageView *imv;
 
 @end

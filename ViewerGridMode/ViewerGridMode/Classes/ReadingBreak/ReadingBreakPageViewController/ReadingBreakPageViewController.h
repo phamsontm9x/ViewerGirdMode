@@ -10,4 +10,7 @@
 
 @interface ReadingBreakPageViewController : UIViewController
 
+@property (nonatomic, weak) IBOutlet UICollectionView *clvContent;
+@property (nonatomic, weak) IBOutlet UIView *viewDismiss;
+
 @end

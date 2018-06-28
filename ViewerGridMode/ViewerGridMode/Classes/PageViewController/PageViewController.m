@@ -9,6 +9,7 @@
 #import "PageViewController.h"
 #import "ViewerPageViewController.h"
 #import "ViewerInteractiveTransitioning.h"
+#import "ReadingBreakController.h"
 
 
 
@@ -75,6 +76,15 @@
     return vc;
 }
 
+- (ReadingBreakController *)viewControllerEndChapter {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:nil];
+    ReadingBreakController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ReadingBreakController"];
+    vc.indexPath = _totalImage;
+    
+    return vc;
+}
+
 
 #pragma mark - PageViewControllerDataSource
 
@@ -96,21 +106,33 @@
     
     if (_index < _totalImage -1 ) {
         return [self viewControllerAtIndex:_index+1];
+    } else if (_index == _totalImage - 1) {
+        return [self viewControllerEndChapter];
     }
     
     return nil;
 }
 
+
 #pragma mark - ViewerPageViewControllerDelegate
 
 - (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
-    _currentVC = [self viewControllerAtIndex:index];
-    
-    [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-        if (finished) {
-            [clv dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
+    if (index < _totalImage -1) {
+        _currentVC = [self viewControllerAtIndex:index];
+        
+        [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
+            if (finished) {
+                [clv dismissViewControllerAnimated:YES completion:nil];
+            }
+        }];
+    } else {
+        [self setViewControllers:@[[self viewControllerEndChapter]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
+            if (finished) {
+                [clv dismissViewControllerAnimated:YES completion:nil];
+            }
+        }];
+    }
+
 }
 
 

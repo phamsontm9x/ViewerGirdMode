@@ -17,6 +17,9 @@
 		1387DF6020E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF5F20E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m */; };
 		1387DF6320E482B100F30FB7 /* ReadingBreakTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF6220E482B100F30FB7 /* ReadingBreakTransition.m */; };
 		1387DF6720E4A2A700F30FB7 /* ReadingBreakPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF6620E4A2A700F30FB7 /* ReadingBreakPresentationController.m */; };
+		1387DF6C20E4D72600F30FB7 /* ReadingBreakPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1387DF6A20E4D72600F30FB7 /* ReadingBreakPageCell.m */; };
+		1387DF6D20E4D72600F30FB7 /* ReadingBreakPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1387DF6B20E4D72600F30FB7 /* ReadingBreakPageCell.xib */; };
+		1387DF6F20E4EBFC00F30FB7 /* imageGird.png in Resources */ = {isa = PBXBuildFile; fileRef = 1387DF6E20E4EBFC00F30FB7 /* imageGird.png */; };
 		138AC89920DB531500AA4537 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138AC89820DB531500AA4537 /* MessageUI.framework */; };
 		CA89923020D80FAC00F396FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA89922E20D80FAC00F396FB /* LaunchScreen.storyboard */; };
 		CA89923320D80FAC00F396FB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA89923220D80FAC00F396FB /* main.m */; };
@@ -77,6 +80,10 @@
 		1387DF6220E482B100F30FB7 /* ReadingBreakTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakTransition.m; sourceTree = "<group>"; };
 		1387DF6520E4A2A700F30FB7 /* ReadingBreakPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakPresentationController.h; sourceTree = "<group>"; };
 		1387DF6620E4A2A700F30FB7 /* ReadingBreakPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakPresentationController.m; sourceTree = "<group>"; };
+		1387DF6920E4D72600F30FB7 /* ReadingBreakPageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadingBreakPageCell.h; sourceTree = "<group>"; };
+		1387DF6A20E4D72600F30FB7 /* ReadingBreakPageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadingBreakPageCell.m; sourceTree = "<group>"; };
+		1387DF6B20E4D72600F30FB7 /* ReadingBreakPageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadingBreakPageCell.xib; sourceTree = "<group>"; };
+		1387DF6E20E4EBFC00F30FB7 /* imageGird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imageGird.png; sourceTree = "<group>"; };
 		138AC89820DB531500AA4537 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CA89922020D80FAC00F396FB /* ViewerGridMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewerGridMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA89922F20D80FAC00F396FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -181,6 +188,7 @@
 		1387DF5520E481B800F30FB7 /* ReadingBreakPageViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1387DF6820E4D70700F30FB7 /* ReadingBreakPageCell */,
 				1387DF5B20E4825500F30FB7 /* ReadingBreakPageViewController.h */,
 				1387DF5C20E4825500F30FB7 /* ReadingBreakPageViewController.m */,
 			);
@@ -214,6 +222,16 @@
 				1387DF6620E4A2A700F30FB7 /* ReadingBreakPresentationController.m */,
 			);
 			path = ReadingBreakPresentationController;
+			sourceTree = "<group>";
+		};
+		1387DF6820E4D70700F30FB7 /* ReadingBreakPageCell */ = {
+			isa = PBXGroup;
+			children = (
+				1387DF6920E4D72600F30FB7 /* ReadingBreakPageCell.h */,
+				1387DF6A20E4D72600F30FB7 /* ReadingBreakPageCell.m */,
+				1387DF6B20E4D72600F30FB7 /* ReadingBreakPageCell.xib */,
+			);
+			path = ReadingBreakPageCell;
 			sourceTree = "<group>";
 		};
 		138AC89720DB531400AA4537 /* Frameworks */ = {
@@ -372,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				CA89927B20D80FFA00F396FB /* Assets.xcassets */,
+				1387DF6E20E4EBFC00F30FB7 /* imageGird.png */,
 				CA89927C20D80FFA00F396FB /* image0.png */,
 				CA89927D20D80FFA00F396FB /* image1.png */,
 				CA89927E20D80FFA00F396FB /* image2.png */,
@@ -501,10 +520,12 @@
 				CA89928920D80FFA00F396FB /* image2.png in Resources */,
 				CA89923020D80FAC00F396FB /* LaunchScreen.storyboard in Resources */,
 				CA89928A20D80FFA00F396FB /* image3.png in Resources */,
+				1387DF6D20E4D72600F30FB7 /* ReadingBreakPageCell.xib in Resources */,
 				CA89927520D80FE800F396FB /* ViewerCollectionViewCell.xib in Resources */,
 				135B80CA20E1FCC6000D3354 /* image5.png in Resources */,
 				CA89928B20D80FFA00F396FB /* image4.png in Resources */,
 				CA89928720D80FFA00F396FB /* image0.png in Resources */,
+				1387DF6F20E4EBFC00F30FB7 /* imageGird.png in Resources */,
 				CA89928620D80FFA00F396FB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,6 +567,7 @@
 				CA89927920D80FE800F396FB /* ViewerTransition.m in Sources */,
 				1387DF6720E4A2A700F30FB7 /* ReadingBreakPresentationController.m in Sources */,
 				1387DF6020E4829D00F30FB7 /* ReadingBreakInteractiveTransitioning.m in Sources */,
+				1387DF6C20E4D72600F30FB7 /* ReadingBreakPageCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

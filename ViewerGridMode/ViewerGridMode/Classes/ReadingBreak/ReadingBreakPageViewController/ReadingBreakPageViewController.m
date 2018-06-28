@@ -8,8 +8,12 @@
 
 #import "ReadingBreakPageViewController.h"
 #import "ReadingBreakTransition.h"
+#import "ReadingBreakPageCell.h"
 
-@interface ReadingBreakPageViewController () <ReadingBreakTransitionProtocol>
+@interface ReadingBreakPageViewController () <UIGestureRecognizerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+
 
 @end
 
@@ -17,7 +21,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.clvContent registerNib:[UINib nibWithNibName:@"ReadingBreakPageCell" bundle:nil] forCellWithReuseIdentifier:@"ReadingBreakPageCell"];
+    
+    [self.clvContent reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,17 +33,41 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+#pragma mark - UIButton
+     
 - (IBAction)didSelectDismissCredits:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark <UICollectionViewFlowLayout>
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+    return 0;
+}
+
+#pragma mark <UICollectionViewDataSource>
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    
+    return 20;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    ReadingBreakPageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ReadingBreakPageCell" forIndexPath:indexPath];
+    
+    cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
+    
+    return cell;
 }
 
 @end

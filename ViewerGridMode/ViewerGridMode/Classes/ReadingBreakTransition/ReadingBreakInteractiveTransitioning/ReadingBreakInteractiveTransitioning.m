@@ -7,6 +7,7 @@
 //
 
 #import "ReadingBreakInteractiveTransitioning.h"
+#import "ReadingBreakPageViewController.h"
 
 
 
@@ -14,7 +15,7 @@
 
 @property (nonatomic) BOOL shouldCompleteTransition;
 @property (nonatomic) UIViewController *viewController;
-@property (nonatomic) UIViewController *presentViewController;
+@property (nonatomic) ReadingBreakPageViewController *presentViewController;
 @property (nonatomic) UIPanGestureRecognizer *panGesture;
 
 @end
@@ -24,7 +25,7 @@
 - (void)attachToViewController:(UIViewController *)viewController withView:(UIView *)view presentViewController:(UIViewController *)presentViewController {
     
     self.viewController = viewController;
-    self.presentViewController = presentViewController;
+    self.presentViewController = (ReadingBreakPageViewController *)presentViewController;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     self.panGesture.delegate = self;
     
@@ -36,7 +37,11 @@
 }
 
 - (void)attachToPresentViewController:(UIViewController *)presentController withView:(UIView *)view {
-    
+    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    self.panGesture.delegate = self;
+    [view addGestureRecognizer:self.panGesture];
+    _interactionInProgress = YES;
+    _presentViewController = (ReadingBreakPageViewController *)presentController;
 }
 
 - (void)setInteractionInProgress:(BOOL)interactionInProgress {
@@ -50,15 +55,16 @@
 - (void)handleGesture:(UIPanGestureRecognizer*)gestureRecognizer {
     CGPoint translation = [gestureRecognizer translationInView:gestureRecognizer.view.superview];
     
+    NSLog(@"%f",translation.y);
     if (_interactionInProgress) {
         
         switch (gestureRecognizer.state) {
                 
             case UIGestureRecognizerStateBegan: {
                 
-                if (_isPresent) {
-                    
-                } else {
+                CGPoint locationInView = [gestureRecognizer locationInView:self.presentViewController.viewDismiss];
+                
+                if (CGRectContainsPoint(self.presentViewController.viewDismiss.frame, locationInView)) {
                     [_presentViewController dismissViewControllerAnimated:YES completion:nil];
                 }
                 
@@ -68,17 +74,14 @@
             case UIGestureRecognizerStateChanged: {
                 if (self.interactionInProgress) {
                     
-                    CGFloat fraction = fabs(translation.y / 200.0);
+                    CGFloat fraction = fabs(translation.y / (self.presentViewController.view.frame.size.height - 100));
+                    NSLog(@"%f----",fraction);
                     fraction = fminf(fmaxf(fraction, 0.0), 1.0);
-                    _shouldCompleteTransition = (fraction > 0.5);
-                    
-                    // if an interactive transitions is 100% completed via the user interaction, for some reason
-                    // the animation completion block is not called, and hence the transition is not completed.
-                    // This glorious hack makes sure that this doesn't happen.
-                    // see: https://github.com/ColinEberhardt/VCTransitionsLibrary/issues/4
+                    _shouldCompleteTransition = (fraction > 0.3);
+
                     if (fraction >= 1.0)
                         fraction = 0.99;
-                    
+
                     [self updateInteractiveTransition:fraction];
                 }
                 break;
@@ -88,17 +91,12 @@
             case UIGestureRecognizerStateCancelled:
                 
                 if (self.interactionInProgress) {
-//                    if (_isPresent) {
-//                        
-//                    } else {
-//                        [_presentViewController.view.panGestureRecognizer setEnabled:YES];
-//                    }
-                    
-                    self.interactionInProgress = NO;
+                    [gestureRecognizer setEnabled:YES];
                     if (!_shouldCompleteTransition || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
                         [self cancelInteractiveTransition];
                     }
                     else {
+//                        self.interactionInProgress = NO;
                         [self finishInteractiveTransition];
                     }
                 }
@@ -107,10 +105,6 @@
                 break;
         }
     }
-}
-
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
 }
 
 @end

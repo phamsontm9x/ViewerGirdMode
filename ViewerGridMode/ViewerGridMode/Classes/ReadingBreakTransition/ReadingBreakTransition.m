@@ -20,7 +20,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.duration = 0.4f;
+        self.duration = 0.3f;
     }
     return self;
 }
@@ -42,25 +42,18 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext fromVC:(UIViewController *)fromVC toVC:(UIViewController *)toVC fromView:(UIView *)fromView toView:(UIView *)toView {
     
     UIView* containerView = [transitionContext containerView];
-
-    UIImageView *viewBegin = [self snapshotImageViewFromView:fromView];
-    UIImageView *viewEnd = [self snapshotImageViewFromView:toView];
     
-    CGRect frame = toView.frame;
-    frame.origin.y = 100;
+    CGRect frameEnd = toView.frame;
     
-    //toView.frame = frame;
-    
-    //viewEnd.frame = CGRectMake(0, toView.frame.size.height, viewEnd.frame.size.width, viewEnd.frame.size.height);
-    
-    toView.alpha = 0;
-    fromView.alpha = 0;
-    
-    [containerView addSubview:toView];
-    [containerView addSubview:fromView];
-    
-    //[containerView addSubview:viewBegin];
-    //[containerView addSubview:viewEnd];
+    if (_isPresent) {
+        
+        toView.frame = CGRectMake(0, frameEnd.size.height, frameEnd.size.width, frameEnd.size.height);
+        [containerView addSubview:toView];
+        
+    } else {
+        [containerView addSubview:fromView];
+        frameEnd = CGRectMake(0, toView.frame.size.height, toView.frame.size.width, toView.frame.size.height);
+    }
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
@@ -70,20 +63,18 @@
                      animations:^{
                          
                          if (_isPresent) {
-                             //viewBegin.alpha = 0.5;
-                             //viewEnd.frame = frame;
+                             fromView.alpha = 0.5;
+                             toView.frame = frameEnd;
                          } else {
-                             
+                             toView.alpha = 1.0;
+                             fromView.frame = frameEnd;
                          }
                          
                      } completion:^(BOOL finished) {
                          if ([transitionContext transitionWasCancelled]) {
-                         
-                         } else {
-                             toView.alpha = 1.0;
-                             fromView.alpha = 1.0;
-                             //[viewBegin removeFromSuperview];
-                             //[viewEnd removeFromSuperview];
+                             if (!_isPresent) {
+                                [containerView bringSubviewToFront:fromView];
+                             }
                          }
                          
                          [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
