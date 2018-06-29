@@ -152,8 +152,6 @@
         cell.imv.layer.masksToBounds = YES;
     }
     
-
-    
     return cell;
 }
 
@@ -184,12 +182,18 @@
         CGRect frameCell = [self getFrameCellWithIndexPath:_currentIndexPath];
         CGFloat height = 0;
         
-        if (frameCell.origin.y > self.collectionView.frame.size.height + self.collectionView.contentOffset.y) {
-            height = (frameCell.origin.y+self.collectionView.frame.size.height > self.collectionView.contentSize.height) ?  self.collectionView.contentSize.height - self.collectionView.frame.size.height : frameCell.origin.y+self.collectionView.frame.size.height ;
+        CGRect currentFrameClv = CGRectMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y, self.collectionView.frame.size.width, self.collectionView.frame.size.height);
+        
+        if (CGRectContainsRect(currentFrameClv,frameCell)) {
+            
+        } else {
+            if (frameCell.origin.y > self.collectionView.frame.size.height + self.collectionView.contentOffset.y) {
+                height = (frameCell.origin.y+self.collectionView.frame.size.height > self.collectionView.contentSize.height) ?  self.collectionView.contentSize.height - self.collectionView.frame.size.height : frameCell.origin.y+self.collectionView.frame.size.height;
+                self.collectionView.contentOffset= CGPointMake(0, height);
+                frameCell.origin.y = frameCell.origin.y - height;
+            }
         }
-        // change contentOffSet -> 
-        self.collectionView.contentOffset= CGPointMake(0, height);
-        frameCell.origin.y = frameCell.origin.y - height;
+        
         return [[UIImageView alloc] initWithFrame:frameCell];
     }
     

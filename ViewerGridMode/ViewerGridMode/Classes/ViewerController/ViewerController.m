@@ -51,7 +51,7 @@
 }
 
 - (IBAction)selectedTapOnGird:(id)sender {
-    [self.pageViewController.currentVC didTapOnGirdMode];
+    [self.pageViewController didTapOnGirdMode];
 }
 
 - (IBAction)selectedHorizontol:(id)sender {

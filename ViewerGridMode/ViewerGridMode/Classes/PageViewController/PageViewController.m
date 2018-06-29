@@ -17,6 +17,7 @@
 
 
 @property (nonatomic) NSInteger totalImage;
+@property (nonatomic) CGPoint contentOffSetClv;
 @property (nonatomic) BOOL enableGesture;
 
 @end
@@ -64,13 +65,21 @@
     
 }
 
+- (void)didTapOnGirdMode {
+    if ([_currentVC isKindOfClass:[ViewerPageViewController class]]) {
+        [_currentVC didTapOnGirdMode];
+    } else {
+        [_currentVC didTapOnGirdMode];
+    }
+}
+
 - (ViewerPageViewController *)viewControllerAtIndex:(NSInteger)index {
     
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
                                                          bundle:nil];
     ViewerPageViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ViewerPageViewController"];
-                                     
     vc.indexPath = index;
+    vc.contentOffSetClv = _contentOffSetClv;
     vc.delegate = self;
     
     return vc;
@@ -90,18 +99,19 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(ViewerPageViewController *)viewController {
     
-    _currentVC = viewController;
     _index = [_currentVC indexPath];
     
     if (_index > 0 ) {
         return [self viewControllerAtIndex:_index - 1];
+    } else if (_index == _totalImage -1) {
+        return [self viewControllerEndChapter];
     }
     
     return nil;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(ViewerPageViewController *)viewController {
-    _currentVC = viewController;
+    
     _index = [_currentVC indexPath];
     
     if (_index < _totalImage -1 ) {
@@ -117,6 +127,9 @@
 #pragma mark - ViewerPageViewControllerDelegate
 
 - (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
+    
+    
+    _contentOffSetClv = clv.collectionView.contentOffset;
     if (index < _totalImage -1) {
         _currentVC = [self viewControllerAtIndex:index];
         
@@ -136,12 +149,9 @@
 }
 
 
-
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
-
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+    _currentVC = [pageViewController.viewControllers lastObject];
 }
 
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
-}
 
 @end

@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isZoomImage;
 
 @property (nonatomic) NSInteger indexPath;
+@property (nonatomic) CGPoint contentOffSetClv;
 
 @property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
 @property (nonatomic, weak) id<ViewerPageViewControllerDelegate> delegate;

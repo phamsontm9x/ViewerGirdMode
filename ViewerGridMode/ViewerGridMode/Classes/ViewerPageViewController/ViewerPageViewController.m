@@ -90,9 +90,9 @@ const CGFloat kMinScale = 0.4;
 
 - (void)didTapOnGirdMode {
     _selectedButton = YES;
-    
-    
+
     if (![self.presentedViewController isBeingDismissed]) {
+        _vcPresent.collectionView.contentOffset = _contentOffSetClv;
         [self presentViewController:_vcPresent animated:YES completion:^{
             [self.view removeGestureRecognizer:self.panGestureVC];
         }];
@@ -236,7 +236,7 @@ const CGFloat kMinScale = 0.4;
             NSLog(@"%f",gestureRecognizer.velocity);
             if (gestureRecognizer.scale < 1 && gestureRecognizer.velocity < 0) {
                 if (!_interactionInProgress ) {
-                    
+                    _vcPresent.collectionView.contentOffset = _contentOffSetClv;
                     _vcPresent.isProcessingTransition = YES;
                     [self presentViewController:_vcPresent animated:YES completion:^{
                         [self.view removeGestureRecognizer:self.panGestureVC];

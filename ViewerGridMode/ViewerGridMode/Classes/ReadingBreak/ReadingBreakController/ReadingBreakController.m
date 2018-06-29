@@ -36,6 +36,17 @@
     [super viewDidAppear:animated];
 }
 
+- (void)didTapOnGirdMode {
+    _vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
+    
+    if (![self.presentedViewController isBeingDismissed]) {
+        //_vcPresent.collectionView.contentOffset = _contentOffSetClv;
+        [self presentViewController:_vcPresent animated:YES completion:nil];
+    }
+    
+    
+}
+
 
 - (IBAction)btnPresentListCredits:(id)sender {
     ReadingBreakPageViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([ReadingBreakPageViewController class])];
@@ -80,5 +91,6 @@
     
     return _interactiveTransitionPresent;
 }
+
 
 @end

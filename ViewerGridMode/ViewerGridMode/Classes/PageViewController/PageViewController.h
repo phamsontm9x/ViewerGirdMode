@@ -15,5 +15,6 @@
 @property (nonatomic) ViewerPageViewController *currentVC;
 
 - (void)initData;
+- (void)didTapOnGirdMode;
 
 @end

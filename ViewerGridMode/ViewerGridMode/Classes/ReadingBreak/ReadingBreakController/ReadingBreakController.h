@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewerCollectionView.h"
 
 @interface ReadingBreakController : UIViewController
 
 @property (nonatomic) NSInteger indexPath;
+@property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
+
+- (void)didTapOnGirdMode;
 
 @end
