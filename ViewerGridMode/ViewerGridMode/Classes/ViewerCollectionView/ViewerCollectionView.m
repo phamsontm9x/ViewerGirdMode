@@ -132,6 +132,7 @@
     
     if (indexPath.row == _totalItems -1) {
         cell.imv.image = [UIImage imageNamed:@"imageGird"];
+        cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
     } else {
         cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
         cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
@@ -198,6 +199,14 @@
     }
     
     CGRect frame = [cell convertRect:cell.imv.frame toView: [self.collectionView superview]];
+    
+    if (cell.frame.origin.y + cell.frame.size.height > self.collectionView.contentOffset.y + self.collectionView.frame.size.height) {
+        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, cell.frame.origin.y + cell.frame.size.height - self.collectionView.frame.size.height);
+    }
+    
+    if (cell.frame.origin.y < self.collectionView.contentOffset.y) {
+        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, cell.frame.origin.y);
+    }
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
     img.contentMode = UIViewContentModeScaleAspectFit;

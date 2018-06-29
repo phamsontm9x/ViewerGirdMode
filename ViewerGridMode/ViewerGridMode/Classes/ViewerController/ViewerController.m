@@ -70,7 +70,7 @@
 }
 
 - (void)changeModeTransitionStyle:(UIPageViewControllerTransitionStyle)transitionStyle navigationOritentation:(UIPageViewControllerNavigationOrientation)navigationOrientation withOptions:(NSDictionary<NSString *,id> *)options {
-    NSInteger index = [self.pageViewController.currentVC indexPath];
+    NSInteger index = [self.pageViewController getIndexViewController];
     
     [self.pageViewController willMoveToParentViewController:nil];
     [self.pageViewController.view removeFromSuperview];

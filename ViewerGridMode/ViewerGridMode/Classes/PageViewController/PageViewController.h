@@ -12,9 +12,10 @@
 @interface PageViewController : UIPageViewController
 
 @property (nonatomic) NSInteger index;
-@property (nonatomic) ViewerPageViewController *currentVC;
+@property (nonatomic) UIViewController *currentVC;
 
 - (void)initData;
 - (void)didTapOnGirdMode;
+- (NSInteger)getIndexViewController;
 
 @end

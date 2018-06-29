@@ -14,7 +14,7 @@
 
 
 
-@interface ReadingBreakController () <UIViewControllerTransitioningDelegate>
+@interface ReadingBreakController () <UIViewControllerTransitioningDelegate, ViewerCollectionViewDelegate>
 
 @property (nonatomic) ReadingBreakInteractiveTransitioning *interactiveTransitionPresent;
 
@@ -38,9 +38,10 @@
 
 - (void)didTapOnGirdMode {
     _vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
+    _vcPresent.delegate = self;
+    _vcPresent.collectionView.contentOffset = _contentOffSetClv;
     
     if (![self.presentedViewController isBeingDismissed]) {
-        //_vcPresent.collectionView.contentOffset = _contentOffSetClv;
         [self presentViewController:_vcPresent animated:YES completion:nil];
     }
     
@@ -79,18 +80,21 @@
     return transition;
 }
 
-//- (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator {
-//
-//    _interactiveTransitionPresent.interactionInProgress = YES;
-//
-//    return _interactiveTransitionPresent;
-//}
-
 - (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
     _interactiveTransitionPresent.interactionInProgress = YES;
     
     return _interactiveTransitionPresent;
 }
+
+
+#pragma mark - ViewerCollectionViewDelegate
+
+- (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index {
+    if (_delegate && [_delegate respondsToSelector:@selector(readingBreakController:clv:jumpToViewControllerAtIndex:)]) {
+        [_delegate readingBreakController:self clv:vc jumpToViewControllerAtIndex:index];
+    }
+}
+
 
 
 @end

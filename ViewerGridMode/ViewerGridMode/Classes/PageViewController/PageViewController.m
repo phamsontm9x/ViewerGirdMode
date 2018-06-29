@@ -13,7 +13,7 @@
 
 
 
-@interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, ViewerPageViewControllerDelegate>
+@interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, ViewerPageViewControllerDelegate, ReadingBreakControllerDelegate>
 
 
 @property (nonatomic) NSInteger totalImage;
@@ -67,9 +67,9 @@
 
 - (void)didTapOnGirdMode {
     if ([_currentVC isKindOfClass:[ViewerPageViewController class]]) {
-        [_currentVC didTapOnGirdMode];
+        [(ViewerPageViewController *)_currentVC didTapOnGirdMode];
     } else {
-        [_currentVC didTapOnGirdMode];
+        [(ReadingBreakController*)_currentVC didTapOnGirdMode];
     }
 }
 
@@ -90,16 +90,30 @@
                                                          bundle:nil];
     ReadingBreakController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ReadingBreakController"];
     vc.indexPath = _totalImage;
+    vc.delegate = self;
     
     return vc;
+}
+
+- (NSInteger)getIndexViewController {
+    
+    if ([_currentVC isKindOfClass:[ViewerPageViewController class]]) {
+        return [(ViewerPageViewController *)_currentVC indexPath];
+    } else {
+        return [(ReadingBreakController *)_currentVC indexPath];
+    }
 }
 
 
 #pragma mark - PageViewControllerDataSource
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(ViewerPageViewController *)viewController {
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
-    _index = [_currentVC indexPath];
+    if ([viewController isKindOfClass:[ViewerPageViewController class]]) {
+        _index = [(ViewerPageViewController *)viewController indexPath];
+    } else {
+        _index = [(ReadingBreakController *)viewController indexPath];
+    }
     
     if (_index > 0 ) {
         return [self viewControllerAtIndex:_index - 1];
@@ -110,9 +124,13 @@
     return nil;
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(ViewerPageViewController *)viewController {
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
-    _index = [_currentVC indexPath];
+    if ([viewController isKindOfClass:[ViewerPageViewController class]]) {
+        _index = [(ViewerPageViewController *)viewController indexPath];
+    } else {
+        _index = [(ReadingBreakController *)viewController indexPath];
+    }
     
     if (_index < _totalImage -1 ) {
         return [self viewControllerAtIndex:_index+1];
@@ -130,27 +148,31 @@
     
     
     _contentOffSetClv = clv.collectionView.contentOffset;
-    if (index < _totalImage -1) {
-        _currentVC = [self viewControllerAtIndex:index];
-        
-        [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-            if (finished) {
-                [clv dismissViewControllerAnimated:YES completion:nil];
-            }
-        }];
-    } else {
-        [self setViewControllers:@[[self viewControllerEndChapter]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-            if (finished) {
-                [clv dismissViewControllerAnimated:YES completion:nil];
-            }
-        }];
-    }
-
+    _contentOffSetClv = CGPointMake(_contentOffSetClv.x, _contentOffSetClv.y+20);
+    _currentVC = [self viewControllerAtIndex:index];
+    
+    [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
+        if (finished) {
+            [clv dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
 }
 
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     _currentVC = [pageViewController.viewControllers lastObject];
+}
+
+#pragma mark ReadingBreakControllerDelegate
+
+- (void)readingBreakController:(ReadingBreakController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
+    
+    _contentOffSetClv = clv.collectionView.contentOffset;
+    [self setViewControllers:@[[self viewControllerEndChapter]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
+        if (finished) {
+            [clv dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
 }
 
 

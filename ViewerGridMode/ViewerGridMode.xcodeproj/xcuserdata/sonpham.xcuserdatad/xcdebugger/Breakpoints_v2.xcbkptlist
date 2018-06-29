@@ -46,13 +46,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
-            timestampString = "551956901.7917351"
+            filePath = "ViewerGridMode/Classes/ReadingBreak/ReadingBreakController/ReadingBreakController.m"
+            timestampString = "551962518.767946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
-            landmarkName = "-pageViewController:didFinishAnimating:previousViewControllers:transitionCompleted:"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "-viewerCollectionView:DismissViewController:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/ReadingBreak/ReadingBreakController/ReadingBreakController.m"
+            timestampString = "551962518.769098"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "-didTapOnGirdMode"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/PageViewController/PageViewController.m"
+            timestampString = "551962518.769433"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "-didTapOnGirdMode"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
+            timestampString = "551962518.769731"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "-viewerCollectionView:DismissViewController:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
