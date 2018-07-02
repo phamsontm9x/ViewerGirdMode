@@ -9,11 +9,11 @@
 #import "ViewerCollectionView.h"
 #import "ViewerCollectionViewCell.h"
 #import "ViewerTransition.h"
+#import "ReadingBreakController.h"
 
 @interface ViewerCollectionView () <UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate>
 
 @property (nonatomic) UIButton *btnBackToReading;
-@property (nonatomic) NSInteger totalItems;
 
 @end
 

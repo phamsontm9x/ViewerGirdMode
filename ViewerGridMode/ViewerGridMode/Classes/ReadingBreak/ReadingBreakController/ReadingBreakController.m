@@ -14,7 +14,7 @@
 
 
 
-@interface ReadingBreakController () <UIViewControllerTransitioningDelegate, ViewerCollectionViewDelegate>
+@interface ReadingBreakController () <UIViewControllerTransitioningDelegate,ViewerCollectionViewDelegate>
 
 @property (nonatomic) ReadingBreakInteractiveTransitioning *interactiveTransitionPresent;
 
@@ -37,15 +37,15 @@
 }
 
 - (void)didTapOnGirdMode {
-    _vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
-    _vcPresent.delegate = self;
-    _vcPresent.collectionView.contentOffset = _contentOffSetClv;
+    self.vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
+    self.vcPresent.delegate = self;
+    self.vcPresent.transitioningDelegate = self;
+    self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:self.indexPath inSection:0];
+    self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
     
     if (![self.presentedViewController isBeingDismissed]) {
-        [self presentViewController:_vcPresent animated:YES completion:nil];
+        [self presentViewController:self.vcPresent animated:YES completion:nil];
     }
-    
-    
 }
 
 
@@ -66,18 +66,52 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     
-    ReadingBreakTransition *transition = [[ReadingBreakTransition alloc] init];
-    transition.isPresent = YES;
+    if ([presented isKindOfClass:[ViewerCollectionView class]]) {
+        ViewerTransition *transition = [[ViewerTransition alloc] init];
+        transition.isPresent = YES;
+        ViewerCollectionView * vc = (ViewerCollectionView *)presented;
+        if (vc.currentIndexPath.row == vc.totalItems - 1) {
+            transition.transitionMode = ViewerTransitionModeAds;
+        } else {
+            transition.transitionMode = ViewerTransitionModePage;
+        }
+        
+        transition.snapShot = [self snapshotImageViewFromView:self.imageAds];
+        transition.frameSnapShot = self.imageAds.frame;
+        transition.enabledInteractive = NO;
+        
+        return transition;
+    }
     
-    return transition;
+    if ([presented isKindOfClass:[ReadingBreakPageViewController class]]) {
+        ReadingBreakTransition *transition = [[ReadingBreakTransition alloc] init];
+        transition.isPresent = YES;
+        
+        return transition;
+    }
+
+    return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     
-    ReadingBreakTransition *transition = [[ReadingBreakTransition alloc] init];
-    transition.isPresent = NO;
+    if ([dismissed isKindOfClass:[ViewerCollectionView class]]) {
+        ViewerTransition *transition = [[ViewerTransition alloc] init];
+        transition.isPresent = NO;
+        transition.toViewDefault = self.defaultView.frame;
+        transition.frameSnapShot = self.defaultView.frame;
+        
+        return transition;
+    }
     
-    return transition;
+    if ([dismissed isKindOfClass:[ReadingBreakPageViewController class]]) {
+        ReadingBreakTransition *transition = [[ReadingBreakTransition alloc] init];
+        transition.isPresent = NO;
+        
+        return transition;
+    }
+
+    return nil;
 }
 
 - (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
@@ -90,11 +124,29 @@
 #pragma mark - ViewerCollectionViewDelegate
 
 - (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index {
-    if (_delegate && [_delegate respondsToSelector:@selector(readingBreakController:clv:jumpToViewControllerAtIndex:)]) {
-        [_delegate readingBreakController:self clv:vc jumpToViewControllerAtIndex:index];
-    }
+    [self viewerPageViewControllerDelegate:self clv:vc jumpToViewControllerAtIndex:index];
 }
 
 
+#pragma mark - SnapShot
+
+-(UIImageView *)snapshotImageViewFromView:(UIView *)view {
+    UIImage * snapshot = [self dt_takeSnapshotWihtView:view];
+    UIImageView * imageView = [[UIImageView alloc] initWithImage:snapshot];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.clipsToBounds = YES;
+    return imageView;
+}
+
+
+-(UIImage *)dt_takeSnapshotWihtView:(UIView*)view
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, [UIScreen mainScreen].scale);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    [view.layer renderInContext:ctx];
+    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return snapshot;
+}
 
 @end

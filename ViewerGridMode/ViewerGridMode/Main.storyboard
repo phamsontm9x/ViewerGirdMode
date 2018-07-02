@@ -66,6 +66,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBn-pG-n4y">
                                         <rect key="frame" x="305" y="0.0" width="50" height="40"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="vCe-yO-aqw"/>
                                         </constraints>
@@ -75,7 +76,6 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="EBn-pG-n4y" secondAttribute="trailing" constant="20" id="GLz-88-gMf"/>
                                     <constraint firstAttribute="height" constant="40" id="KQe-P3-NUw"/>
@@ -198,6 +198,40 @@
             </objects>
             <point key="canvasLocation" x="2428" y="1099"/>
         </scene>
+        <!--Page Collection View Controller-->
+        <scene sceneID="avE-50-ZIU">
+            <objects>
+                <collectionViewController storyboardIdentifier="PageCollectionViewController" id="Kzq-vI-YPa" customClass="PageCollectionViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="IDo-1l-853">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IhU-sJ-FQb">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="4MW-mZ-TUS">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Kzq-vI-YPa" id="5c7-5R-o4V"/>
+                            <outlet property="delegate" destination="Kzq-vI-YPa" id="TA9-cw-LzO"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xwc-6S-TaF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3150" y="1099"/>
+        </scene>
         <!--Reading Break Controller-->
         <scene sceneID="o4u-5D-8F4">
             <objects>
@@ -206,6 +240,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gSE-mv-Clu">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t2g-nC-IKR">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.43472551790000002" green="0.34733412930000002" blue="0.47001903550000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z9I-9M-4KC">
                                 <rect key="frame" x="164" y="318.5" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
@@ -214,13 +256,24 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.43472551790863673" green="0.34733412925976592" blue="0.47001903553299496" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="t2g-nC-IKR" firstAttribute="leading" secondItem="4bA-sg-wP8" secondAttribute="leading" id="AIW-Qz-Ese"/>
                             <constraint firstItem="Z9I-9M-4KC" firstAttribute="centerY" secondItem="V2l-Q2-5dS" secondAttribute="centerY" id="F3Y-eU-U3P"/>
+                            <constraint firstItem="gSE-mv-Clu" firstAttribute="leading" secondItem="4bA-sg-wP8" secondAttribute="leading" id="Gll-Ed-WLF"/>
+                            <constraint firstItem="4bA-sg-wP8" firstAttribute="trailing" secondItem="t2g-nC-IKR" secondAttribute="trailing" id="VqH-j5-b2L"/>
+                            <constraint firstItem="gSE-mv-Clu" firstAttribute="top" secondItem="4bA-sg-wP8" secondAttribute="top" id="XR7-gz-pCc"/>
+                            <constraint firstItem="t2g-nC-IKR" firstAttribute="top" secondItem="4bA-sg-wP8" secondAttribute="top" id="Xrx-Oj-fA9"/>
+                            <constraint firstItem="4bA-sg-wP8" firstAttribute="trailing" secondItem="gSE-mv-Clu" secondAttribute="trailing" id="goj-xV-0b9"/>
+                            <constraint firstItem="4bA-sg-wP8" firstAttribute="bottom" secondItem="t2g-nC-IKR" secondAttribute="bottom" id="nVT-mm-yg5"/>
+                            <constraint firstItem="4bA-sg-wP8" firstAttribute="bottom" secondItem="gSE-mv-Clu" secondAttribute="bottom" id="w0i-Xl-1RJ"/>
                             <constraint firstItem="Z9I-9M-4KC" firstAttribute="centerX" secondItem="V2l-Q2-5dS" secondAttribute="centerX" id="xgQ-PM-mhW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4bA-sg-wP8"/>
                     </view>
+                    <connections>
+                        <outlet property="defaultView" destination="gSE-mv-Clu" id="jyE-qT-tUu"/>
+                        <outlet property="imageAds" destination="t2g-nC-IKR" id="TZf-vc-AhL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jRG-Cx-VHL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

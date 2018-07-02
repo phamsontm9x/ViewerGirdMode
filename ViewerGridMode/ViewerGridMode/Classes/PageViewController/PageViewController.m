@@ -10,10 +10,11 @@
 #import "ViewerPageViewController.h"
 #import "ViewerInteractiveTransitioning.h"
 #import "ReadingBreakController.h"
+#import "BaseViewerPageViewController.h"
 
 
 
-@interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, ViewerPageViewControllerDelegate, ReadingBreakControllerDelegate>
+@interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, BaseViewerPageViewControllerDelegate>
 
 
 @property (nonatomic) NSInteger totalImage;
@@ -90,30 +91,22 @@
                                                          bundle:nil];
     ReadingBreakController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ReadingBreakController"];
     vc.indexPath = _totalImage;
+    vc.contentOffSetClv = _contentOffSetClv;
     vc.delegate = self;
     
     return vc;
 }
 
 - (NSInteger)getIndexViewController {
-    
-    if ([_currentVC isKindOfClass:[ViewerPageViewController class]]) {
-        return [(ViewerPageViewController *)_currentVC indexPath];
-    } else {
-        return [(ReadingBreakController *)_currentVC indexPath];
-    }
+    return [_currentVC indexPath];
 }
 
 
 #pragma mark - PageViewControllerDataSource
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(BaseViewerPageViewController *)viewController {
     
-    if ([viewController isKindOfClass:[ViewerPageViewController class]]) {
-        _index = [(ViewerPageViewController *)viewController indexPath];
-    } else {
-        _index = [(ReadingBreakController *)viewController indexPath];
-    }
+    _index = [viewController indexPath];
     
     if (_index > 0 ) {
         return [self viewControllerAtIndex:_index - 1];
@@ -124,13 +117,9 @@
     return nil;
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(BaseViewerPageViewController *)viewController {
     
-    if ([viewController isKindOfClass:[ViewerPageViewController class]]) {
-        _index = [(ViewerPageViewController *)viewController indexPath];
-    } else {
-        _index = [(ReadingBreakController *)viewController indexPath];
-    }
+    _index = [viewController indexPath];
     
     if (_index < _totalImage -1 ) {
         return [self viewControllerAtIndex:_index+1];
@@ -144,13 +133,18 @@
 
 #pragma mark - ViewerPageViewControllerDelegate
 
-- (void)viewerPageViewController:(ViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
+- (void)viewerPageViewController:(BaseViewerPageViewController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
     
     
     _contentOffSetClv = clv.collectionView.contentOffset;
     _contentOffSetClv = CGPointMake(_contentOffSetClv.x, _contentOffSetClv.y+20);
-    _currentVC = [self viewControllerAtIndex:index];
     
+    if (index == _totalImage) {
+        _currentVC = [self viewControllerEndChapter];
+    } else {
+        _currentVC = [self viewControllerAtIndex:index];
+    }
+
     [self setViewControllers:@[_currentVC] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
         if (finished) {
             [clv dismissViewControllerAnimated:YES completion:nil];
@@ -161,18 +155,6 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     _currentVC = [pageViewController.viewControllers lastObject];
-}
-
-#pragma mark ReadingBreakControllerDelegate
-
-- (void)readingBreakController:(ReadingBreakController *)vc clv:(ViewerCollectionView *)clv jumpToViewControllerAtIndex:(NSInteger)index {
-    
-    _contentOffSetClv = clv.collectionView.contentOffset;
-    [self setViewControllers:@[[self viewControllerEndChapter]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {
-        if (finished) {
-            [clv dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
 }
 
 

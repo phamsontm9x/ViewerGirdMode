@@ -11,10 +11,9 @@
 #import "ViewerTransition.h"
 #import "ViewerInteractiveTransitioning.h"
 
-@interface ViewerPageViewController () <ViewerCollectionViewDelegate, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface ViewerPageViewController () < UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate, UIGestureRecognizerDelegate, ViewerCollectionViewDelegate>
 
 // Transition
-
 @property (nonatomic, strong) ViewerTransition *transition;
 
 // Gesture
@@ -54,13 +53,12 @@ const CGFloat kMinScale = 0.4;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!_indexPath) {
-        _indexPath = 0;
+    if (!self.indexPath) {
+        self.indexPath = 0;
     }
     
+    _imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",self.indexPath%10]];
     
-    _imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",_indexPath%10]];
-
     [self configGesture];
     [self initInteractiveTransition];
     [self configScrollView];
@@ -79,8 +77,7 @@ const CGFloat kMinScale = 0.4;
     // Dispose of any resources that can be recreated.
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
@@ -90,25 +87,22 @@ const CGFloat kMinScale = 0.4;
 
 - (void)didTapOnGirdMode {
     _selectedButton = YES;
-
     if (![self.presentedViewController isBeingDismissed]) {
-        _vcPresent.collectionView.contentOffset = _contentOffSetClv;
-        [self presentViewController:_vcPresent animated:YES completion:^{
+        self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
+        [self presentViewController:self.vcPresent animated:YES completion:^{
             [self.view removeGestureRecognizer:self.panGestureVC];
         }];
     }
-    
-
 }
 
 #pragma mark - Init Interactive
 - (void)initInteractiveTransition {
-    _vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
+    self.vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
     _interactiveTransitionPresent = [[ViewerInteractiveTransitioning alloc] init];
     
-    _vcPresent.transitioningDelegate = self;
-    _vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:_indexPath inSection:0];
-    _vcPresent.delegate = self;
+    self.vcPresent.transitioningDelegate = self;
+    self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:self.indexPath inSection:0];
+    self.vcPresent.delegate = self;
 }
 
 #pragma mark - UIScrollView
@@ -131,10 +125,7 @@ const CGFloat kMinScale = 0.4;
 #pragma mark - ViewerCollectionViewDelegate
 
 - (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index {
-
-    if (_delegate && [_delegate respondsToSelector:@selector(viewerPageViewController:clv:jumpToViewControllerAtIndex:)]) {
-        [_delegate viewerPageViewController:self clv:vc jumpToViewControllerAtIndex:index];
-    }
+    [self viewerPageViewControllerDelegate:self clv:vc jumpToViewControllerAtIndex:index];
 }
 
 
@@ -161,6 +152,13 @@ const CGFloat kMinScale = 0.4;
     dismissed.isProcessingTransition = YES;
     
     _transition = [[ViewerTransition alloc] init];
+    
+    if (dismissed.currentIndexPath.row == dismissed.totalItems - 1) {
+        _transition.transitionMode = ViewerTransitionModeAds;
+    } else {
+        _transition.transitionMode = ViewerTransitionModePage;
+    }
+
     _transition.isPresent = NO;
     _transition.toViewDefault = _defaultView.frame;
     _transition.frameSnapShot = _defaultView.frame;
@@ -236,9 +234,9 @@ const CGFloat kMinScale = 0.4;
             NSLog(@"%f",gestureRecognizer.velocity);
             if (gestureRecognizer.scale < 1 && gestureRecognizer.velocity < 0) {
                 if (!_interactionInProgress ) {
-                    _vcPresent.collectionView.contentOffset = _contentOffSetClv;
-                    _vcPresent.isProcessingTransition = YES;
-                    [self presentViewController:_vcPresent animated:YES completion:^{
+                    self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
+                    self.vcPresent.isProcessingTransition = YES;
+                    [self presentViewController:self.vcPresent animated:YES completion:^{
                         [self.view removeGestureRecognizer:self.panGestureVC];
                     }];
                     
@@ -347,7 +345,7 @@ const CGFloat kMinScale = 0.4;
         [self.view addGestureRecognizer:self.panGestureVC];
         [self.panGestureVC requireGestureRecognizerToFail:self.panGesture];
         
-        UIImageView *endView = [_vcPresent getImageViewPresent];
+        UIImageView *endView = [self.vcPresent getImageViewPresent];
         CGRect frame = endView.frame;
         frame.origin.y -= 20;
         [endView setFrame:frame];
@@ -360,7 +358,7 @@ const CGFloat kMinScale = 0.4;
             currentView.frame = endView.frame;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
-            _vcPresent.isProcessingTransition = NO;
+            self.vcPresent.isProcessingTransition = NO;
         }];
         
     } else {

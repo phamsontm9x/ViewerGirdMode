@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ViewerPageViewController;
+@class BaseViewerPageViewController;
 
 @interface PageViewController : UIPageViewController
 
 @property (nonatomic) NSInteger index;
-@property (nonatomic) UIViewController *currentVC;
+@property (nonatomic) BaseViewerPageViewController *currentVC;
 
 - (void)initData;
 - (void)didTapOnGirdMode;

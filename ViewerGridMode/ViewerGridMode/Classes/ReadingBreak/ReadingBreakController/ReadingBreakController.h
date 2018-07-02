@@ -7,26 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ViewerCollectionView.h"
+#import "BaseViewerPageViewController.h"
 
+@interface ReadingBreakController : BaseViewerPageViewController
 
-
-@class ReadingBreakController;
-
-@protocol ReadingBreakControllerDelegate <NSObject>
-
-- (void)readingBreakController:(ReadingBreakController *)vc clv:(ViewerCollectionView*)clv jumpToViewControllerAtIndex:(NSInteger)index;
-
-@end
-
-
-@interface ReadingBreakController : UIViewController
-
-@property (nonatomic) NSInteger indexPath;
-@property (nonatomic) CGPoint contentOffSetClv;
-@property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
-@property (nonatomic, weak) id<ReadingBreakControllerDelegate> delegate;
-
-- (void)didTapOnGirdMode;
+@property (nonatomic, weak) IBOutlet UIImageView *imageAds;
+@property (nonatomic, weak) IBOutlet UIView *defaultView;
 
 @end
