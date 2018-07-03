@@ -159,9 +159,9 @@
 - (CGRect)getFrameCellWithIndexPath:(NSIndexPath*)indexPath {
 
     UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-    CGRect cellFrameInSuperview = [self.collectionView convertRect:attributes.frame toView:[self.collectionView superview]];
+//    CGRect cellFrameInSuperview = [self.collectionView convertRect:attributes.frame toView:[self.collectionView superview]];
     
-    return cellFrameInSuperview;
+    return attributes.frame;
 }
 
 
@@ -177,43 +177,104 @@
 
 #pragma mark - ViewerTransition Protocal
 
--(UIImageView *)getImageViewPresent {
+- (UIImageView *)getImageViewPresentWithInteractive {
     ViewerCollectionViewCell *cell = (ViewerCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:_currentIndexPath];
     if (!cell) {
-        CGRect frameCell = [self getFrameCellWithIndexPath:_currentIndexPath];
-        CGFloat height = 0;
+        CGRect frameView = [self getFrameCellWithIndexPath:_currentIndexPath];
         
         CGRect currentFrameClv = CGRectMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y, self.collectionView.frame.size.width, self.collectionView.frame.size.height);
         
-        if (CGRectContainsRect(currentFrameClv,frameCell)) {
-            
-        } else {
-            if (frameCell.origin.y > self.collectionView.frame.size.height + self.collectionView.contentOffset.y) {
-                height = (frameCell.origin.y+self.collectionView.frame.size.height > self.collectionView.contentSize.height) ?  self.collectionView.contentSize.height - self.collectionView.frame.size.height : frameCell.origin.y+self.collectionView.frame.size.height;
-                self.collectionView.contentOffset= CGPointMake(0, height);
-                frameCell.origin.y = frameCell.origin.y - height;
-            }
+        if (!CGRectContainsRect(currentFrameClv,frameView)) {
+            [self setContentOffsetForCollectionViewWithCellFrame:frameView];
         }
         
-        return [[UIImageView alloc] initWithFrame:frameCell];
+        return [[UIImageView alloc] initWithFrame:frameView];
     }
+    
+    // ContentOffset For CollectionView
+    [self setContentOffsetForCollectionViewWithCellFrame:cell.frame];
     
     CGRect frame = [cell convertRect:cell.imv.frame toView: [self.collectionView superview]];
-    
-    if (cell.frame.origin.y + cell.frame.size.height > self.collectionView.contentOffset.y + self.collectionView.frame.size.height) {
-        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, cell.frame.origin.y + cell.frame.size.height - self.collectionView.frame.size.height);
-    }
-    
-    if (cell.frame.origin.y < self.collectionView.contentOffset.y) {
-        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, cell.frame.origin.y);
-    }
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
     img.contentMode = UIViewContentModeScaleAspectFit;
     img.image = cell.imv.image;
     
     return img;
+}
 
+-(UIImageView *)getImageViewPresent {
+    ViewerCollectionViewCell *cell = (ViewerCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:_currentIndexPath];
+    if (!cell) {
+        CGRect frameView = [self getFrameCellWithIndexPath:_currentIndexPath];
+        
+        CGRect currentFrameClv = CGRectMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y, self.collectionView.frame.size.width, self.collectionView.frame.size.height);
+        
+        if (!CGRectContainsRect(currentFrameClv,frameView)) {
+            frameView = [self getFrameCellInCollectionViewWithOlfFrame:frameView];
+        }
+        
+        return [[UIImageView alloc] initWithFrame:frameView];
+    }
+    
+    // ContentOffset For CollectionView
+    [self setContentOffsetForCollectionViewWithCellFrame:cell.frame];
+    
+    CGRect frame = [cell convertRect:cell.imv.frame toView: [self.collectionView superview]];
+    
+    UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    img.image = cell.imv.image;
+    
+    return img;
+}
+
+- (void)setContentOffsetForCollectionViewWithCellFrame:(CGRect)frameCell {
+    
+    CGFloat newContentOffSetY;
+    
+    if (frameCell.origin.y + frameCell.size.height > self.collectionView.contentOffset.y + self.collectionView.frame.size.height) {
+        
+        newContentOffSetY = frameCell.origin.y + frameCell.size.height - self.collectionView.frame.size.height;
+        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, newContentOffSetY > 0 ? newContentOffSetY  : 0);
+        
+    } else if (frameCell.origin.y < self.collectionView.contentOffset.y) {
+       
+        newContentOffSetY = frameCell.origin.y > 0 ? frameCell.origin.y : 0;
+        
+        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, newContentOffSetY-20);
+    }
+}
+
+- (CGRect)getFrameCellInCollectionViewWithOlfFrame:(CGRect)frameCell {
+    CGRect currentFrame = frameCell;
+    CGFloat newContentOffSetY;
+    
+    if (frameCell.origin.y + frameCell.size.height > self.collectionView.contentOffset.y + self.collectionView.frame.size.height) {
+        
+        newContentOffSetY = frameCell.origin.y + frameCell.size.height - self.collectionView.frame.size.height;
+        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, newContentOffSetY > 0 ? newContentOffSetY  : 0);
+        
+        currentFrame.origin.y = currentFrame.origin.y - newContentOffSetY;
+        
+    } else if (frameCell.origin.y < self.collectionView.contentOffset.y) {
+        
+        newContentOffSetY = frameCell.origin.y > 0 ? frameCell.origin.y : 0;
+        currentFrame.origin.y = 20;
+        
+        self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, newContentOffSetY-20);
+    }
+    
+    // size lable 20.
+    currentFrame.size.height -= 20;
+
+    return currentFrame;
+}
+
+#pragma mark - UIScrollDelegate
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
+    
 }
 
 

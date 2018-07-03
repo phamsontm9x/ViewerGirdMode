@@ -405,6 +405,7 @@
 			children = (
 				CA89926920D80FE800F396FB /* ViewerPageViewController.h */,
 				CA89926A20D80FE800F396FB /* ViewerPageViewController.m */,
+				CA89926C20D80FE800F396FB /* ViewerInteractiveTransitioning */,
 			);
 			path = ViewerPageViewController;
 			sourceTree = "<group>";
@@ -412,7 +413,6 @@
 		CA89926B20D80FE800F396FB /* ViewerTransition */ = {
 			isa = PBXGroup;
 			children = (
-				CA89926C20D80FE800F396FB /* ViewerInteractiveTransitioning */,
 				CA89926F20D80FE800F396FB /* ViewerTransition.h */,
 				CA89927020D80FE800F396FB /* ViewerTransition.m */,
 			);

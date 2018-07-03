@@ -52,7 +52,6 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="qU3-bM-qGx" secondAttribute="trailing" id="Hxs-AD-ZMY"/>
                                     <constraint firstAttribute="bottom" secondItem="qU3-bM-qGx" secondAttribute="bottom" id="VPe-7i-fdu"/>
@@ -166,7 +165,7 @@
         <!--Viewer Collection View-->
         <scene sceneID="Hw3-Hu-TCV">
             <objects>
-                <collectionViewController storyboardIdentifier="ViewerCollectionView" id="W8w-V2-HSJ" customClass="ViewerCollectionView" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="ViewerCollectionView" automaticallyAdjustsScrollViewInsets="NO" id="W8w-V2-HSJ" customClass="ViewerCollectionView" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xnv-54-w0z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -192,6 +191,7 @@
                             <outlet property="delegate" destination="W8w-V2-HSJ" id="VXW-fN-qMe"/>
                         </connections>
                     </collectionView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="dcO-WU-k5e"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gcv-tO-GSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -205,7 +205,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="IDo-1l-853">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IhU-sJ-FQb">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>

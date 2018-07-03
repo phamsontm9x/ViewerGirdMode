@@ -66,6 +66,8 @@
     UIImageView *viewEnd = [[UIImageView alloc] init];
     
     viewBegin.contentMode = UIViewContentModeScaleAspectFit;
+    viewEnd.contentMode = UIViewContentModeScaleAspectFit;
+    
     viewBegin.alpha = 1.0;
     toView.alpha = 1.0;
     fromView.alpha = 1.0;
@@ -172,6 +174,8 @@
     UIImageView *viewEnd = [[UIImageView alloc] init];
     
     viewBegin.contentMode = UIViewContentModeScaleAspectFit;
+    viewEnd.contentMode = UIViewContentModeScaleAspectFit;
+    
     viewBegin.alpha = 1.0;
     toView.alpha = 1.0;
     fromView.alpha = 1.0;
@@ -270,13 +274,15 @@
 
 - (void)animateTransitionModeCollection:(id<UIViewControllerContextTransitioning>)transitionContext fromVC:(UIViewController<ViewerTransitionProtocol> *)fromVC toVC:(UIViewController<ViewerTransitionProtocol> *)toVC fromView:(UIView *)fromView toView:(UIView *)toView {
     
-     UIView* containerView = [transitionContext containerView];
+    UIView* containerView = [transitionContext containerView];
     UIView *toViewSnapshot = [toView resizableSnapshotViewFromRect:toView.frame afterScreenUpdates:YES withCapInsets:UIEdgeInsetsZero];
     
     UIImageView *viewBegin = [[UIImageView alloc] init];
     UIImageView *viewEnd = [[UIImageView alloc] init];
     
     viewBegin.contentMode = UIViewContentModeScaleAspectFit;
+    viewEnd.contentMode = UIViewContentModeScaleAspectFit;
+    
     viewBegin.alpha = 1.0;
     toView.alpha = 1.0;
     fromView.alpha = 1.0;

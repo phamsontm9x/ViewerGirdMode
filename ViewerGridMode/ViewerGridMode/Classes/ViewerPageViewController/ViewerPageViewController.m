@@ -77,8 +77,12 @@ const CGFloat kMinScale = 0.4;
     // Dispose of any resources that can be recreated.
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//    return UIStatusBarStyleLightContent;
+//}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -99,10 +103,18 @@ const CGFloat kMinScale = 0.4;
 - (void)initInteractiveTransition {
     self.vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
     _interactiveTransitionPresent = [[ViewerInteractiveTransitioning alloc] init];
-    
     self.vcPresent.transitioningDelegate = self;
     self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:self.indexPath inSection:0];
     self.vcPresent.delegate = self;
+}
+
+- (void)calculateContentOffScrollViewWhenDismiss {
+#warning need to calculate
+    self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
+    self.vcPresent.isProcessingTransition = YES;
+    [self presentViewController:self.vcPresent animated:YES completion:^{
+        [self.view removeGestureRecognizer:self.panGestureVC];
+    }];
 }
 
 #pragma mark - UIScrollView
@@ -140,6 +152,7 @@ const CGFloat kMinScale = 0.4;
         _transition.enabledInteractive = NO;
         _selectedButton = NO;
     }
+    _transition.transitionMode = ViewerTransitionModePage;
     _transition.isPresent = YES;
     _transition.snapShot = _imv;
     _transition.frameSnapShot = _defaultView.frame;
@@ -234,12 +247,7 @@ const CGFloat kMinScale = 0.4;
             NSLog(@"%f",gestureRecognizer.velocity);
             if (gestureRecognizer.scale < 1 && gestureRecognizer.velocity < 0) {
                 if (!_interactionInProgress ) {
-                    self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
-                    self.vcPresent.isProcessingTransition = YES;
-                    [self presentViewController:self.vcPresent animated:YES completion:^{
-                        [self.view removeGestureRecognizer:self.panGestureVC];
-                    }];
-                    
+                    [self calculateContentOffScrollViewWhenDismiss];
                     _interactionInProgress = YES;
                 }
 
@@ -345,8 +353,9 @@ const CGFloat kMinScale = 0.4;
         [self.view addGestureRecognizer:self.panGestureVC];
         [self.panGestureVC requireGestureRecognizerToFail:self.panGesture];
         
-        UIImageView *endView = [self.vcPresent getImageViewPresent];
+        UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
         CGRect frame = endView.frame;
+#warning statusBar 20
         frame.origin.y -= 20;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;

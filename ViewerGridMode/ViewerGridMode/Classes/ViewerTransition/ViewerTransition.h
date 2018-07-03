@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, ViewerTransitionMode) {
 @protocol ViewerTransitionProtocol <NSObject>;
 
 - (UIImageView *)getImageViewPresent;
+- (UIImageView *)getImageViewPresentWithInteractive;
 
 @end
 

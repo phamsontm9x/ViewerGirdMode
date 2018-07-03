@@ -68,21 +68,13 @@
 #pragma mark <UICollectionViewFlowLayout>
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect frame = self.collectionView.frame;
-    return CGSizeMake(frame.size.width -10, frame.size.height);
+    CGRect frame = self.collectionView.bounds;
+    return CGSizeMake(frame.size.width, frame.size.height -20);
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 0;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 0;
-}
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0, 0 , 0, 0);
+    return UIEdgeInsetsMake(0, 8, 0, 8);
 }
-
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -104,41 +96,14 @@
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
-
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
 }
 
@@ -191,8 +156,8 @@
 - (CGRect)getFrameCellWithIndexPath:(NSIndexPath*)indexPath {
     
     UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-    CGRect cellFrameInSuperview = [self.collectionView convertRect:attributes.frame toView:[self.collectionView superview]];
-    
+    CGRect cellFrameInSuperview = attributes.frame;
+    cellFrameInSuperview.origin.y = 20;
     return cellFrameInSuperview;
 }
 
