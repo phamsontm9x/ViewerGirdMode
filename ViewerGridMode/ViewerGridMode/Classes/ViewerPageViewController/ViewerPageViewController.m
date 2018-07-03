@@ -34,6 +34,7 @@
 @end
 
 @implementation ViewerPageViewController {
+    
     BOOL _shouldCompleteTransition;
     
     NSMutableSet *_activeRecognizers;

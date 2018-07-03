@@ -62,19 +62,20 @@
                 
             case UIGestureRecognizerStateBegan: {
                 
-                CGPoint locationInView = [gestureRecognizer locationInView:self.presentViewController.viewDismiss];
+//                CGPoint locationInView = [gestureRecognizer locationInView:self.presentViewController.viewDismiss];
+//
+//                if (CGRectContainsPoint(self.presentViewController.viewDismiss.frame, locationInView)) {
+//                    [_presentViewController dismissViewControllerAnimated:YES completion:nil];
+//                }
                 
-                if (CGRectContainsPoint(self.presentViewController.viewDismiss.frame, locationInView)) {
-                    [_presentViewController dismissViewControllerAnimated:YES completion:nil];
-                }
-                
+                [_presentViewController dismissViewControllerAnimated:YES completion:nil];
             }
                 break;
                 
             case UIGestureRecognizerStateChanged: {
                 if (self.interactionInProgress) {
                     
-                    CGFloat fraction = fabs(translation.y / (self.presentViewController.view.frame.size.height - 100));
+                    CGFloat fraction = fabs(translation.y / (self.presentViewController.view.frame.size.height));
                     NSLog(@"%f----",fraction);
                     fraction = fminf(fmaxf(fraction, 0.0), 1.0);
                     _shouldCompleteTransition = (fraction > 0.3);

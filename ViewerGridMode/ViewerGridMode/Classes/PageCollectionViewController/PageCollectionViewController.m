@@ -9,13 +9,15 @@
 #import "PageCollectionViewController.h"
 #import "PageCollectionViewCell.h"
 #import "ViewerController.h"
+#import "ViewerInteractiveTransitioning.h"
 
 
 
-@interface PageCollectionViewController () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIViewControllerTransitioningDelegate, ViewerCollectionViewDelegate>
+@interface PageCollectionViewController () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIViewControllerTransitioningDelegate, ViewerCollectionViewDelegate, PageCollectionViewCellDelegate>
 
 // Transition
 @property (nonatomic, strong) ViewerTransition *transition;
+@property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
 
 @property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
 @property (nonatomic) NSInteger totalItems;
@@ -31,7 +33,7 @@
     [super viewDidLoad];
     _totalItems = 20;
     [self.collectionView registerNib:[UINib nibWithNibName:@"PageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"PageCollectionViewCell"];
-    
+    [self initInteractiveTransition];
     [self.collectionView reloadData];
 }
 
@@ -40,15 +42,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (void)didTapOnGirdMode {
     _selectedButton = YES;
     
-    self.vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
-    self.vcPresent.delegate = self;
-    self.vcPresent.transitioningDelegate = self;
     self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:[self cellViewForImageTransition].indexPage inSection:0];
-    //self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
     
     if (![self.presentedViewController isBeingDismissed]) {
         [self presentViewController:self.vcPresent animated:YES completion:nil];
@@ -89,7 +86,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PageCollectionViewCell" forIndexPath:indexPath];
-    
+    cell.delegate = self;
     cell.indexPage = indexPath.row;
     cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
     
@@ -97,14 +94,13 @@
 }
 
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark - Init Interactive
 
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
+- (void)initInteractiveTransition {
+    self.vcPresent = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewerCollectionView"];
+    _interactiveTransitionPresent = [[ViewerInteractiveTransitioning alloc] init];
+    self.vcPresent.transitioningDelegate = self;
+    self.vcPresent.delegate = self;
 }
 
 
@@ -138,10 +134,15 @@
     NSIndexPath *cellIndex = [NSIndexPath indexPathForRow:[self cellViewForImageTransition].indexPage inSection:0];
     _transition.toViewDefault = [self getFrameCellWithIndexPath:cellIndex];
     _transition.transitionMode = ViewerTransitionModeCollection;
+    _transition.enabledInteractive = YES;
     
     return _transition;
 }
 
+- (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator {
+    
+    return self.interactiveTransitionPresent;
+}
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
@@ -150,6 +151,55 @@
     [vc dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+#pragma mark - PageCollectionViewCellDelegate
+
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell dismissViewController:(NSInteger)index {
+    self.vcPresent.isProcessingTransition = YES;
+    self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self presentViewController:self.vcPresent animated:YES completion:^{
+    
+    }];
+}
+
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell finishInteractiveTransition:(BOOL)finished {
+    if (finished) {
+        
+        UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
+        CGRect frame = endView.frame;
+        [endView setFrame:frame];
+        
+        CGRect defaultFrame = [self.collectionView convertRect:cell.pinchGesture.view.frame toView:[self.collectionView superview]];
+        
+        UIImageView *imageBegin = [[UIImageView alloc] initWithFrame:defaultFrame];
+        imageBegin.image = cell.imv.image;
+        imageBegin.contentMode = UIViewContentModeScaleAspectFit;
+        [self.view addSubview:imageBegin];
+        [self.view bringSubviewToFront:imageBegin];
+        [cell.pinchGesture.view setHidden:YES];
+        
+        
+        
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [cell setEnableGesture:NO];
+            cell.pinchGesture.view.transform = CGAffineTransformIdentity;
+            imageBegin.frame = endView.frame;
+        } completion:^(BOOL finished) {
+            [cell setEnableGesture:YES];
+            [imageBegin removeFromSuperview];
+            [cell.pinchGesture.view setHidden:NO];
+            self.vcPresent.isProcessingTransition = NO;
+        }];
+        
+        [self.interactiveTransitionPresent finishInteractiveTransition];
+    } else {
+        [self.interactiveTransitionPresent cancelInteractiveTransition];
+    }
+}
+
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell updateInteractiveTransition:(CGFloat)vaule {
+    [self.interactiveTransitionPresent updateInteractiveTransition:vaule];
+}
 
 #pragma mark - ImageForTransition
 
@@ -181,6 +231,26 @@
     img.image = resultCell.imv.image;
     
     return img;
+}
+
+#pragma mark - SnapShot
+
+-(UIImageView *)snapshotImageViewFromView:(UIView *)view {
+    UIImage * snapshot = [self dt_takeSnapshotWihtView:view];
+    UIImageView * imageView = [[UIImageView alloc] initWithImage:snapshot];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.clipsToBounds = YES;
+    return imageView;
+}
+
+
+-(UIImage *)dt_takeSnapshotWihtView:(UIView*)view {
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, [UIScreen mainScreen].scale);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    [view.layer renderInContext:ctx];
+    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return snapshot;
 }
 
 

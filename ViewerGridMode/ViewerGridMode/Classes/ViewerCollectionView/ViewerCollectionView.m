@@ -238,7 +238,7 @@
         newContentOffSetY = frameCell.origin.y + frameCell.size.height - self.collectionView.frame.size.height;
         self.collectionView.contentOffset =  CGPointMake(self.collectionView.contentOffset.x, newContentOffSetY > 0 ? newContentOffSetY  : 0);
         
-    } else if (frameCell.origin.y < self.collectionView.contentOffset.y) {
+    } else if (frameCell.origin.y < self.collectionView.contentOffset.y + 20) {
        
         newContentOffSetY = frameCell.origin.y > 0 ? frameCell.origin.y : 0;
         
