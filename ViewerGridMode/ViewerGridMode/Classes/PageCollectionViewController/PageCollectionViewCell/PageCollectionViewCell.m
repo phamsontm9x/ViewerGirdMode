@@ -9,7 +9,7 @@
 #import "PageCollectionViewCell.h"
 
 
-@interface PageCollectionViewCell () <UIGestureRecognizerDelegate>
+@interface PageCollectionViewCell () <UIGestureRecognizerDelegate, UIScrollViewDelegate>
 
 @property (nonatomic) UIPanGestureRecognizer *panGesture;
 @property (nonatomic) UIRotationGestureRecognizer *rotationGesture;
@@ -32,10 +32,24 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self configScrollView];
     [self configGesture];
 }
 
 
+#pragma mark - UIScrollView
+
+- (void)configScrollView {
+    _scrPageView.delegate = self;
+    _scrPageView.contentSize = self.imv.frame.size;
+    _scrPageView.scrollEnabled = YES;
+    _scrPageView.maximumZoomScale = 3.0;
+    _scrPageView.minimumZoomScale = 1.0;
+}
+
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)aScrollView {
+    return self.imv;
+}
 
 
 #pragma mark - ConfigGesture
@@ -47,11 +61,8 @@
     // remove gestures
     [self removeGestureRecognizer:_panGesture];
     [self removeGestureRecognizer:_pinchGesture];
-//    [self removeGestureRecognizer:_rotationGesture];
+    [self removeGestureRecognizer:_rotationGesture];
     
-//    [self.imv removeGestureRecognizer:_panGesture];
-//    [self.imv removeGestureRecognizer:_pinchGesture];
-//    [self.imv removeGestureRecognizer:_rotationGesture];
     
     // add gesture
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
@@ -69,10 +80,8 @@
     
     [self addGestureRecognizer:self.pinchGesture];
     [self addGestureRecognizer:self.panGesture];
+    [self addGestureRecognizer:self.rotationGesture];
     
-//    [self.imv addGestureRecognizer:self.pinchGesture];
-//    [self.imv addGestureRecognizer:self.panGesture];
-    //[self.imv addGestureRecognizer:self.rotationGesture];
 }
 
 - (void)setEnableGesture:(BOOL)enableGesture {
@@ -233,6 +242,34 @@
     }
     
     return NO;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == self.pinchGesture) {
+        if ((self.pinchGesture.velocity < 0 && self.pinchGesture.scale < 1.0 ) && _scrPageView.zoomScale == 1) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    NSLog(@"%f",scrollView.pinchGestureRecognizer.velocity);
+    if ((scrollView.pinchGestureRecognizer.velocity < 0 && scrollView.pinchGestureRecognizer.scale <= 1.0 ) && scrollView.zoomScale == 1 && scrollView == _scrPageView) {
+        [scrollView.pinchGestureRecognizer setEnabled:NO];
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale  {
+    if (scrollView == _scrPageView) {
+        [scrollView.pinchGestureRecognizer setEnabled:YES];
+    }
 }
 
 @end

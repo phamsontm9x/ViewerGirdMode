@@ -23,10 +23,14 @@
 
 @interface PageCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic) UIPinchGestureRecognizer *pinchGesture;
+
 @property (nonatomic, weak) IBOutlet UIImageView *imv;
+@property (nonatomic, weak) IBOutlet UIScrollView *scrPageView;
+
+@property (nonatomic) UIPinchGestureRecognizer *pinchGesture;
 @property (nonatomic) NSInteger indexPage;
 @property (nonatomic) BOOL enableGesture;
+@property (nonatomic) BOOL isZoomImage;
 
 @property (nonatomic, weak) id<PageCollectionViewCellDelegate> delegate;
 

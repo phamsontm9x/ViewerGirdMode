@@ -37,9 +37,6 @@
     
     BOOL _shouldCompleteTransition;
     
-    NSMutableSet *_activeRecognizers;
-    CGPoint center;
-    CGPoint centerTemp;
     ViewerPageViewController *viewVC;
     CGAffineTransform transformDefault;
     CGAffineTransform transformZoom;
@@ -259,9 +256,8 @@ const CGFloat kMinScale = 0.4;
         case UIGestureRecognizerStateChanged: {
             
                 if (gestureRecognizer.scale < kMaxScale && gestureRecognizer.scale > kMinScale) {
-                    [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
-                    
                     if (_interactionInProgress == YES) {
+                        [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
                         if (_interactionInProgress && gestureRecognizer.scale < 1) {
                             CGFloat fraction = fabs((1 - gestureRecognizer.scale) / 0.4);
                             fraction = fminf(fmaxf(fraction, 0.0), 0.7);
@@ -352,7 +348,7 @@ const CGFloat kMinScale = 0.4;
         _shouldCompleteTransition = NO;
         
         [self.view addGestureRecognizer:self.panGestureVC];
-        [self.panGestureVC requireGestureRecognizerToFail:self.panGesture];
+        [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         
         UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
         CGRect frame = endView.frame;
@@ -360,6 +356,7 @@ const CGFloat kMinScale = 0.4;
         frame.origin.y -= 20;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
+        
         [self.interactiveTransitionPresent finishInteractiveTransition];
         
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -368,14 +365,16 @@ const CGFloat kMinScale = 0.4;
             currentView.frame = endView.frame;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
+            _interactionInProgress = NO;
             self.vcPresent.isProcessingTransition = NO;
+            [self.scrPageView.pinchGestureRecognizer setEnabled:YES];
         }];
         
     } else {
         
         UIView *currentView = self.pinchGesture.view;
         _interactionInProgress = NO;
-        
+        [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         [self.interactiveTransitionPresent cancelInteractiveTransition];
         
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -383,6 +382,7 @@ const CGFloat kMinScale = 0.4;
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
+            [self.scrPageView.pinchGestureRecognizer setEnabled:YES];
             [self.view removeGestureRecognizer:_panGestureVC];
         }];
                
@@ -403,7 +403,7 @@ const CGFloat kMinScale = 0.4;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if (gestureRecognizer != self.panGesture && gestureRecognizer != self.pinchGesture && gestureRecognizer != self.rotationGesture) {
-        
+    
         NSLog(@"%@",gestureRecognizer.description);
     }
     

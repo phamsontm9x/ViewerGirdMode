@@ -19,21 +19,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSh-Bd-OkS">
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EGI-BV-EDN">
                         <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
-                    </imageView>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSh-Bd-OkS">
+                                <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eSh-Bd-OkS" secondAttribute="trailing" id="5Gu-Zg-Ey7"/>
+                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerY" secondItem="EGI-BV-EDN" secondAttribute="centerY" id="RWR-wk-gVH"/>
+                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="top" secondItem="EGI-BV-EDN" secondAttribute="top" id="TF3-Ns-Jcn"/>
+                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerX" secondItem="EGI-BV-EDN" secondAttribute="centerX" id="XKR-xN-Lfu"/>
+                            <constraint firstAttribute="bottom" secondItem="eSh-Bd-OkS" secondAttribute="bottom" id="cze-Xx-CQX"/>
+                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="leading" secondItem="EGI-BV-EDN" secondAttribute="leading" id="urG-iz-1Zx"/>
+                        </constraints>
+                    </scrollView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="eSh-Bd-OkS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Xco-7r-n3y"/>
-                <constraint firstAttribute="trailing" secondItem="eSh-Bd-OkS" secondAttribute="trailing" id="g6W-bC-dJl"/>
-                <constraint firstAttribute="bottom" secondItem="eSh-Bd-OkS" secondAttribute="bottom" id="kfb-G1-Vfb"/>
-                <constraint firstItem="eSh-Bd-OkS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="sS1-bV-fkh"/>
+                <constraint firstItem="EGI-BV-EDN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2Jk-F6-2A3"/>
+                <constraint firstItem="EGI-BV-EDN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6lo-Zw-QXn"/>
+                <constraint firstAttribute="bottom" secondItem="EGI-BV-EDN" secondAttribute="bottom" id="UDz-Mk-NiF"/>
+                <constraint firstAttribute="trailing" secondItem="EGI-BV-EDN" secondAttribute="trailing" id="ujz-NF-vFZ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="190" height="168"/>
             <connections>
                 <outlet property="imv" destination="eSh-Bd-OkS" id="GGJ-dx-H5z"/>
+                <outlet property="scrPageView" destination="EGI-BV-EDN" id="sqJ-JH-JNe"/>
             </connections>
             <point key="canvasLocation" x="104" y="113"/>
         </collectionViewCell>

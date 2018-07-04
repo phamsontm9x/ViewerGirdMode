@@ -10,6 +10,7 @@
 #import "PageCollectionViewCell.h"
 #import "ViewerController.h"
 #import "ViewerInteractiveTransitioning.h"
+#import "PageCollectionViewFlowLayout.h"
 
 
 
@@ -33,6 +34,12 @@
     [super viewDidLoad];
     _totalItems = 20;
     [self.collectionView registerNib:[UINib nibWithNibName:@"PageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"PageCollectionViewCell"];
+    
+    PageCollectionViewFlowLayout *flowLayout = [[PageCollectionViewFlowLayout alloc] init];
+    
+    self.collectionView.collectionViewLayout = flowLayout;
+    
+    
     [self initInteractiveTransition];
     [self.collectionView reloadData];
 }
@@ -66,12 +73,13 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGRect frame = self.collectionView.bounds;
-    return CGSizeMake(frame.size.width, frame.size.height -20);
+    return CGSizeMake(frame.size.width, frame.size.height -20); // size status bar
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0, 8, 0, 8);
 }
+
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -144,6 +152,7 @@
     return self.interactiveTransitionPresent;
 }
 
+
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index {
@@ -157,9 +166,14 @@
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell dismissViewController:(NSInteger)index {
     self.vcPresent.isProcessingTransition = YES;
     self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [self presentViewController:self.vcPresent animated:YES completion:^{
     
-    }];
+    for (PageCollectionViewCell *cellVisible in self.collectionView.visibleCells) {
+        if (cellVisible != cell) {
+            [cellVisible setHidden:YES];
+        }
+    }
+    
+    [self presentViewController:self.vcPresent animated:YES completion:nil];
 }
 
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell finishInteractiveTransition:(BOOL)finished {
@@ -176,9 +190,10 @@
         imageBegin.contentMode = UIViewContentModeScaleAspectFit;
         [self.view addSubview:imageBegin];
         [self.view bringSubviewToFront:imageBegin];
+        
         [cell.pinchGesture.view setHidden:YES];
-        
-        
+        [self.interactiveTransitionPresent finishInteractiveTransition];
+        [self.collectionView setScrollEnabled:NO];
         
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [cell setEnableGesture:NO];
@@ -189,11 +204,28 @@
             [imageBegin removeFromSuperview];
             [cell.pinchGesture.view setHidden:NO];
             self.vcPresent.isProcessingTransition = NO;
+            for (PageCollectionViewCell *cellVisible in self.collectionView.visibleCells) {
+                if (cellVisible != cell) {
+                    [cellVisible setHidden:NO];
+                }
+            }
+            [self.collectionView setScrollEnabled:YES];
         }];
         
-        [self.interactiveTransitionPresent finishInteractiveTransition];
     } else {
+        
         [self.interactiveTransitionPresent cancelInteractiveTransition];
+        
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [cell setEnableGesture:NO];
+            cell.pinchGesture.view.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            for (PageCollectionViewCell *cellVisible in self.collectionView.visibleCells) {
+                if (cellVisible != cell) {
+                    [cellVisible setHidden:NO];
+                }
+            }
+        }];
     }
 }
 
@@ -232,6 +264,7 @@
     
     return img;
 }
+
 
 #pragma mark - SnapShot
 

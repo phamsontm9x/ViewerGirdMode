@@ -173,6 +173,8 @@
     UIImageView *viewBegin = [[UIImageView alloc] init];
     UIImageView *viewEnd = [[UIImageView alloc] init];
     
+    UIView *vFade = [[UIView alloc] initWithFrame:toView.frame];
+    
     viewBegin.contentMode = UIViewContentModeScaleAspectFit;
     viewEnd.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -203,10 +205,13 @@
             [viewBegin setFrame:_frameSnapShot];
             viewBegin.image = _snapShot.image;
             
+            vFade.backgroundColor = [UIColor whiteColor];
+            vFade.alpha = 1.0;
             fromView.alpha = 0.0;
         }
         
         [containerView addSubview:toView];
+        [containerView addSubview:vFade];
         [containerView addSubview:viewBegin];
         [containerView addSubview:fromView];
         
@@ -241,6 +246,7 @@
                 [viewBegin setFrame:viewEnd.frame];
                 toView.alpha = 1;
                 viewBegin.alpha = 1;
+                vFade.alpha = 0.0;
             }
         } else {
             [viewBegin setFrame:viewEnd.frame];
@@ -250,6 +256,7 @@
         if (![transitionContext transitionWasCancelled]) {
             toView.alpha = 1.0;
             [fromView removeFromSuperview];
+            [vFade removeFromSuperview];
             [viewBegin removeFromSuperview];
             [_snapShot removeFromSuperview];
             
