@@ -11,6 +11,7 @@
 @interface ViewerCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) IBOutlet UIImageView *imv;
+@property (nonatomic, weak) IBOutlet UIView *imvBg;
 @property (nonatomic, weak) IBOutlet UILabel *lblNumberOfPage;
 
 @end

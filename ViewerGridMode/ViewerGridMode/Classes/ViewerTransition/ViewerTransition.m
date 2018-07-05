@@ -60,7 +60,7 @@
 - (void)animateTransitionModePage:(id<UIViewControllerContextTransitioning>)transitionContext fromVC:(UIViewController<ViewerTransitionProtocol> *)fromVC toVC:(UIViewController<ViewerTransitionProtocol> *)toVC fromView:(UIView *)fromView toView:(UIView *)toView {
     
     UIView* containerView = [transitionContext containerView];
-    UIView *toViewSnapshot = [toView resizableSnapshotViewFromRect:toView.frame afterScreenUpdates:YES withCapInsets:UIEdgeInsetsZero];
+//    UIView *toViewSnapshot = [toView resizableSnapshotViewFromRect:toView.frame afterScreenUpdates:YES withCapInsets:UIEdgeInsetsZero];
     
     UIImageView *viewBegin = [[UIImageView alloc] init];
     UIImageView *viewEnd = [[UIImageView alloc] init];
@@ -69,8 +69,8 @@
     viewEnd.contentMode = UIViewContentModeScaleAspectFit;
     
     viewBegin.alpha = 1.0;
-    toView.alpha = 1.0;
     fromView.alpha = 1.0;
+    toView.alpha = 1.0;
     
     if (_isPresent) {
         
@@ -87,7 +87,7 @@
         if (_enabledInteractive) {
             
             [viewBegin setFrame:toView.frame];
-            viewBegin.backgroundColor = [UIColor clearColor];
+            viewBegin.backgroundColor = [UIColor blackColor];
             fromView.backgroundColor = [UIColor clearColor];
         
         } else {
@@ -126,7 +126,7 @@
     // animate
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-    [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         if (_isPresent) {
             if (_enabledInteractive) {
                 viewBegin.alpha = 0;
@@ -163,6 +163,7 @@
         _enabledInteractive = YES;
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
+
 }
 
 - (void)animateTransitionModeAds:(id<UIViewControllerContextTransitioning>)transitionContext fromVC:(UIViewController<ViewerTransitionProtocol> *)fromVC toVC:(UIViewController<ViewerTransitionProtocol> *)toVC fromView:(UIView *)fromView toView:(UIView *)toView {
@@ -309,7 +310,7 @@
         if (_enabledInteractive) {
             
             [viewBegin setFrame:toView.frame];
-            viewBegin.backgroundColor = [UIColor clearColor];
+            viewBegin.backgroundColor = [UIColor whiteColor];
             fromView.backgroundColor = [UIColor clearColor];
             
         } else {

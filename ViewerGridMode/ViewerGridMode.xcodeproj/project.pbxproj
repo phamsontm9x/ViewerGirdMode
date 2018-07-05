@@ -787,7 +787,7 @@
 				INFOPLIST_FILE = ViewerGridMode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "-23.ViewerGridMode";
+				PRODUCT_BUNDLE_IDENTIFIER = thanhson.ViewerGridMode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -802,7 +802,7 @@
 				INFOPLIST_FILE = ViewerGridMode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "-23.ViewerGridMode";
+				PRODUCT_BUNDLE_IDENTIFIER = thanhson.ViewerGridMode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

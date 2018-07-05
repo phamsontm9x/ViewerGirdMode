@@ -264,7 +264,7 @@ const CGFloat kMinScale = 0.4;
                             _shouldCompleteTransition = (fraction > 0.5);
                             if (fraction >= 1.0)
                                 fraction = 0.99;
-                            
+                            NSLog(@"%f",fraction);
                             [self.interactiveTransitionPresent updateInteractiveTransition:fraction];
                         }
                     }
@@ -350,14 +350,15 @@ const CGFloat kMinScale = 0.4;
         [self.view addGestureRecognizer:self.panGestureVC];
         [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         
+#warning statusBar 20
         UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
         CGRect frame = endView.frame;
-#warning statusBar 20
         frame.origin.y -= 20;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
         
         [self.interactiveTransitionPresent finishInteractiveTransition];
+        
         
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
@@ -427,6 +428,10 @@ const CGFloat kMinScale = 0.4;
     if ((scrollView.pinchGestureRecognizer.velocity < 0 && scrollView.pinchGestureRecognizer.scale <= 1.0 ) && scrollView.zoomScale == 1 && scrollView == _scrPageView) {
         [scrollView.pinchGestureRecognizer setEnabled:NO];
     }
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale  {

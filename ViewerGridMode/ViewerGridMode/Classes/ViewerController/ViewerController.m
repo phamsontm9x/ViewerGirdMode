@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, ViewerReadingMode) {
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     tapGesture.delegate = self;
-    [self.view addGestureRecognizer:tapGesture];
+//    [self.view addGestureRecognizer:tapGesture];
     [self.topView setHidden:YES];
     [self.botView setHidden:YES];
 }
@@ -78,11 +78,17 @@ typedef NS_ENUM(NSInteger, ViewerReadingMode) {
     
     //[self changeModeTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOritentation:UIPageViewControllerNavigationOrientationVertical withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
     _viewerReadingMode = ViewerReadingModeVertical;
+    
     [self.pageViewController willMoveToParentViewController:nil];
     [self.pageViewController.view removeFromSuperview];
     [self.pageViewController removeFromParentViewController];
     [self.pageViewController didMoveToParentViewController:nil];
     
+    [self.pageCollectionView willMoveToParentViewController:nil];
+    [self.pageCollectionView.view removeFromSuperview];
+    [self.pageCollectionView removeFromParentViewController];
+    [self.pageCollectionView didMoveToParentViewController:nil];
+        
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
                                              bundle:nil];
     self.pageCollectionView = [storyboard instantiateViewControllerWithIdentifier:@"PageCollectionViewController"];

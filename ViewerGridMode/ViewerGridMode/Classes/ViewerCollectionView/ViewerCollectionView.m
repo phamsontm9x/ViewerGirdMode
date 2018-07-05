@@ -139,16 +139,19 @@
         
         if (indexPath.row == _currentIndexPath.row) {
             if (_isProcessingTransition) {
+                cell.imvBg.hidden = NO;
                 cell.imv.hidden = YES;
             } else {
                 cell.imv.layer.borderWidth = 2;
                 cell.imv.layer.borderColor = [UIColor blueColor].CGColor;
                 cell.imv.hidden = NO;
+                cell.imvBg.hidden = YES;
             }
             
         } else {
             cell.imv.layer.borderWidth = 0;
             cell.imv.hidden = NO;
+            cell.imv.backgroundColor = [UIColor clearColor];
         }
         cell.imv.layer.masksToBounds = YES;
     }
@@ -159,7 +162,6 @@
 - (CGRect)getFrameCellWithIndexPath:(NSIndexPath*)indexPath {
 
     UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-//    CGRect cellFrameInSuperview = [self.collectionView convertRect:attributes.frame toView:[self.collectionView superview]];
     
     return attributes.frame;
 }

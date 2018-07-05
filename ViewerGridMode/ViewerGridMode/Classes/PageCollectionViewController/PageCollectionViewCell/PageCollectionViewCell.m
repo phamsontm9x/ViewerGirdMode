@@ -8,6 +8,8 @@
 
 #import "PageCollectionViewCell.h"
 
+#define MAXIMUM_SCALE    3.0
+#define MINIMUM_SCALE    1.0
 
 @interface PageCollectionViewCell () <UIGestureRecognizerDelegate, UIScrollViewDelegate>
 
@@ -21,6 +23,7 @@
 
 @implementation PageCollectionViewCell {
     CGFloat currentScale;
+    CGFloat oldSizeY;
     CGAffineTransform transformDefault;
     CGAffineTransform transformZoom;
     CGAffineTransform transformRotate;
@@ -32,6 +35,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+
     [self configScrollView];
     [self configGesture];
 }
@@ -44,7 +48,7 @@
     _scrPageView.contentSize = self.imv.frame.size;
     _scrPageView.scrollEnabled = YES;
     _scrPageView.maximumZoomScale = 3.0;
-    _scrPageView.minimumZoomScale = 1.0;
+    _scrPageView.minimumZoomScale = 1;
 }
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)aScrollView {
@@ -90,6 +94,7 @@
     [self.rotationGesture setEnabled:enableGesture];
 }
 
+
 #pragma mark - Handler Gesture
 
 - (void)handlePinch:(UIPinchGestureRecognizer*)gestureRecognizer {
@@ -104,7 +109,7 @@
                     }
                     _interactionInProgress = YES;
                 }
-                
+
             }
         }
             break;
@@ -112,7 +117,26 @@
         case UIGestureRecognizerStateChanged: {
             
             if (gestureRecognizer.scale < 3 && gestureRecognizer.scale > 0.4) {
+                
+//                UIView *pinchView = gestureRecognizer.view;
+//                CGRect bounds = pinchView.bounds;
+//                CGPoint pinchCenter = [gestureRecognizer locationInView:pinchView];
+//                pinchCenter.x -= CGRectGetMidX(bounds);
+//                pinchCenter.y -= CGRectGetMidY(bounds);
+//                [gestureRecognizer view].transdform = CGAffineTransformScale([gestureRecognizer view].transform, pinchCenter.x, pinchCenter.y);
+                
                 [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
+//
+//                CGSize sizeZoom = self.frame.size;
+//                sizeZoom.height = self.frame.size.height * gestureRecognizer.scale;
+//
+//                [_scrPageView setContentSize:gestureRecognizer.view.frame.size];
+//                if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:isZoomingWithSize:)]) {
+//                    [_delegate pageCollectionViewCell:self isZoomingWithSize:sizeZoom];
+//                }
+//                NSLog(@"%f",gestureRecognizer.scale);
+//                gestureRecognizer.scale = 1;
+//
                 
                 if (_interactionInProgress == YES) {
                     if (_interactionInProgress && gestureRecognizer.scale < 1) {
@@ -140,6 +164,7 @@
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateEnded: {
             NSLog(@"______");
+//           gestureRecognizer.view.transform = CGAffineTransformIdentity;
             currentScale = [gestureRecognizer scale];
             [self animationEndGesture];
             
@@ -232,6 +257,7 @@
 
 }
 
+
 #pragma mark - TransitionControllerGestureTarget
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -261,15 +287,53 @@
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
     NSLog(@"%f",scrollView.pinchGestureRecognizer.velocity);
+//    oldSizeY = self.imv.frame.size.width;
+    oldSizeY = 1;
     if ((scrollView.pinchGestureRecognizer.velocity < 0 && scrollView.pinchGestureRecognizer.scale <= 1.0 ) && scrollView.zoomScale == 1 && scrollView == _scrPageView) {
         [scrollView.pinchGestureRecognizer setEnabled:NO];
     }
 }
 
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+//    oldSizeY = oldSizeY * scrollView.pinchGestureRecognizer.scale;
+//    NSLog(@"%f",scrollView.pinchGestureRecognizer.scale);
+    NSLog(@"%@",self.imv.description);
+    CGSize sizeZoom = self.frame.size;
+//    oldSizeY = oldSizeY * scrollView.pinchGestureRecognizer.scale;
+//    sizeZoom.height = 276 * scrollView.pinchGestureRecognizer.scale;
+    sizeZoom.height = self.frame.size.height * scrollView.pinchGestureRecognizer.scale;
+
+//    [_scrPageView setContentSize:CGSizeMake(oldSizeY, sizeZoom.height)];
+//    [_imv setFrame:CGRectMake(frameImv.origin.x, frameImv.origin.y, oldSizeY, sizeZoom.height)];
+    
+    if (sizeZoom.height < 1500 || sizeZoom.height > 100) {
+        if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:isZoomingWithSize:)]) {
+            [_delegate pageCollectionViewCell:self isZoomingWithSize:sizeZoom];
+        }
+    } else {
+        [scrollView.pinchGestureRecognizer setEnabled:NO];
+    }
+    
+    _scrPageView.pinchGestureRecognizer.scale = 1;
+
+}
+
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale  {
     if (scrollView == _scrPageView) {
         [scrollView.pinchGestureRecognizer setEnabled:YES];
+//        if (scale <=1) {
+//            CGSize sizeZoom = self.frame.size;
+//            sizeZoom.height = 276;
+//            if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:isZoomingWithSize:)]) {
+//                [_delegate pageCollectionViewCell:self isZoomingWithSize:sizeZoom];
+//            }
+//        }
     }
+}
+
+- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
+//    _scrPageView.pinchGestureRecognizer.scale = 1;
+    return layoutAttributes;
 }
 
 @end

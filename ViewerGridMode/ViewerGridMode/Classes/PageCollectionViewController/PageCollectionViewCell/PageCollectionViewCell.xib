@@ -13,43 +13,45 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PageCollectionViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
+            <rect key="frame" x="0.0" y="0.0" width="336" height="298"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
+                <rect key="frame" x="0.0" y="0.0" width="336" height="298"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EGI-BV-EDN">
-                        <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EGI-BV-EDN">
+                        <rect key="frame" x="0.0" y="0.0" width="336" height="298"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSh-Bd-OkS">
-                                <rect key="frame" x="0.0" y="0.0" width="190" height="168"/>
+                            <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSh-Bd-OkS">
+                                <rect key="frame" x="0.0" y="0.0" width="336" height="298"/>
                             </imageView>
                         </subviews>
+                        <color key="backgroundColor" red="0.1477507055" green="0.58808726069999995" blue="0.95349150900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="eSh-Bd-OkS" secondAttribute="trailing" id="5Gu-Zg-Ey7"/>
-                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerY" secondItem="EGI-BV-EDN" secondAttribute="centerY" id="RWR-wk-gVH"/>
+                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerY" secondItem="EGI-BV-EDN" secondAttribute="centerY" id="HFk-ah-bP1"/>
                             <constraint firstItem="eSh-Bd-OkS" firstAttribute="top" secondItem="EGI-BV-EDN" secondAttribute="top" id="TF3-Ns-Jcn"/>
-                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerX" secondItem="EGI-BV-EDN" secondAttribute="centerX" id="XKR-xN-Lfu"/>
                             <constraint firstAttribute="bottom" secondItem="eSh-Bd-OkS" secondAttribute="bottom" id="cze-Xx-CQX"/>
+                            <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerX" secondItem="EGI-BV-EDN" secondAttribute="centerX" id="k2w-N1-CIg"/>
                             <constraint firstItem="eSh-Bd-OkS" firstAttribute="leading" secondItem="EGI-BV-EDN" secondAttribute="leading" id="urG-iz-1Zx"/>
                         </constraints>
                     </scrollView>
                 </subviews>
             </view>
+            <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="EGI-BV-EDN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2Jk-F6-2A3"/>
                 <constraint firstItem="EGI-BV-EDN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6lo-Zw-QXn"/>
-                <constraint firstAttribute="bottom" secondItem="EGI-BV-EDN" secondAttribute="bottom" id="UDz-Mk-NiF"/>
-                <constraint firstAttribute="trailing" secondItem="EGI-BV-EDN" secondAttribute="trailing" id="ujz-NF-vFZ"/>
+                <constraint firstItem="EGI-BV-EDN" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="S6D-uy-dOb"/>
+                <constraint firstItem="EGI-BV-EDN" firstAttribute="height" secondItem="SEy-5g-ep8" secondAttribute="height" id="TuP-Gp-uuO"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
-            <size key="customSize" width="190" height="168"/>
+            <size key="customSize" width="336" height="298"/>
             <connections>
                 <outlet property="imv" destination="eSh-Bd-OkS" id="GGJ-dx-H5z"/>
                 <outlet property="scrPageView" destination="EGI-BV-EDN" id="sqJ-JH-JNe"/>
             </connections>
-            <point key="canvasLocation" x="104" y="113"/>
+            <point key="canvasLocation" x="132" y="98"/>
         </collectionViewCell>
     </objects>
 </document>

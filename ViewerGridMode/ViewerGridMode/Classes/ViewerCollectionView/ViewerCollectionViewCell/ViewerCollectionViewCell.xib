@@ -19,7 +19,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="227" height="326"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image0.png" translatesAutoresizingMaskIntoConstraints="NO" id="zWE-zK-JM0">
+                    <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5qG-d2-RMY">
+                        <rect key="frame" x="0.0" y="0.0" width="227" height="306"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zWE-zK-JM0">
                         <rect key="frame" x="0.0" y="0.0" width="227" height="306"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hF7-vr-75U">
@@ -34,10 +38,14 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="hF7-vr-75U" secondAttribute="trailing" id="3vj-o0-BsV"/>
                 <constraint firstItem="hF7-vr-75U" firstAttribute="top" secondItem="zWE-zK-JM0" secondAttribute="bottom" id="7wb-NN-FcS"/>
+                <constraint firstItem="5qG-d2-RMY" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="A6B-sj-lMq"/>
+                <constraint firstItem="5qG-d2-RMY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="DWm-G9-XX1"/>
                 <constraint firstAttribute="bottom" secondItem="zWE-zK-JM0" secondAttribute="bottom" constant="20" id="FDg-DE-0VO"/>
                 <constraint firstAttribute="trailing" secondItem="zWE-zK-JM0" secondAttribute="trailing" id="HU8-9p-3HG"/>
+                <constraint firstItem="hF7-vr-75U" firstAttribute="top" secondItem="5qG-d2-RMY" secondAttribute="bottom" id="VCx-ZN-YvO"/>
                 <constraint firstAttribute="bottom" secondItem="hF7-vr-75U" secondAttribute="bottom" id="aYh-wj-36r"/>
                 <constraint firstItem="zWE-zK-JM0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="eV9-6e-y20"/>
+                <constraint firstAttribute="trailing" secondItem="5qG-d2-RMY" secondAttribute="trailing" id="q6A-jh-vdq"/>
                 <constraint firstItem="hF7-vr-75U" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="smC-PV-myZ"/>
                 <constraint firstItem="zWE-zK-JM0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="xq1-aJ-miS"/>
             </constraints>
@@ -45,12 +53,10 @@
             <size key="customSize" width="227" height="326"/>
             <connections>
                 <outlet property="imv" destination="zWE-zK-JM0" id="RMu-nm-f8C"/>
+                <outlet property="imvBg" destination="5qG-d2-RMY" id="dO6-8N-7Gp"/>
                 <outlet property="lblNumberOfPage" destination="hF7-vr-75U" id="9OV-2B-tmV"/>
             </connections>
             <point key="canvasLocation" x="8.5" y="93"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="image0.png" width="1242" height="2208"/>
-    </resources>
 </document>

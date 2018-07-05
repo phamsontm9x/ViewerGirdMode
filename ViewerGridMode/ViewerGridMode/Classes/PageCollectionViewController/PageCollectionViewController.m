@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
 @property (nonatomic) NSInteger totalItems;
+@property (nonatomic) NSInteger indexCellZoom;
+@property (nonatomic) CGSize sizeCellZoom;
 
 @property (nonatomic) BOOL selectedButton;
 
@@ -33,12 +35,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _totalItems = 20;
+    
+    _indexCellZoom = -1;
+    
     [self.collectionView registerNib:[UINib nibWithNibName:@"PageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"PageCollectionViewCell"];
-    
-    PageCollectionViewFlowLayout *flowLayout = [[PageCollectionViewFlowLayout alloc] init];
-    
-    self.collectionView.collectionViewLayout = flowLayout;
-    
     
     [self initInteractiveTransition];
     [self.collectionView reloadData];
@@ -59,26 +59,30 @@
     }
 }
 
-- (void)setEstimatedSizeIfNeeded {
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    CGFloat estimatedWidth = 30.f;
-    if (flowLayout.estimatedItemSize.width != estimatedWidth) {
-        [flowLayout setEstimatedItemSize:CGSizeMake(estimatedWidth, 100)];
-        [flowLayout invalidateLayout];
-    }
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)aScrollView {
+    
+    PageCollectionViewCell *cellVisible = self.collectionView.visibleCells.firstObject;
+    
+    return cellVisible;
 }
+
 
 
 #pragma mark <UICollectionViewFlowLayout>
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == _indexCellZoom) {
+        return _sizeCellZoom;
+    }
+    
     CGRect frame = self.collectionView.bounds;
-    return CGSizeMake(frame.size.width, frame.size.height -20); // size status bar
+    return CGSizeMake(frame.size.width, frame.size.height -200); // size status bar
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0, 8, 0, 8);
-}
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+//    return UIEdgeInsetsMake(0, 8, 0, 8);
+//}
 
 
 #pragma mark <UICollectionViewDataSource>
@@ -100,7 +104,6 @@
     
     return cell;
 }
-
 
 #pragma mark - Init Interactive
 
@@ -229,8 +232,17 @@
     }
 }
 
-- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell updateInteractiveTransition:(CGFloat)vaule {
-    [self.interactiveTransitionPresent updateInteractiveTransition:vaule];
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell updateInteractiveTransition:(CGFloat)value {
+    [self.interactiveTransitionPresent updateInteractiveTransition:value];
+}
+
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell isZoomingWithSize:(CGSize)size {
+    CGPoint contentSize = self.collectionView.contentOffset;
+    CGFloat heigth = (size.height - cell.frame.size.height)/2;
+    [self.collectionView setContentOffset:CGPointMake(contentSize.x, contentSize.y + heigth)];
+    _indexCellZoom = cell.indexPage;
+    _sizeCellZoom = size;    
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - ImageForTransition
@@ -285,6 +297,7 @@
     UIGraphicsEndImageContext();
     return snapshot;
 }
+
 
 
 @end
