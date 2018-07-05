@@ -28,6 +28,7 @@
 @property (nonatomic) NSIndexPath *currentIndexPath;
 @property (nonatomic) NSInteger totalItems;
 @property (nonatomic) BOOL isProcessingTransition;
+@property (nonatomic) BOOL isProcessingInteractiveTransition;
 
 - (CGRect)getFrameCellWithIndexPath:(NSIndexPath *)indexPath;
 

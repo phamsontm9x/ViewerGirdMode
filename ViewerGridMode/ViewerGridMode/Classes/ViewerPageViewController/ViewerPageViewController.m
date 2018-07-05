@@ -55,7 +55,7 @@ const CGFloat kMinScale = 0.4;
         self.indexPath = 0;
     }
     
-    _imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",self.indexPath%10]];
+    _imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld.jpg",self.indexPath%10]];
     
     [self configGesture];
     [self initInteractiveTransition];
@@ -110,6 +110,7 @@ const CGFloat kMinScale = 0.4;
 #warning need to calculate
     self.vcPresent.collectionView.contentOffset = self.contentOffSetClv;
     self.vcPresent.isProcessingTransition = YES;
+    self.vcPresent.isProcessingInteractiveTransition = YES;
     [self presentViewController:self.vcPresent animated:YES completion:^{
         [self.view removeGestureRecognizer:self.panGestureVC];
     }];
@@ -144,9 +145,11 @@ const CGFloat kMinScale = 0.4;
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(ViewerCollectionView *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     
     presented.isProcessingTransition = YES;
+    presented.isProcessingInteractiveTransition = YES;
     
     _transition = [[ViewerTransition alloc] init];
     if (_selectedButton) {
+        presented.isProcessingInteractiveTransition = NO;
         _transition.enabledInteractive = NO;
         _selectedButton = NO;
     }
@@ -161,6 +164,7 @@ const CGFloat kMinScale = 0.4;
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(ViewerCollectionView *)dismissed {
     
     dismissed.isProcessingTransition = YES;
+    dismissed.isProcessingInteractiveTransition = NO;
     
     _transition = [[ViewerTransition alloc] init];
     
@@ -260,7 +264,7 @@ const CGFloat kMinScale = 0.4;
                         [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
                         if (_interactionInProgress && gestureRecognizer.scale < 1) {
                             CGFloat fraction = fabs((1 - gestureRecognizer.scale) / 0.4);
-                            fraction = fminf(fmaxf(fraction, 0.0), 0.7);
+                            fraction = fminf(fmaxf(fraction, 0.0), 1);
                             _shouldCompleteTransition = (fraction > 0.5);
                             if (fraction >= 1.0)
                                 fraction = 0.99;

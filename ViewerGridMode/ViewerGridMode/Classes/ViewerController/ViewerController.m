@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, ViewerReadingMode) {
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     tapGesture.delegate = self;
-//    [self.view addGestureRecognizer:tapGesture];
+    [self.view addGestureRecognizer:tapGesture];
     [self.topView setHidden:YES];
     [self.botView setHidden:YES];
 }

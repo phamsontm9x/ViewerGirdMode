@@ -10,7 +10,8 @@
 #import "ViewerCollectionView.h"
 #import "ViewerPageViewController.h"
 
-
+#define durationInteractive 0.5
+#define durationDefault 0.3
 
 @interface ViewerTransition ()
 
@@ -38,6 +39,12 @@
     UIView *toView = toVC.view;
     UIView *fromView = fromVC.view;
     
+    if (_isPresent && _enabledInteractive) {
+        self.duration = durationInteractive;
+    } else {
+        self.duration = durationDefault;
+    }
+    
     switch (_transitionMode) {
         case ViewerTransitionModePage:
             [self animateTransitionModePage:transitionContext fromVC:fromVC toVC:toVC fromView:fromView toView:toView];
@@ -60,17 +67,20 @@
 - (void)animateTransitionModePage:(id<UIViewControllerContextTransitioning>)transitionContext fromVC:(UIViewController<ViewerTransitionProtocol> *)fromVC toVC:(UIViewController<ViewerTransitionProtocol> *)toVC fromView:(UIView *)fromView toView:(UIView *)toView {
     
     UIView* containerView = [transitionContext containerView];
-//    UIView *toViewSnapshot = [toView resizableSnapshotViewFromRect:toView.frame afterScreenUpdates:YES withCapInsets:UIEdgeInsetsZero];
+    UIView *toViewSnapshot = [toView resizableSnapshotViewFromRect:toView.frame afterScreenUpdates:YES withCapInsets:UIEdgeInsetsZero];
     
     UIImageView *viewBegin = [[UIImageView alloc] init];
     UIImageView *viewEnd = [[UIImageView alloc] init];
+    UIImageView *viewFade = [[UIImageView alloc] init];
     
     viewBegin.contentMode = UIViewContentModeScaleAspectFit;
     viewEnd.contentMode = UIViewContentModeScaleAspectFit;
+    viewFade = [[UIImageView alloc] init];
     
     viewBegin.alpha = 1.0;
     fromView.alpha = 1.0;
     toView.alpha = 1.0;
+    viewFade.alpha = 1.0;
     
     if (_isPresent) {
         
@@ -84,21 +94,22 @@
             viewEnd.frame = toView.frame;
         }
         
+        [viewFade setFrame:toView.frame];
+        viewFade.backgroundColor = [UIColor blackColor];
+        
         if (_enabledInteractive) {
-            
-            [viewBegin setFrame:toView.frame];
-            viewBegin.backgroundColor = [UIColor blackColor];
+        
             fromView.backgroundColor = [UIColor clearColor];
         
         } else {
             
             [viewBegin setFrame:_frameSnapShot];
             viewBegin.image = _snapShot.image;
-        
             fromView.alpha = 0.0;
         }
         
         [containerView addSubview:toView];
+        [containerView addSubview:viewFade];
         [containerView addSubview:viewBegin];
         [containerView addSubview:fromView];
         
@@ -117,6 +128,7 @@
         [containerView addSubview:toView];
         [containerView addSubview:fromView];
         [containerView addSubview:viewBegin];
+        
         viewEnd.frame = _toViewDefault;
         fromView.alpha = 1.0;
         toView.alpha = 0;
@@ -128,12 +140,9 @@
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         if (_isPresent) {
-            if (_enabledInteractive) {
-                viewBegin.alpha = 0;
-            } else {
+            viewFade.alpha = 0.0;
+            if (!_enabledInteractive) {
                 [viewBegin setFrame:viewEnd.frame];
-                toView.alpha = 1;
-                viewBegin.alpha = 1;
             }
         } else {
             [viewBegin setFrame:viewEnd.frame];
@@ -141,7 +150,9 @@
         }
     } completion:^(BOOL finished) {
         if (![transitionContext transitionWasCancelled]) {
+    
             toView.alpha = 1.0;
+            [viewFade removeFromSuperview];
             [fromView removeFromSuperview];
             [viewBegin removeFromSuperview];
             [_snapShot removeFromSuperview];
@@ -156,6 +167,7 @@
             
         } else {
             fromView.alpha = 1;
+            [viewFade removeFromSuperview];
             [toView removeFromSuperview];
             [viewBegin removeFromSuperview];
         }

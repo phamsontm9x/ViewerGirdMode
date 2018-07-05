@@ -100,7 +100,7 @@
     PageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PageCollectionViewCell" forIndexPath:indexPath];
     cell.delegate = self;
     cell.indexPage = indexPath.row;
-    cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
+    cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld.jpg",(long)indexPath.row%10]];
     
     return cell;
 }
@@ -124,6 +124,7 @@
     _transition = [[ViewerTransition alloc] init];
     if (_selectedButton) {
         _transition.enabledInteractive = NO;
+        presented.isProcessingInteractiveTransition = NO;
         _selectedButton = NO;
     }
     _transition.transitionMode = ViewerTransitionModeCollection;
@@ -139,6 +140,7 @@
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(ViewerCollectionView *)dismissed {
     
     dismissed.isProcessingTransition = YES;
+    dismissed.isProcessingInteractiveTransition = NO;
     
     _transition = [[ViewerTransition alloc] init];
     _transition.isPresent = NO;

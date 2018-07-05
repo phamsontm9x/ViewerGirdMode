@@ -65,7 +65,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ReadingBreakPageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ReadingBreakPageCell" forIndexPath:indexPath];
     
-    cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
+    cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld.jpg",(long)indexPath.row%10]];
     
     return cell;
 }

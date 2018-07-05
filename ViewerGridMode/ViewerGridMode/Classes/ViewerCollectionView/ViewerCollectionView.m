@@ -134,21 +134,26 @@
         cell.imv.image = [UIImage imageNamed:@"imageGird"];
         cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
     } else {
-        cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld",(long)indexPath.row%10]];
+        cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld.jpg",(long)indexPath.row%10]];
         cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
         
         if (indexPath.row == _currentIndexPath.row) {
             if (_isProcessingTransition) {
-                cell.imvBg.hidden = NO;
+                if (_isProcessingInteractiveTransition) {
+                    cell.imvBg.hidden = NO;
+                } else {
+                    cell.imvBg.hidden = YES;
+                }
                 cell.imv.hidden = YES;
             } else {
-                cell.imv.layer.borderWidth = 2;
-                cell.imv.layer.borderColor = [UIColor blueColor].CGColor;
+                cell.imv.layer.borderWidth = 4;
+                cell.imv.layer.borderColor = [UIColor colorWithRed:39/255 green:157/255 blue:255/255 alpha:1].CGColor;
                 cell.imv.hidden = NO;
                 cell.imvBg.hidden = YES;
             }
             
         } else {
+            cell.imvBg.hidden = YES;
             cell.imv.layer.borderWidth = 0;
             cell.imv.hidden = NO;
             cell.imv.backgroundColor = [UIColor clearColor];
