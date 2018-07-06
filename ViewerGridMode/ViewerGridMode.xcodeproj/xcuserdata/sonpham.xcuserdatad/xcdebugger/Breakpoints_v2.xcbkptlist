@@ -78,24 +78,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/ViewerCollectionView/ViewerCollectionView.m"
-            timestampString = "552479091.708149"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "-didSelectBackToReading:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
-            timestampString = "552479091.7085069"
+            timestampString = "552543854.830048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -110,13 +94,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/ViewerTransition/ViewerTransition.m"
-            timestampString = "552479091.70857"
+            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewCell/PageCollectionViewCell.m"
+            timestampString = "552547276.458347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "-animateTransitionModeAds:fromVC:toVC:fromView:toView:"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "-scrollViewDidZoom:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -126,13 +110,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/ViewerPageViewController/ViewerPageViewController.m"
-            timestampString = "552479091.708627"
+            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewController.m"
+            timestampString = "552547276.45841"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
-            landmarkName = "-scrollViewDidZoom:"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "-animationControllerForDismissedController:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewController.m"
+            timestampString = "552547276.458468"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "-animationControllerForDismissedController:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -142,45 +142,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewCell/PageCollectionViewCell.m"
-            timestampString = "552475163.105528"
+            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewController.m"
+            timestampString = "552547276.458524"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "336"
-            endingLineNumber = "336"
-            landmarkName = "-preferredLayoutAttributesFittingAttributes:"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "-animationControllerForPresentedController:presentingController:sourceController:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewCell/PageCollectionViewCell.m"
-            timestampString = "552475163.1060981"
+            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewController.m"
+            timestampString = "552547276.458578"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "-scrollViewDidEndZooming:withView:atScale:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ViewerGridMode/Classes/PageCollectionViewController/PageCollectionViewCell/PageCollectionViewCell.m"
-            timestampString = "552475163.106384"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "-scrollViewDidZoom:"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "-imageViewForImageTransition"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

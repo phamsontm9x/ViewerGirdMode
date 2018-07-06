@@ -1,4 +1,4 @@
-    //
+//
 //  PageCollectionViewController.m
 //  ViewerGridMode
 //
@@ -21,11 +21,16 @@
 @property (nonatomic, strong) ViewerInteractiveTransitioning *interactiveTransitionPresent;
 
 @property (nonatomic, strong) ViewerCollectionView<ViewerTransitionProtocol> *vcPresent;
+
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
+@property (nonatomic) CGRect oldFrameItem;
+
 @property (nonatomic) NSInteger totalItems;
 @property (nonatomic) NSInteger indexCellZoom;
 @property (nonatomic) CGSize sizeCellZoom;
 
 @property (nonatomic) BOOL selectedButton;
+@property (nonatomic) BOOL isOldItem;
 
 @end
 
@@ -144,8 +149,7 @@
     
     _transition = [[ViewerTransition alloc] init];
     _transition.isPresent = NO;
-    NSIndexPath *cellIndex = [NSIndexPath indexPathForRow:[self cellViewForImageTransition].indexPage inSection:0];
-    _transition.toViewDefault = [self getFrameCellWithIndexPath:cellIndex];
+    _transition.toViewDefault = [self getFrameCellForDismissWithIndexPath:_currentIndexPath];
     _transition.transitionMode = ViewerTransitionModeCollection;
     _transition.enabledInteractive = YES;
     
@@ -160,8 +164,15 @@
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
-- (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index {
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+- (void)viewerCollectionView:(ViewerCollectionView *)vc dismissViewController:(NSInteger)index withModeBackToReading:(BOOL)isBackToReading {
+    
+    if (_currentIndexPath.row == index && isBackToReading) {
+        _isOldItem = YES;
+    } else {
+        _isOldItem = NO;
+        _currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:_currentIndexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    }
     [vc dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -171,6 +182,7 @@
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell dismissViewController:(NSInteger)index {
     self.vcPresent.isProcessingTransition = YES;
     self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    _currentIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
     
     for (PageCollectionViewCell *cellVisible in self.collectionView.visibleCells) {
         if (cellVisible != cell) {
@@ -181,7 +193,7 @@
     [self presentViewController:self.vcPresent animated:YES completion:nil];
 }
 
-- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell finishInteractiveTransition:(BOOL)finished {
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell andGesture:(UIPinchGestureRecognizer *)gesture finishInteractiveTransition:(BOOL)finished {
     if (finished) {
         
         UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
@@ -200,7 +212,7 @@
         [self.interactiveTransitionPresent finishInteractiveTransition];
         [self.collectionView setScrollEnabled:NO];
         
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:gesture.velocity options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [cell setEnableGesture:NO];
             cell.pinchGesture.view.transform = CGAffineTransformIdentity;
             imageBegin.frame = endView.frame;
@@ -221,7 +233,7 @@
         
         [self.interactiveTransitionPresent cancelInteractiveTransition];
         
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [cell setEnableGesture:NO];
             cell.pinchGesture.view.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
@@ -249,11 +261,23 @@
 
 #pragma mark - ImageForTransition
 
+- (CGRect)getFrameCellForDismissWithIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    CGRect cellFrameInSuperview = attributes.frame;
+    if (!_isOldItem) {
+        cellFrameInSuperview.origin.y = 20;
+    } else {
+        cellFrameInSuperview.origin.y = attributes.frame.origin.y - self.collectionView.contentOffset.y;
+    }
+    
+    return cellFrameInSuperview;
+}
+
 - (CGRect)getFrameCellWithIndexPath:(NSIndexPath*)indexPath {
     
     UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
     CGRect cellFrameInSuperview = attributes.frame;
-    cellFrameInSuperview.origin.y = 20;
+    cellFrameInSuperview.origin.y = attributes.frame.origin.y - self.collectionView.contentOffset.y;
     return cellFrameInSuperview;
 }
 

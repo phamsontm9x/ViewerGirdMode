@@ -16,7 +16,7 @@
 
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell dismissViewController:(NSInteger)index;
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell updateInteractiveTransition:(CGFloat)vaule;
-- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell finishInteractiveTransition:(BOOL)finished;
+- (void)pageCollectionViewCell:(PageCollectionViewCell *)cell andGesture:(UIPinchGestureRecognizer*)gesture finishInteractiveTransition:(BOOL)finished;
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell isZoomingWithSize:(CGSize)size;
 
 - (void)pageCollectionViewCell:(PageCollectionViewCell *)cell isZoomingEndAtIndex:(NSInteger)index;

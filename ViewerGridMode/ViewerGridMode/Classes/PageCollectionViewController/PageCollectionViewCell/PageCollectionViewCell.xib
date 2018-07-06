@@ -26,7 +26,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="336" height="298"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.1477507055" green="0.58808726069999995" blue="0.95349150900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="eSh-Bd-OkS" secondAttribute="trailing" id="5Gu-Zg-Ey7"/>
                             <constraint firstItem="eSh-Bd-OkS" firstAttribute="centerY" secondItem="EGI-BV-EDN" secondAttribute="centerY" id="HFk-ah-bP1"/>
@@ -38,7 +37,6 @@
                     </scrollView>
                 </subviews>
             </view>
-            <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="EGI-BV-EDN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2Jk-F6-2A3"/>
                 <constraint firstItem="EGI-BV-EDN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6lo-Zw-QXn"/>

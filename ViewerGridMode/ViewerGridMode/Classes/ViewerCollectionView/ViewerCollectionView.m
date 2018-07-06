@@ -14,6 +14,8 @@
 @interface ViewerCollectionView () <UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, ViewerTransitionProtocol, UIScrollViewDelegate>
 
 @property (nonatomic) UIButton *btnBackToReading;
+@property (nonatomic) UIView *shadowView;
+@property (nonatomic, strong) UIColor *mainColor;
 
 @end
 
@@ -28,6 +30,8 @@
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"ViewerCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"ViewerCollectionViewCell"];
     [self.collectionView reloadData];
+    
+    _mainColor = [UIColor colorWithRed:39.0f/255 green:185.0f/255 blue:255.0f/255 alpha:1];
     
 }
 
@@ -45,15 +49,25 @@
 - (void)initBackToReading {
     
     [_btnBackToReading removeFromSuperview];
+    [_shadowView removeFromSuperview];
     
-    _btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 200)/2, self.collectionView.frame.size.height - 70 , 200, 50)];
+    _shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.frame.size.height - 100, self.collectionView.frame.size.width, 100)];
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    
+    gradient.frame = _shadowView.bounds;
+    gradient.colors = @[(id)[UIColor clearColor].CGColor, (id)[UIColor blackColor].CGColor];
+    
+    [_shadowView.layer insertSublayer:gradient atIndex:0];
+    [self.view addSubview: _shadowView];
+    
+    _btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 200)/2, self.collectionView.frame.size.height - 80 , 200, 50)];
     [_btnBackToReading addTarget:self action:@selector(didSelectBackToReading:) forControlEvents:UIControlEventTouchUpInside];
-    [_btnBackToReading setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_btnBackToReading setTitleColor:_mainColor forState:UIControlStateNormal];
     [_btnBackToReading setBackgroundColor:[UIColor whiteColor]];
-    _btnBackToReading.layer.cornerRadius = 15;
+    _btnBackToReading.layer.cornerRadius = 20;
     _btnBackToReading.clipsToBounds = YES;
     _btnBackToReading.layer.borderWidth = 1;
-    _btnBackToReading.layer.borderColor = [UIColor blueColor].CGColor;
+    _btnBackToReading.layer.borderColor = _mainColor.CGColor;
     [_btnBackToReading setTitle:@"X  Back To Reading" forState:UIControlStateNormal];
     
     [self.view addSubview:_btnBackToReading];
@@ -66,8 +80,8 @@
     CGFloat height = (width*1.6 + 10) * index;
     
     if (self.collectionView.contentOffset.y <= height && self.collectionView.contentOffset.y + self.collectionView.frame.size.height >= height) {
-        if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:DismissViewController:)]) {
-            [_delegate viewerCollectionView:self DismissViewController:_currentIndexPath.row];
+        if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:dismissViewController:withModeBackToReading:)]) {
+            [_delegate viewerCollectionView:self dismissViewController:_currentIndexPath.row withModeBackToReading:YES];
         }
         return;
     }
@@ -75,8 +89,8 @@
     [UIView animateWithDuration:0.3 animations:^{
         [self.collectionView scrollToItemAtIndexPath:_currentIndexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     } completion:^(BOOL finished){
-        if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:DismissViewController:)]) {
-            [_delegate viewerCollectionView:self DismissViewController:_currentIndexPath.row];
+        if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:dismissViewController:withModeBackToReading:)]) {
+            [_delegate viewerCollectionView:self dismissViewController:_currentIndexPath.row withModeBackToReading:YES];
         }
     }];
 }
@@ -136,7 +150,7 @@
     } else {
         cell.imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld.jpg",(long)indexPath.row%10]];
         cell.lblNumberOfPage.text = [NSString stringWithFormat:@"%ld",indexPath.row];
-        
+        cell.imv.layer.masksToBounds = YES;
         if (indexPath.row == _currentIndexPath.row) {
             if (_isProcessingTransition) {
                 if (_isProcessingInteractiveTransition) {
@@ -146,10 +160,10 @@
                 }
                 cell.imv.hidden = YES;
             } else {
-                cell.imv.layer.borderWidth = 4;
-                cell.imv.layer.borderColor = [UIColor colorWithRed:39/255 green:157/255 blue:255/255 alpha:1].CGColor;
-                cell.imv.hidden = NO;
                 cell.imvBg.hidden = YES;
+                cell.imv.layer.borderWidth = 4;
+                cell.imv.layer.borderColor = _mainColor.CGColor;
+                cell.imv.hidden = NO;
             }
             
         } else {
@@ -158,7 +172,6 @@
             cell.imv.hidden = NO;
             cell.imv.backgroundColor = [UIColor clearColor];
         }
-        cell.imv.layer.masksToBounds = YES;
     }
     
     return cell;
@@ -176,8 +189,9 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     _currentIndexPath = indexPath;
-    if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:DismissViewController:)]) {
-        [_delegate viewerCollectionView:self DismissViewController:indexPath.row];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(viewerCollectionView:dismissViewController:withModeBackToReading:)]) {
+        [_delegate viewerCollectionView:self dismissViewController:_currentIndexPath.row withModeBackToReading:NO];
     }
 }
 
@@ -282,6 +296,10 @@
 
 - (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
     
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
 }
 
 

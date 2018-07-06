@@ -46,7 +46,7 @@
 }
 
 const CGFloat kMaxScale = 3.0;
-const CGFloat kMinScale = 0.4;
+const CGFloat kMinScale = 0.2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -135,7 +135,7 @@ const CGFloat kMinScale = 0.4;
 
 #pragma mark - ViewerCollectionViewDelegate
 
-- (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index {
+- (void)viewerCollectionView:(ViewerCollectionView *)vc dismissViewController:(NSInteger)index withModeBackToReading:(BOOL)isBaclToReading {
     [self viewerPageViewControllerDelegate:self clv:vc jumpToViewControllerAtIndex:index];
 }
 
@@ -285,7 +285,7 @@ const CGFloat kMinScale = 0.4;
         case UIGestureRecognizerStateEnded: {
             NSLog(@"______");
             currentScale = [gestureRecognizer scale];
-            [self animationEndGesture];
+            [self animationEndGestureWithGesture:gestureRecognizer];
             
         }
             break;
@@ -346,7 +346,7 @@ const CGFloat kMinScale = 0.4;
     }
 }
 
-- (void)animationEndGesture {
+- (void)animationEndGestureWithGesture:(UIPinchGestureRecognizer *)gesture {
     
     if (_shouldCompleteTransition) {
         _shouldCompleteTransition = NO;
@@ -361,10 +361,9 @@ const CGFloat kMinScale = 0.4;
         [endView setFrame:frame];
         UIView *currentView = self.pinchGesture.view;
         
-        [self.interactiveTransitionPresent finishInteractiveTransition];
-        
-        
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        NSLog(@"%f",gesture.velocity);
+        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:gesture.velocity options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self.interactiveTransitionPresent finishInteractiveTransition];
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
             currentView.frame = endView.frame;
@@ -382,7 +381,7 @@ const CGFloat kMinScale = 0.4;
         [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         [self.interactiveTransitionPresent cancelInteractiveTransition];
         
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:0.9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {

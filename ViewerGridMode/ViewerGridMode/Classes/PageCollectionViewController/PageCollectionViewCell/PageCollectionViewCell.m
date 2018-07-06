@@ -166,7 +166,7 @@
             NSLog(@"______");
 //           gestureRecognizer.view.transform = CGAffineTransformIdentity;
             currentScale = [gestureRecognizer scale];
-            [self animationEndGesture];
+            [self animationEndGestureWithGesture:gestureRecognizer];
             
         }
             break;
@@ -227,25 +227,25 @@
     }
 }
 
-- (void)animationEndGesture {
+- (void)animationEndGestureWithGesture:(UIPinchGestureRecognizer *)gesture {
     
     if (_shouldCompleteTransition) {
         _shouldCompleteTransition = NO;
         _interactionInProgress = NO;
-        if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:finishInteractiveTransition:)]) {
-            [_delegate pageCollectionViewCell:self finishInteractiveTransition:YES];
+        if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell: andGesture:finishInteractiveTransition:)]) {
+            [_delegate pageCollectionViewCell:self andGesture:gesture finishInteractiveTransition:YES];
         }
         
     } else {
         
-        if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:finishInteractiveTransition:)]) {
-            [_delegate pageCollectionViewCell:self finishInteractiveTransition:NO];
+        if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell: andGesture:finishInteractiveTransition:)]) {
+            [_delegate pageCollectionViewCell:self andGesture:gesture finishInteractiveTransition:NO];
         }
         
         UIView *currentView = self.pinchGesture.view;
         _interactionInProgress = NO;
         
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:gesture.velocity options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
@@ -288,24 +288,18 @@
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
     NSLog(@"%f",scrollView.pinchGestureRecognizer.velocity);
 //    oldSizeY = self.imv.frame.size.width;
-    oldSizeY = 1;
+     oldSizeY = self.frame.size.height;
     if ((scrollView.pinchGestureRecognizer.velocity < 0 && scrollView.pinchGestureRecognizer.scale <= 1.0 ) && scrollView.zoomScale == 1 && scrollView == _scrPageView) {
         [scrollView.pinchGestureRecognizer setEnabled:NO];
     }
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-//    oldSizeY = oldSizeY * scrollView.pinchGestureRecognizer.scale;
-//    NSLog(@"%f",scrollView.pinchGestureRecognizer.scale);
-    NSLog(@"%@",self.imv.description);
-    CGSize sizeZoom = self.frame.size;
-//    oldSizeY = oldSizeY * scrollView.pinchGestureRecognizer.scale;
-//    sizeZoom.height = 276 * scrollView.pinchGestureRecognizer.scale;
-    sizeZoom.height = self.frame.size.height * scrollView.pinchGestureRecognizer.scale;
 
-//    [_scrPageView setContentSize:CGSizeMake(oldSizeY, sizeZoom.height)];
-//    [_imv setFrame:CGRectMake(frameImv.origin.x, frameImv.origin.y, oldSizeY, sizeZoom.height)];
-    
+    NSLog(@"%f",oldSizeY);
+    CGSize sizeZoom = self.frame.size;
+    sizeZoom.height = oldSizeY * scrollView.pinchGestureRecognizer.scale;
+
     if (sizeZoom.height < 1500 || sizeZoom.height > 100) {
         if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:isZoomingWithSize:)]) {
             [_delegate pageCollectionViewCell:self isZoomingWithSize:sizeZoom];
@@ -314,20 +308,13 @@
         [scrollView.pinchGestureRecognizer setEnabled:NO];
     }
     
-    _scrPageView.pinchGestureRecognizer.scale = 1;
+
 
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale  {
     if (scrollView == _scrPageView) {
         [scrollView.pinchGestureRecognizer setEnabled:YES];
-//        if (scale <=1) {
-//            CGSize sizeZoom = self.frame.size;
-//            sizeZoom.height = 276;
-//            if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:isZoomingWithSize:)]) {
-//                [_delegate pageCollectionViewCell:self isZoomingWithSize:sizeZoom];
-//            }
-//        }
     }
 }
 

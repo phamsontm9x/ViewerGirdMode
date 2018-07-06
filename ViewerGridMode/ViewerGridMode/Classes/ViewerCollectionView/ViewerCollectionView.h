@@ -14,7 +14,7 @@
 
 @protocol ViewerCollectionViewDelegate <NSObject>
 
-- (void)viewerCollectionView:(ViewerCollectionView *)vc DismissViewController:(NSInteger)index;
+- (void)viewerCollectionView:(ViewerCollectionView *)vc dismissViewController:(NSInteger)index withModeBackToReading:(BOOL)isBackToReading;
 
 @end
 
