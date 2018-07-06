@@ -31,9 +31,10 @@ typedef NS_ENUM(NSInteger, ViewerReadingMode) {
     // Do any additional setup after loading the view.
     [self changeModeTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOritentation:UIPageViewControllerNavigationOrientationHorizontal withOptions:@{UIPageViewControllerOptionInterPageSpacingKey: @(16)}];
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-    tapGesture.delegate = self;
-    [self.view addGestureRecognizer:tapGesture];
+    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    longGesture.delegate = self;
+    longGesture.minimumPressDuration = 1.0;
+    [self.view addGestureRecognizer:longGesture];
     [self.topView setHidden:YES];
     [self.botView setHidden:YES];
 }
@@ -132,6 +133,5 @@ typedef NS_ENUM(NSInteger, ViewerReadingMode) {
     [self.view bringSubviewToFront:self.topView];
     [self.view bringSubviewToFront:self.botView];
 }
-
 
 @end

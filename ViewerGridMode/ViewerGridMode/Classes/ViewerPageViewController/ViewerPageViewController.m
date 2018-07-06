@@ -31,6 +31,8 @@
 @property (nonatomic) CGRect frameCellPresent;
 @property (nonatomic) BOOL selectedButton;
 
+@property (nonatomic) CGFloat rotate;
+
 @end
 
 @implementation ViewerPageViewController {
@@ -46,7 +48,7 @@
 }
 
 const CGFloat kMaxScale = 3.0;
-const CGFloat kMinScale = 0.2;
+const CGFloat kMinScale = 0.15;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,13 +77,10 @@ const CGFloat kMinScale = 0.2;
     // Dispose of any resources that can be recreated.
 }
 
-//- (UIStatusBarStyle)preferredStatusBarStyle {
-//    return UIStatusBarStyleLightContent;
-//}
-
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -246,7 +245,6 @@ const CGFloat kMinScale = 0.2;
     
     switch (gestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            NSLog(@"%f",gestureRecognizer.velocity);
             if (gestureRecognizer.scale < 1 && gestureRecognizer.velocity < 0) {
                 if (!_interactionInProgress ) {
                     [self calculateContentOffScrollViewWhenDismiss];
@@ -259,7 +257,7 @@ const CGFloat kMinScale = 0.2;
             
         case UIGestureRecognizerStateChanged: {
             
-                if (gestureRecognizer.scale < kMaxScale && gestureRecognizer.scale > kMinScale) {
+                if (gestureRecognizer.scale < kMaxScale) {
                     if (_interactionInProgress == YES) {
                         [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
                         if (_interactionInProgress && gestureRecognizer.scale < 1) {
@@ -268,7 +266,6 @@ const CGFloat kMinScale = 0.2;
                             _shouldCompleteTransition = (fraction > 0.5);
                             if (fraction >= 1.0)
                                 fraction = 0.99;
-                            NSLog(@"%f",fraction);
                             [self.interactiveTransitionPresent updateInteractiveTransition:fraction];
                         }
                     }
@@ -329,9 +326,9 @@ const CGFloat kMinScale = 0.2;
             break;
             
         case UIGestureRecognizerStateChanged: {
-            CGFloat rotate = [gestureRecognizer rotation];
+            _rotate = [gestureRecognizer rotation];
             
-            transformDefault = CGAffineTransformRotate([gestureRecognizer view].transform, rotate);
+            transformDefault = CGAffineTransformRotate([gestureRecognizer view].transform, _rotate);
             [gestureRecognizer view].transform = transformDefault;
         }
             break;
@@ -354,24 +351,43 @@ const CGFloat kMinScale = 0.2;
         [self.view addGestureRecognizer:self.panGestureVC];
         [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         
-#warning statusBar 20
         UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
         CGRect frame = endView.frame;
-        frame.origin.y -= 20;
         [endView setFrame:frame];
-        UIView *currentView = self.pinchGesture.view;
         
-        NSLog(@"%f",gesture.velocity);
-        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:gesture.velocity options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [self.interactiveTransitionPresent finishInteractiveTransition];
+        UIImageView *imageFade = [[UIImageView alloc] initWithFrame:self.pinchGesture.view.frame];
+        imageFade.image = self.imv.image;
+        imageFade.contentMode = UIViewContentModeScaleAspectFit;
+        imageFade.transform = CGAffineTransformRotate(CGAffineTransformIdentity, _rotate);
+        
+        [self.imv setHidden:YES];
+        [self.view addSubview:imageFade];
+        
+        CGFloat distance = sqrt(fabs(imageFade.frame.origin.x - endView.frame.origin.x)*fabs(imageFade.frame.origin.x - endView.frame.origin.x) + fabs(imageFade.frame.origin.y - endView.frame.origin.y)*fabs(imageFade.frame.origin.y - endView.frame.origin.y));
+                
+        CGFloat duration = 0.5;
+        
+        if (distance < 200) {
+            duration = 0.35;
+        }
+
+        [self.interactiveTransitionPresent finishInteractiveTransition];
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            imageFade.transform = CGAffineTransformIdentity;
+            [imageFade setBounds:endView.frame];
             [self setEnableGesture:NO];
-            currentView.transform = CGAffineTransformIdentity;
-            currentView.frame = endView.frame;
+            
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
             _interactionInProgress = NO;
             self.vcPresent.isProcessingTransition = NO;
             [self.scrPageView.pinchGestureRecognizer setEnabled:YES];
+        }];
+
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:(fabs(gesture.velocity) < 1 ? 1 : 0.1) options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            imageFade.center = endView.center;
+        } completion:^(BOOL finished) {
+
         }];
         
     } else {
@@ -381,7 +397,7 @@ const CGFloat kMinScale = 0.2;
         [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         [self.interactiveTransitionPresent cancelInteractiveTransition];
         
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:0.9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setEnableGesture:NO];
             currentView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {

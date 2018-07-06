@@ -165,12 +165,12 @@
         <!--Viewer Collection View-->
         <scene sceneID="Hw3-Hu-TCV">
             <objects>
-                <collectionViewController storyboardIdentifier="ViewerCollectionView" automaticallyAdjustsScrollViewInsets="NO" id="W8w-V2-HSJ" customClass="ViewerCollectionView" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="ViewerCollectionView" id="W8w-V2-HSJ" customClass="ViewerCollectionView" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xnv-54-w0z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JZ6-67-m3n">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="JZ6-67-m3n">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -178,7 +178,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="l4h-xZ-G8O">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <rect key="frame" x="8" y="8" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -191,7 +191,6 @@
                             <outlet property="delegate" destination="W8w-V2-HSJ" id="VXW-fN-qMe"/>
                         </connections>
                     </collectionView>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="dcO-WU-k5e"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gcv-tO-GSy" userLabel="First Responder" sceneMemberID="firstResponder"/>

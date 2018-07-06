@@ -116,27 +116,11 @@
             
         case UIGestureRecognizerStateChanged: {
             
-            if (gestureRecognizer.scale < 3 && gestureRecognizer.scale > 0.4) {
-                
-//                UIView *pinchView = gestureRecognizer.view;
-//                CGRect bounds = pinchView.bounds;
-//                CGPoint pinchCenter = [gestureRecognizer locationInView:pinchView];
-//                pinchCenter.x -= CGRectGetMidX(bounds);
-//                pinchCenter.y -= CGRectGetMidY(bounds);
-//                [gestureRecognizer view].transdform = CGAffineTransformScale([gestureRecognizer view].transform, pinchCenter.x, pinchCenter.y);
-                
+            if (gestureRecognizer.scale < 3 && gestureRecognizer.scale > 0.2) {
+            
                 [gestureRecognizer view].transform = CGAffineTransformScale(CGAffineTransformIdentity, gestureRecognizer.scale, gestureRecognizer.scale);
 //
-//                CGSize sizeZoom = self.frame.size;
-//                sizeZoom.height = self.frame.size.height * gestureRecognizer.scale;
-//
-//                [_scrPageView setContentSize:gestureRecognizer.view.frame.size];
-//                if (_delegate && [_delegate respondsToSelector:@selector(pageCollectionViewCell:isZoomingWithSize:)]) {
-//                    [_delegate pageCollectionViewCell:self isZoomingWithSize:sizeZoom];
-//                }
-//                NSLog(@"%f",gestureRecognizer.scale);
-//                gestureRecognizer.scale = 1;
-//
+
                 
                 if (_interactionInProgress == YES) {
                     if (_interactionInProgress && gestureRecognizer.scale < 1) {
@@ -153,7 +137,7 @@
                     }
                 }
             } else {
-                if (gestureRecognizer.scale <= 0.4) {
+                if (gestureRecognizer.scale <= 0.2) {
                     [self setEnableGesture:NO];
                 }
             }

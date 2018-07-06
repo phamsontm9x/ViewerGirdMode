@@ -42,7 +42,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self initBackToReading];
 }
 
@@ -60,9 +59,10 @@
     [_shadowView.layer insertSublayer:gradient atIndex:0];
     [self.view addSubview: _shadowView];
     
-    _btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 200)/2, self.collectionView.frame.size.height - 80 , 200, 50)];
+    _btnBackToReading = [[UIButton alloc] initWithFrame:CGRectMake((self.collectionView.frame.size.width - 160)/2, self.collectionView.frame.size.height - 70 , 160, 40)];
     [_btnBackToReading addTarget:self action:@selector(didSelectBackToReading:) forControlEvents:UIControlEventTouchUpInside];
     [_btnBackToReading setTitleColor:_mainColor forState:UIControlStateNormal];
+    _btnBackToReading.titleLabel.font = [UIFont systemFontOfSize:13];
     [_btnBackToReading setBackgroundColor:[UIColor whiteColor]];
     _btnBackToReading.layer.cornerRadius = 20;
     _btnBackToReading.clipsToBounds = YES;
@@ -114,19 +114,19 @@
 #pragma mark <UICollectionViewFlowLayout>
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat width = self.collectionView.frame.size.width / 3 - 20;
-    return CGSizeMake(width, width*1.6);
+    CGFloat width = self.collectionView.frame.size.width / 3 - 15;
+    return CGSizeMake(width, width*1.65);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 20.0;
+    return 5.0;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 20;
+    return 5.0;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(5, 10, 5, 10);
+    return UIEdgeInsetsMake(5, 5, 5, 5);
 }
 
 #pragma mark <UICollectionViewDataSource>

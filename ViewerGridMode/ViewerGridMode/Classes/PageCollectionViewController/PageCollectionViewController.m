@@ -57,7 +57,9 @@
 - (void)didTapOnGirdMode {
     _selectedButton = YES;
     
-    self.vcPresent.currentIndexPath = [NSIndexPath indexPathForRow:[self cellViewForImageTransition].indexPage inSection:0];
+    _currentIndexPath = [NSIndexPath indexPathForRow:[self cellViewForImageTransition].indexPage inSection:0];
+    self.vcPresent.currentIndexPath = _currentIndexPath;
+    
     
     if (![self.presentedViewController isBeingDismissed]) {
         [self presentViewController:self.vcPresent animated:YES completion:nil];
@@ -212,28 +214,47 @@
         [self.interactiveTransitionPresent finishInteractiveTransition];
         [self.collectionView setScrollEnabled:NO];
         
-        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:gesture.velocity options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        CGFloat distance = sqrt(fabs(imageBegin.frame.origin.x - endView.frame.origin.x)*fabs(imageBegin.frame.origin.x - endView.frame.origin.x) + fabs(imageBegin.frame.origin.y - endView.frame.origin.y)*fabs(imageBegin.frame.origin.y - endView.frame.origin.y));
+        
+        CGFloat duration = 0.5;
+        
+        if (distance < 200) {
+            duration = 0.35;
+        }
+        
+        [self.interactiveTransitionPresent finishInteractiveTransition];
+        
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    
+            [imageBegin setBounds:endView.frame];
             [cell setEnableGesture:NO];
             cell.pinchGesture.view.transform = CGAffineTransformIdentity;
-            imageBegin.frame = endView.frame;
+        } completion:^(BOOL finished) {
+
+        }];
+        
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:(fabs(gesture.velocity) < 1 ? 1 : 0.1) options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            imageBegin.center = endView.center;
         } completion:^(BOOL finished) {
             [cell setEnableGesture:YES];
-            [imageBegin removeFromSuperview];
             [cell.pinchGesture.view setHidden:NO];
             self.vcPresent.isProcessingTransition = NO;
+            [self.collectionView setScrollEnabled:YES];
             for (PageCollectionViewCell *cellVisible in self.collectionView.visibleCells) {
                 if (cellVisible != cell) {
                     [cellVisible setHidden:NO];
                 }
             }
-            [self.collectionView setScrollEnabled:YES];
+            [imageBegin removeFromSuperview];
         }];
+
+
         
     } else {
         
         [self.interactiveTransitionPresent cancelInteractiveTransition];
         
-        [UIView animateWithDuration:1 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [cell setEnableGesture:NO];
             cell.pinchGesture.view.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
