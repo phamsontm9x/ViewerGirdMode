@@ -33,6 +33,8 @@
 
 @property (nonatomic) CGFloat rotate;
 
+@property (nonatomic, strong) UIColor *mainColor;
+
 @end
 
 @implementation ViewerPageViewController {
@@ -58,6 +60,7 @@ const CGFloat kMinScale = 0.15;
     }
     
     _imv.image = [UIImage imageNamed:[NSString stringWithFormat:@"image%ld.jpg",self.indexPath%10]];
+    _mainColor = [UIColor colorWithRed:39.0f/255 green:185.0f/255 blue:255.0f/255 alpha:1];
     
     [self configGesture];
     [self initInteractiveTransition];
@@ -263,14 +266,14 @@ const CGFloat kMinScale = 0.15;
                         if (_interactionInProgress && gestureRecognizer.scale < 1) {
                             CGFloat fraction = fabs((1 - gestureRecognizer.scale) / 0.4);
                             fraction = fminf(fmaxf(fraction, 0.0), 1);
-                            _shouldCompleteTransition = (fraction > 0.5);
+                            _shouldCompleteTransition = (fraction > 0.3);
                             if (fraction >= 1.0)
                                 fraction = 0.99;
                             [self.interactiveTransitionPresent updateInteractiveTransition:fraction];
                         }
                     }
                 } else {
-                    if (gestureRecognizer.scale <= kMinScale) {
+                    if (gestureRecognizer.scale <= kMinScale && fabs(gestureRecognizer.velocity) > 2) {
                         [self setEnableGesture:NO];
                     }
                 }
@@ -363,19 +366,89 @@ const CGFloat kMinScale = 0.15;
         [self.imv setHidden:YES];
         [self.view addSubview:imageFade];
         
-        CGFloat distance = sqrt(fabs(imageFade.frame.origin.x - endView.frame.origin.x)*fabs(imageFade.frame.origin.x - endView.frame.origin.x) + fabs(imageFade.frame.origin.y - endView.frame.origin.y)*fabs(imageFade.frame.origin.y - endView.frame.origin.y));
-                
-        CGFloat duration = 0.5;
+//        CGFloat distance = sqrt(fabs(imageFade.frame.origin.x - endView.frame.origin.x)*fabs(imageFade.frame.origin.x - endView.frame.origin.x) + fabs(imageFade.frame.origin.y - endView.frame.origin.y)*fabs(imageFade.frame.origin.y - endView.frame.origin.y));
         
-        if (distance < 200) {
-            duration = 0.35;
-        }
+        CGFloat duration = 0.8;
+        
+        //begin a new transaction
+//        [CATransaction begin];
+//        //set the animation duration to 1 second
+//        [CATransaction setAnimationDuration:0.8];
 
-        [self.interactiveTransitionPresent finishInteractiveTransition];
-        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    
+
+
+        
+        CABasicAnimation *color = [CABasicAnimation animationWithKeyPath:@"borderColor"];
+        // animate from red to blue border ...
+        color.fromValue = (id)[UIColor clearColor].CGColor;
+        color.toValue   = (id)_mainColor.CGColor;
+        // ... and change the model value
+        imageFade.layer.borderColor = _mainColor.CGColor;
+
+        CABasicAnimation *width = [CABasicAnimation animationWithKeyPath:@"borderWidth"];
+        // animate from 2pt to 4pt wide border ...
+        width.fromValue = @0;
+        width.toValue   = @4;
+        // ... and change the model value
+        imageFade.layer.borderWidth = 4;
+        
+
+        CAAnimationGroup *both = [CAAnimationGroup animation];
+        // animate both as a group with the duration of 0.5 seconds
+        both.duration   = 0.01;
+        both.beginTime = CACurrentMediaTime() + 0.8;
+        both.animations = @[color, width];
+
+        
+        // optionally add other configuration (that applies to both animations)
+        both.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+
+        [imageFade.layer addAnimation:both forKey:@"color and width"];
+        
+
+//        [UIView animateKeyframesWithDuration:duration delay:0 options:UIViewKeyframeAnimationOptionCalculationModeCubic animations:^{
+//            [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1 animations:^{
+//                imageFade.center = endView.center;
+//            }];
+//
+//            [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.8 animations:^{
+//                imageFade.transform = CGAffineTransformIdentity;
+//            }];
+//
+//            [UIView addKeyframeWithRelativeStartTime:0.7 relativeDuration:0.3 animations:^{
+//                imageFade.layer.borderWidth = 4;
+//                imageFade.layer.borderColor = _mainColor.CGColor;
+//                imageFade.layer.masksToBounds = YES;
+//                imageFade.clipsToBounds = YES;
+//            }];
+//        } completion:^(BOOL finished) {
+//
+//        }];
+        
+        
+        
+        [UIView animateWithDuration:0.2 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
             imageFade.transform = CGAffineTransformIdentity;
+
+        } completion:^(BOOL finished) {
+            imageFade.layer.borderWidth = 4;
+            imageFade.layer.borderColor = _mainColor.CGColor;
+            imageFade.layer.masksToBounds = YES;
+            imageFade.clipsToBounds = YES;
+        }];
+        
+
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [imageFade setBounds:endView.frame];
+            [self.interactiveTransitionPresent finishInteractiveTransition];
             [self setEnableGesture:NO];
+        } completion:^(BOOL finished) {
+
+        }];
+
+        [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:fabs(gesture.velocity) options:UIViewAnimationOptionCurveEaseOut animations:^{
+            imageFade.center = endView.center;
             
         } completion:^(BOOL finished) {
             [self setEnableGesture:YES];
@@ -383,12 +456,8 @@ const CGFloat kMinScale = 0.15;
             self.vcPresent.isProcessingTransition = NO;
             [self.scrPageView.pinchGestureRecognizer setEnabled:YES];
         }];
-
-        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:(fabs(gesture.velocity) < 1 ? 1 : 0.1) options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            imageFade.center = endView.center;
-        } completion:^(BOOL finished) {
-
-        }];
+        
+       // [CATransaction commit];
         
     } else {
         
