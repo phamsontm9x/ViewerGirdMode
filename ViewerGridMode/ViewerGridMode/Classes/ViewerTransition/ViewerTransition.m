@@ -10,7 +10,7 @@
 #import "ViewerCollectionView.h"
 #import "ViewerPageViewController.h"
 
-#define durationInteractive 0.8
+#define durationInteractive 0.9
 #define durationDefault 0.3
 
 @interface ViewerTransition ()
