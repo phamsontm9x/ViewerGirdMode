@@ -232,8 +232,8 @@ const CGFloat kMinScale = 0.4;
     self.rotationGesture.delegate = self;
     
     [self.imv addGestureRecognizer:self.pinchGesture];
-    [self.imv addGestureRecognizer:self.panGesture];
-    [self.imv addGestureRecognizer:self.rotationGesture];
+//    [self.imv addGestureRecognizer:self.panGesture];
+//    [self.imv addGestureRecognizer:self.rotationGesture];
 }
 
 - (void)setEnableGesture:(BOOL)enableGesture {
@@ -276,9 +276,9 @@ const CGFloat kMinScale = 0.4;
                             [self.interactiveTransitionPresent updateInteractiveTransition:fraction];
                         }
                     }
-//                    if (gestureRecognizer.scale <= kMinScale && fabs(gestureRecognizer.velocity) < 0.5) {
-//                        [self setEnableGesture:NO];
-//                    }
+                    if (gestureRecognizer.scale <= kMinScale && fabs(gestureRecognizer.velocity) < 0.3) {
+                        [self setEnableGesture:NO];
+                    }
                 }
         }
             break;
@@ -358,6 +358,9 @@ const CGFloat kMinScale = 0.4;
         [self.view addGestureRecognizer:self.panGestureVC];
         [self.scrPageView.pinchGestureRecognizer setEnabled:NO];
         
+        [CATransaction begin];
+        [CATransaction setAnimationDuration:0.8];
+        
         UIImageView *endView = [self.vcPresent getImageViewPresentWithInteractive];
         CGRect frame = endView.frame;
         [endView setFrame:frame];
@@ -371,42 +374,36 @@ const CGFloat kMinScale = 0.4;
         
         [self.imv setHidden:YES];
         [self.view addSubview:imageFade];
+        [self.view bringSubviewToFront:imageFade];
         
-//        CGFloat distance = sqrt(fabs(imageFade.frame.origin.x - endView.frame.origin.x)*fabs(imageFade.frame.origin.x - endView.frame.origin.x) + fabs(imageFade.frame.origin.y - endView.frame.origin.y)*fabs(imageFade.frame.origin.y - endView.frame.origin.y));
-        
-        
-        
-//        //begin a new transaction
-//        [CATransaction begin];
-//        [CATransaction setAnimationDuration:0.8];
-//        CABasicAnimation *color = [CABasicAnimation animationWithKeyPath:@"borderColor"];
-//        // animate from red to blue border ...
-//        color.fromValue = (id)[UIColor clearColor].CGColor;
-//        color.toValue   = (id)_mainColor.CGColor;
-//        // ... and change the model value
-//        imageFade.layer.borderColor = _mainColor.CGColor;
-//
-//        CABasicAnimation *width = [CABasicAnimation animationWithKeyPath:@"borderWidth"];
-//        // animate from 2pt to 4pt wide border ...
-//        width.fromValue = @0;
-//        width.toValue   = @4;
-//        // ... and change the model value
-//        imageFade.layer.borderWidth = 4;
-//
-//
-//        CAAnimationGroup *both = [CAAnimationGroup animation];
-//        // animate both as a group with the duration of 0.5 seconds
-//        both.duration   = 0.8;
-//        both.beginTime = CACurrentMediaTime()+1;
-//        both.animations = @[color, width];
-//
-//
-//        // optionally add other configuration (that applies to both animations)
-//        both.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//
-//        [imageFade.layer addAnimation:both forKey:@"color and width"];
-//
 
+        CABasicAnimation *color = [CABasicAnimation animationWithKeyPath:@"borderColor"];
+        // animate from red to blue border ...
+        color.fromValue = (id)[UIColor clearColor].CGColor;
+        color.toValue   = (id)_mainColor.CGColor;
+        // ... and change the model value
+        //_viewBegin.layer.borderColor = [UIColor blueColor].CGColor;
+
+        CABasicAnimation *width = [CABasicAnimation animationWithKeyPath:@"borderWidth"];
+        // animate from 2pt to 4pt wide border ...
+        width.fromValue = @0;
+        width.toValue   = @4;
+        // ... and change the model value
+        //_viewBegin.layer.borderWidth = 4;
+
+
+        CAAnimationGroup *both = [CAAnimationGroup animation];
+        // animate both as a group with the duration of 0.5 seconds
+        both.duration   = 0.2 ;
+        both.beginTime = CACurrentMediaTime();
+        both.animations = @[color, width];
+        both.fillMode = kCAFillModeForwards;
+        both.removedOnCompletion = NO;
+        
+        // optionally add other configuration (that applies to both animations)
+        both.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+        [imageFade.layer addAnimation:both forKey:@"color and width"];
         
         CGFloat duration = 0.8;
         CGFloat durationScale = (imageFade.frame.size.width >= endView.frame.size.width) ? 0.2 : 0 ;
@@ -418,19 +415,25 @@ const CGFloat kMinScale = 0.4;
         } completion:^(BOOL finished) {
             
         }];
-
-
+        
+        
+        
+        
         [UIView animateWithDuration:duration - durationScale delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [imageFade setBounds:endView.frame];
-            
+            imageFade.bounds = endView.bounds;
+            if (durationScale == 0) {
+                [self.interactiveTransitionPresent finishInteractiveTransition];
+            }
             [self setEnableGesture:NO];
         } completion:^(BOOL finished) {
-
+            
         }];
-
+        
         [UIView animateWithDuration:duration - durationPosition delay:0.0 usingSpringWithDamping:damping initialSpringVelocity:fabs(gesture.velocity) options:UIViewAnimationOptionCurveEaseOut animations:^{
             imageFade.center = endView.center;
-            [self.interactiveTransitionPresent finishInteractiveTransition];
+            if (durationPosition == 0) {
+                [self.interactiveTransitionPresent finishInteractiveTransition];
+            }
         } completion:^(BOOL finished) {
             
             [self setEnableGesture:YES];
@@ -440,6 +443,7 @@ const CGFloat kMinScale = 0.4;
         }];
         
         [CATransaction commit];
+
         
     } else {
         
